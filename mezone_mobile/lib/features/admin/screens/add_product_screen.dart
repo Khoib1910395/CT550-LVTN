@@ -34,9 +34,9 @@ class _AddProductScreenState extends State<AddProductScreen> {
     super.dispose();
     productNameController.dispose();
     descriptionController.dispose();
-    priceController.dispose();
     quantityController.dispose();
     qualityController.dispose();
+    priceController.dispose();
   }
 
   List<String> productCategories = [

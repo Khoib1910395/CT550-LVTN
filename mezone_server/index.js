@@ -2,6 +2,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const adminRouter = require('./routes/admin');
+mongoose.set('strictQuery', true);
+var cors = require('cors')
 
 //import from other file
 const authRouter = require('./routes/auth');
@@ -19,7 +21,9 @@ app.use(authRouter);
 app.use(adminRouter);
 app.use(productRouter);
 app.use(userRouter);
-
+app.use(express.urlencoded({ extended: true }));
+app.use(cors());
+app.use(express.json());
 
 
 //connection

@@ -54,7 +54,7 @@ class HomeServices {
       quantity: 0,
       images: [],
       category: '',
-      quality: 100,
+      quality: 0,
       price: 0,
     );
 

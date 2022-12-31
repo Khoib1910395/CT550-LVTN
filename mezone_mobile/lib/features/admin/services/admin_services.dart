@@ -40,10 +40,10 @@ class AdminServices {
         name: name,
         description: description,
         quantity: quantity,
-        quality: quality,
         images: imageUrls,
         category: category,
         price: price,
+        quality: quality,
       );
 
       http.Response res = await http.post(

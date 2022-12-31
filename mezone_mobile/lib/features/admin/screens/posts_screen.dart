@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mezone/common/widgets/loader.dart';
+import 'package:mezone/constants/utils.dart';
 import 'package:mezone/features/account/widgets/single_product.dart';
 import 'package:mezone/features/admin/screens/add_product_screen.dart';
 import 'package:mezone/features/admin/services/admin_services.dart';
@@ -32,6 +33,7 @@ class _PostsScreenState extends State<PostsScreen> {
       context: context,
       product: product,
       onSuccess: () {
+        showSnackBar(context, 'Product deleted!');
         products!.removeAt(index);
         setState(() {});
       },
@@ -73,7 +75,28 @@ class _PostsScreenState extends State<PostsScreen> {
                           ),
                         ),
                         IconButton(
-                          onPressed: () => deleteProduct(productData, index),
+                          onPressed: () => showDialog(
+                            context: context,
+                            builder: (BuildContext context) => AlertDialog(
+                              title: const Text('Deleted Alert'),
+                              content: const Text(
+                                  'Are you sure you want to delete this product?'),
+                              actions: <Widget>[
+                                TextButton(
+                                  onPressed: () =>
+                                      Navigator.pop(context, 'Cancel'),
+                                  child: const Text('Cancel'),
+                                ),
+                                TextButton(
+                                  onPressed: () => {
+                                    deleteProduct(productData, index),
+                                    Navigator.pop(context),
+                                  },
+                                  child: const Text('Yes'),
+                                ),
+                              ],
+                            ),
+                          ),
                           icon: const Icon(
                             Icons.delete_outline,
                           ),
