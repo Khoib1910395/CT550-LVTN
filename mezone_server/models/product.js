@@ -30,6 +30,18 @@ const productSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  quality: {
+    type: Number,
+    // required: true,
+    validate: {
+        validator: (value) => {
+            const max = 100;
+            const min = 1;
+            return value > min || value < max;
+        },
+        messages: 'Please enter a valid quality'
+    },
+  },
   ratings: [ratingSchema],
 });
 

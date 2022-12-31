@@ -228,6 +228,24 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               padding: const EdgeInsets.all(8.0),
               child: Text(widget.product.description),
             ),
+            Padding(
+              padding: const EdgeInsets.all(8),
+              child: RichText(
+                text: TextSpan(
+                  text: 'Quality: ',
+                  style: const TextStyle(
+                    fontSize: 16,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  children: [
+                    widget.product.quality == 100
+                        ? const TextSpan(text: 'New')
+                        : TextSpan(text: '${widget.product.quality.toInt()}%')
+                  ],
+                ),
+              ),
+            ),
             Container(
               color: Colors.black12,
               height: 5,

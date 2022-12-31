@@ -9,6 +9,7 @@ class Product {
   final List<String> images;
   final String category;
   final double price;
+  final double quality;
   final String? id;
   final List<Rating>? rating;
   Product({
@@ -18,6 +19,7 @@ class Product {
     required this.images,
     required this.category,
     required this.price,
+    required this.quality,
     this.id,
     this.rating,
   });
@@ -30,6 +32,7 @@ class Product {
       'images': images,
       'category': category,
       'price': price,
+      'quality': quality,
       'id': id,
       'rating': rating,
     };
@@ -43,6 +46,7 @@ class Product {
       images: List<String>.from(map['images']),
       category: map['category'] ?? '',
       price: map['price']?.toDouble() ?? 0.0,
+      quality: map['quality']?.toDouble() ?? 100.0,
       id: map['_id'],
       rating: map['ratings'] != null
           ? List<Rating>.from(

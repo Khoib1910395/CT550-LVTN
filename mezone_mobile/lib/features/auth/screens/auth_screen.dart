@@ -177,6 +177,10 @@ class _AuthScreenState extends State<AuthScreen> {
                             }
                           },
                         ),
+                        const SizedBox(height: 10),
+                        const Text(
+                          'Forget password?',
+                        )
                       ],
                     ),
                   ),

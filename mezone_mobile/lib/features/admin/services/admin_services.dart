@@ -20,6 +20,7 @@ class AdminServices {
     required double price,
     required double quantity,
     required String category,
+    required double quality,
     required List<File> images,
   }) async {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
@@ -39,6 +40,7 @@ class AdminServices {
         name: name,
         description: description,
         quantity: quantity,
+        quality: quality,
         images: imageUrls,
         category: category,
         price: price,

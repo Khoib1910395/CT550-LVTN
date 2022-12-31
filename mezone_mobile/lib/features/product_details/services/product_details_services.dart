@@ -37,6 +37,7 @@ class ProductDetailsServices {
             cart: jsonDecode(res.body)['cart'],
           );
           userProvider.setUserFromModel(user);
+          showSnackBar(context, 'Product added to cart');
         },
       );
     } catch (e) {

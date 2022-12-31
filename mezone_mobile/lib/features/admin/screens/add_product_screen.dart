@@ -22,6 +22,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
   final TextEditingController descriptionController = TextEditingController();
   final TextEditingController priceController = TextEditingController();
   final TextEditingController quantityController = TextEditingController();
+  final TextEditingController qualityController = TextEditingController();
   final AdminServices adminServices = AdminServices();
 
   String category = 'Mobiles';
@@ -35,6 +36,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
     descriptionController.dispose();
     priceController.dispose();
     quantityController.dispose();
+    qualityController.dispose();
   }
 
   List<String> productCategories = [
@@ -53,6 +55,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
         description: descriptionController.text,
         price: double.parse(priceController.text),
         quantity: double.parse(quantityController.text),
+        quality: double.parse(qualityController.text),
         category: category,
         images: images,
       );
@@ -164,6 +167,11 @@ class _AddProductScreenState extends State<AddProductScreen> {
                 CustomTextField(
                   controller: quantityController,
                   hintText: 'Quantity',
+                ),
+                const SizedBox(height: 10),
+                CustomTextField(
+                  controller: qualityController,
+                  hintText: 'Quality (oldest is 1, New is 100)',
                 ),
                 const SizedBox(height: 10),
                 SizedBox(
