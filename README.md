@@ -1,5 +1,5 @@
 # CT550-LVTN
-Đồ án Luận Văn Tốt Nghiệp trường Đại học Công Nghệ Thông Tin - Đại học Cần Thơ
+Đồ án Luận Văn Tốt Nghiệp Công Nghệ Thông Tin & Truyền Thông - Đại học Cần Thơ
 
 Sinh viên thực hiện: Nguyễn Phùng Tuấn Khôi - B1910395
 
