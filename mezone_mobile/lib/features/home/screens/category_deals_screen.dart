@@ -70,9 +70,9 @@ class _CategoryDealsScreenState extends State<CategoryDealsScreen> {
                   ),
                 ),
                 SizedBox(
-                  height: 170,
+                  height: 580,
                   child: GridView.builder(
-                    scrollDirection: Axis.horizontal,
+                    scrollDirection: Axis.vertical,
                     padding: const EdgeInsets.only(left: 15),
                     itemCount: productList!.length,
                     gridDelegate:
@@ -113,13 +113,13 @@ class _CategoryDealsScreenState extends State<CategoryDealsScreen> {
                             Container(
                               alignment: Alignment.topLeft,
                               padding: const EdgeInsets.only(
-                                left: 0,
+                                left: 50,
                                 top: 5,
                                 right: 15,
                               ),
                               child: Text(
                                 product.name,
-                                maxLines: 1,
+                                maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                               ),
                             ),

@@ -5,7 +5,7 @@ import 'package:mezone/models/rating.dart';
 class Product {
   final String name;
   final String description;
-  final double quantity;
+  double quantity;
   final List<String> images;
   final String category;
   final double price;

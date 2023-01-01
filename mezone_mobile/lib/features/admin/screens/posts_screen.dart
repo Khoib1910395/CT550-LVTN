@@ -44,6 +44,14 @@ class _PostsScreenState extends State<PostsScreen> {
     Navigator.pushNamed(context, AddProductScreen.routeName);
   }
 
+  void increaseQuantity(Product product) {
+    product.quantity++;
+  }
+
+  void decreaseQuantity(Product product) {
+    product.quantity--;
+  }
+
   @override
   Widget build(BuildContext context) {
     return products == null
@@ -73,6 +81,50 @@ class _PostsScreenState extends State<PostsScreen> {
                             overflow: TextOverflow.ellipsis,
                             maxLines: 2,
                           ),
+                        ),
+                        Row(
+                          children: [
+                            InkWell(
+                              onTap: () => decreaseQuantity(productData),
+                              child: Container(
+                                width: 35,
+                                height: 32,
+                                alignment: Alignment.center,
+                                child: const Icon(
+                                  Icons.remove,
+                                  size: 18,
+                                ),
+                              ),
+                            ),
+                            DecoratedBox(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: Colors.black12, width: 1.5),
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(0),
+                              ),
+                              child: Container(
+                                width: 35,
+                                height: 32,
+                                alignment: Alignment.center,
+                                child: Text(
+                                  productData.quantity.toInt().toString(),
+                                ),
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () => increaseQuantity(productData),
+                              child: Container(
+                                width: 35,
+                                height: 32,
+                                alignment: Alignment.center,
+                                child: const Icon(
+                                  Icons.add,
+                                  size: 18,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                         IconButton(
                           onPressed: () => showDialog(
