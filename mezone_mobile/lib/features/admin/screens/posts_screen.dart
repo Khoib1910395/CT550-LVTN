@@ -44,13 +44,13 @@ class _PostsScreenState extends State<PostsScreen> {
     Navigator.pushNamed(context, AddProductScreen.routeName);
   }
 
-  void increaseQuantity(Product product) {
-    product.quantity++;
-  }
+  // void increaseQuantity(Product product) {
+  //   product.quantity++;
+  // }
 
-  void decreaseQuantity(Product product) {
-    product.quantity--;
-  }
+  // void decreaseQuantity(Product product) {
+  //   product.quantity--;
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +73,7 @@ class _PostsScreenState extends State<PostsScreen> {
                       ),
                     ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Expanded(
                           child: Text(
@@ -84,18 +84,7 @@ class _PostsScreenState extends State<PostsScreen> {
                         ),
                         Row(
                           children: [
-                            InkWell(
-                              onTap: () => decreaseQuantity(productData),
-                              child: Container(
-                                width: 35,
-                                height: 32,
-                                alignment: Alignment.center,
-                                child: const Icon(
-                                  Icons.remove,
-                                  size: 18,
-                                ),
-                              ),
-                            ),
+                            const Text('Qty.'),
                             DecoratedBox(
                               decoration: BoxDecoration(
                                 border: Border.all(
@@ -109,18 +98,6 @@ class _PostsScreenState extends State<PostsScreen> {
                                 alignment: Alignment.center,
                                 child: Text(
                                   productData.quantity.toInt().toString(),
-                                ),
-                              ),
-                            ),
-                            InkWell(
-                              onTap: () => increaseQuantity(productData),
-                              child: Container(
-                                width: 35,
-                                height: 32,
-                                alignment: Alignment.center,
-                                child: const Icon(
-                                  Icons.add,
-                                  size: 18,
                                 ),
                               ),
                             ),
