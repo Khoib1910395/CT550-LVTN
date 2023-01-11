@@ -11,7 +11,7 @@ const productRouter = require('./routes/product');
 const userRouter = require('./routes/user');
 
 //init
-const PORT = 3000;
+const PORT = 3030;
 const app = express();
 const db = process.env.MONGODB_URI || `mongodb+srv://khoib1910395:b1910395@mezone.4f2yj.mongodb.net/?retryWrites=true&w=majority`
 
