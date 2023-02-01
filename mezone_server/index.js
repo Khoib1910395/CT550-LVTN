@@ -3,7 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const adminRouter = require('./routes/admin');
 mongoose.set('strictQuery', true);
-var cors = require('cors')
+const cors = require('cors');
 
 //import from other file
 const authRouter = require('./routes/auth');
@@ -16,6 +16,10 @@ const app = express();
 const db = process.env.MONGODB_URI || `mongodb+srv://khoib1910395:b1910395@mezone.4f2yj.mongodb.net/?retryWrites=true&w=majority`
 
 //middleware
+app.use(cors({
+    origin: 'http://localhost:3000',
+    credentials: true,
+  }));  
 app.use(express.json());
 app.use(authRouter);
 app.use(adminRouter);
@@ -36,3 +40,4 @@ mongoose.connect(db).then(() => {
 app.listen(PORT, "0.0.0.0", () => {
     console.log(`Connected at port: ${PORT}`);  //localhost:3000
 })
+

@@ -12,18 +12,18 @@ import SearchIcon from '@material-ui/icons/Search';
 
 export const Header = (props) => {
 
-    
+
     const [dropdown, setDropDown] = useState(false);
     const [secondDropdown, setSecondDropdown] = useState(false);
 
 
-    const showDropDown = () =>{
-        if(dropdown) setDropDown(false);
+    const showDropDown = () => {
+        if (dropdown) setDropDown(false);
         else setDropDown(true);
     }
 
-    const showSecondDropDown = () =>{
-        if(secondDropdown) setSecondDropdown(false);
+    const showSecondDropDown = () => {
+        if (secondDropdown) setSecondDropdown(false);
         else setSecondDropdown(true);
     }
 
@@ -33,9 +33,11 @@ export const Header = (props) => {
                 <div className="container">
                     <div className="inner-content">
                         {/* brand name */}
-                        <div className="brand">
-                            <img className='logo' src='https://res.cloudinary.com/ct466nlcntt/image/upload/v1673407594/mezone_logo.png' />
-                        </div>
+                        <Link to='/'>
+                            <div className="brand">
+                                <img className='logo' src='https://res.cloudinary.com/ct466nlcntt/image/upload/v1673407594/mezone_logo.png' />
+                            </div>
+                        </Link>
 
                         {/*search bar*/}
                         <div className="search-bar">
@@ -52,29 +54,29 @@ export const Header = (props) => {
                         <ul className="nav-links">
                             <li>
                                 <ShoppingCartIcon />
-                                
+
                             </li>
 
                             <li>
-                            <div className="header-dropdown">
-                                        
-                                        <p onClick={showDropDown}>
-                                            User
-                                            <ArrowDropDownIcon/>
-                                        </p>
+                                <div className="header-dropdown">
 
-                                        <ul className={ dropdown? 'dropdown-content show' : 'dropdown-content'}>
-                                            <li>
-                                               Account
-                                            </li>
-                                            <li>
-                                               Order History
-                                            </li>
-                                            <li>
-                                               Sign out
-                                            </li>
-                                        </ul>
-                                    </div>
+                                    {/* <p onClick={showDropDown}>
+                                        User
+                                        <ArrowDropDownIcon />
+                                    </p> */}
+                                    <Link to="/signin"><AccountCircleIcon/></Link> 
+                                    {/* <ul className={dropdown ? 'dropdown-content show' : 'dropdown-content'}>
+                                        <li>
+                                            Account
+                                        </li>
+                                        <li>
+                                            Order History
+                                        </li>
+                                        <li>
+                                            Sign out
+                                        </li>
+                                    </ul> */}
+                                </div>
                             </li>
                         </ul>
                     </div>
