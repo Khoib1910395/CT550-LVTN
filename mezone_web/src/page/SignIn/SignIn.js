@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom'
 import { signin } from '../../services/User';
@@ -11,26 +11,26 @@ const SignIn = (props) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const redirect = props.location.search
-        ? props.location.search.split('=')[1]
-        : '/';
+    // const redirect = props.location && props.location.search
+    //     ? props.location.search.split('=')[2]
+    //     : '/';
 
     const userSignin = useSelector((state) => state.userSignin);
     const { userInfo, loading, error } = userSignin;
 
     const dispatch = useDispatch();
 
+
     const signInHandler = (e) => {
         e.preventDefault();
-
         dispatch(signin(email,password));
     }
 
-    useEffect(()=>{
-        if(userInfo){
-            props.history.push(redirect);
-        }
-    }, [props.history, redirect ,userInfo])
+    // useEffect(()=>{
+    //     if(userInfo){
+    //         props.history.push(redirect);
+    //     }
+    // }, [userInfo, redirect, props.history])
     
 
 

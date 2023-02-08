@@ -13,6 +13,10 @@ const Product = ({product}) => {
                 <img src= {product.images} alt=""/>
             </div>
             <h2>{product.name}</h2>
+            <div>
+                Quality: {product.quality === 100 ? <span>New</span> : <span>{product.quality}%</span>}
+            </div>
+            
         </div>
         
     )

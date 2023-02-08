@@ -16,7 +16,7 @@ const Home = () => {
     }, [dispatch])
 
     const productList = useSelector( state => state.productList);
-    const {loading,error,products} = productList;
+    const {loading, error, products} = productList;
 
     
     const settings = {
@@ -94,13 +94,15 @@ const Home = () => {
 
             <ProductList/>
             
+            <div>
+                <h2>Deal of day</h2>
+            </div>
 
             <div className="home-product-slider">
 
                 <h2 className="sec-title">More Products</h2>
 
                 <Slider {...settings2}>
-                    {console.log(products)}
                     {products && products.map((product)=>{
                             return(
                                 <Product key={product._id} product={product} /> 
