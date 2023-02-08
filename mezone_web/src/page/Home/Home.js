@@ -76,16 +76,16 @@ const Home = () => {
                 <Slider {...settings}>
 
                     <div className="banners">
-                      <img src="https://usam.in/wp-content/uploads/2019/09/hp-elitebooks-blog-banner.jpg" alt=""/>
+                      <img src="https://images-eu.ssl-images-amazon.com/images/G/31/img21/Wireless/WLA/TS/D37847648_Accessories_savingdays_Jan22_Cat_PC_1500.jpg" alt=""/>
                     </div>
                     <div className="banners">
-                      <img src="https://m.media-amazon.com/images/S/aplus-media/vc/342b936a-69f1-4e59-89ba-7ddb98c1acda.jpg" alt=""/>
+                      <img src="https://images-eu.ssl-images-amazon.com/images/G/31/img2021/Vday/bwl/English.jpg" alt=""/>
                     </div>
                     <div className="banners">
-                        <img src="https://cdn.shopify.com/s/files/1/1780/7915/files/Thermaltake_Level_20_RGB_Titanium_Gaming_Keyboard_From_The_Peripheral_Store_Banner_01.jpg?v=1598266526" alt=""/>
+                        <img src="https://images-eu.ssl-images-amazon.com/images/G/31/img22/Wireless/AdvantagePrime/BAU/14thJan/D37196025_IN_WL_AdvantageJustforPrime_Jan_Mob_ingress-banner_1242x450.jpg" alt=""/>
                     </div>
                     <div className="banners">
-                        <img src="https://cdn.shopify.com/s/files/1/1780/7915/files/Game_Monitor_6a7a1deb-2d61-4307-99ac-f8c5a18d298f.jpg?8000210842524768871" alt=""/>
+                        <img src="https://images-na.ssl-images-amazon.com/images/G/31/Symbol/2020/00NEW/1242_450Banners/PL31_copy._CB432483346_.jpg" alt=""/>
                     </div>
 
                 </Slider>
@@ -100,7 +100,7 @@ const Home = () => {
                 <h2 className="sec-title">More Products</h2>
 
                 <Slider {...settings2}>
-
+                    {console.log(products)}
                     {products && products.map((product)=>{
                             return(
                                 <Product key={product._id} product={product} /> 

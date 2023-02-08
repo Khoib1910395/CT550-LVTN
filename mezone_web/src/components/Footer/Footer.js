@@ -3,6 +3,6 @@ import './Footer.css'
 
 export const Footer = () => {
   return (
-    <footer className='footer'>copyright by Zack</footer>
+    <footer className='footer'></footer>
   )
 }

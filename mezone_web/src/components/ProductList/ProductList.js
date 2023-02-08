@@ -31,6 +31,7 @@ const ProductList = () => {
                 <h2 className="sec-title">Products</h2>
                 <div className="product-container">
                     {products.map((product)=>{
+                        
                         return(
                             <Product key={product._id} product={product}/> 
                         )
@@ -40,7 +41,6 @@ const ProductList = () => {
                 </>
             )
             }
-            Product List
 
         </div>
             

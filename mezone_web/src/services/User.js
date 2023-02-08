@@ -37,10 +37,8 @@ export const signin = (email, password) => async(dispatch) => {
         payload: {email, password}
     });
     try{
-        let headers = new Headers();
         const {data} = await axios.post('/api/signin', {email, password});
-        dispatch({
-            
+        dispatch({       
             type: USER_SIGNIN_SUCCESS,
             payload: data
         });

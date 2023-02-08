@@ -64,7 +64,7 @@ export const Header = (props) => {
                                         User
                                         <ArrowDropDownIcon />
                                     </p> */}
-                                    <Link to="/signin"><AccountCircleIcon/></Link> 
+                                    <Link to="/signin">Sign in</Link> 
                                     {/* <ul className={dropdown ? 'dropdown-content show' : 'dropdown-content'}>
                                         <li>
                                             Account
@@ -89,6 +89,9 @@ export const Header = (props) => {
                             <li>Essentials</li>
                             <li>Fashion</li>
                             <li>Mobile</li>
+                            <span>||</span>
+                            <li>Used Product</li>
+                            <li>Auction</li>
                         </ul>
                     </div>
                 </div>

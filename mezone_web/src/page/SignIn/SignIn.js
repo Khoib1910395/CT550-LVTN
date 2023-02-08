@@ -11,9 +11,9 @@ const SignIn = (props) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    // const redirect = props.location.search
-    //     ? props.location.search.split('=')[1]
-    //     : '/';
+    const redirect = props.location.search
+        ? props.location.search.split('=')[1]
+        : '/';
 
     const userSignin = useSelector((state) => state.userSignin);
     const { userInfo, loading, error } = userSignin;
@@ -26,11 +26,11 @@ const SignIn = (props) => {
         dispatch(signin(email,password));
     }
 
-    // useEffect(()=>{
-    //     if(userInfo){
-    //         props.history.push(redirect);
-    //     }
-    // }, [props.history, redirect ,userInfo])
+    useEffect(()=>{
+        if(userInfo){
+            props.history.push(redirect);
+        }
+    }, [props.history, redirect ,userInfo])
     
 
 
@@ -41,7 +41,7 @@ const SignIn = (props) => {
                 <div>
                     <h1>Sign In</h1>
                 </div>
-                {loading && <LoadingBox/>}
+                {loading && <LoadingBox></LoadingBox>}
                 {error && <MessageBox variant="danger">{error}</MessageBox>}
                 <div className="form-ip-sec">
                     <label htmlFor="email">E-mail:</label>
@@ -70,9 +70,9 @@ const SignIn = (props) => {
                     <label/>
                     <div>
                         New user?
-                        {/* <Link to={`/register?redirect=${redirect}`}> */}
+                        
                             Create Account
-                        {/* </Link> */}
+                        
                     </div>
                 </div>
             </form>

@@ -10,7 +10,7 @@ const Product = ({product}) => {
         
         <div className="product-card" >
             <div className="product-image">
-                <img src= {product.image} alt=""/>
+                <img src= {product.images} alt=""/>
             </div>
             <h2>{product.name}</h2>
         </div>
