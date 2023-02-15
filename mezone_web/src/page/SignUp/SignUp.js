@@ -1,45 +1,62 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom'
-import { signin } from '../../services/User';
+import { signup } from '../../services/User';
 import LoadingBox from '../../components/loadingBox/LoadingBox';
 import MessageBox from '../../components/messageBox/MessageBox';
-import "./SignIn.css"
+import "./SignUp.css"
 
-const SignIn = (props) => {
+const SignUp = (props) => {
 
+    const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [confirmpassword, setConfirmPassword] = useState('');
 
-    const redirect = props.location && props.location.search
-        ? props.location.search.split('=')[2]
+    const redirect = props.location.search
+        ? props.location.search.split('=')[1]
         : '/';
 
-    const userSignin = useSelector((state) => state.userSignin);
-    const { userInfo, loading, error } = userSignin;
+    const userSignUp = useSelector((state) => state.userSignUp);
+    const { userInfo, loading, error } = userSignUp;
 
     const dispatch = useDispatch();
 
-
-    const signInHandler = (e) => {
+    const signUpHandler = (e) => {
         e.preventDefault();
-        dispatch(signin(email,password));
+        if(password !== confirmpassword){
+            alert("Password does not match.")
+        }
+        else{
+            dispatch(signup(name,email,password));
+        }
+        
     }
 
     useEffect(()=>{
         if(userInfo){
             props.history.push(redirect);
         }
-    }, [userInfo, redirect, props.history])
+    }, [props.history, redirect ,userInfo])
     
     return (
-        <div className="signin-container">
-            <form className="form" onSubmit={signInHandler}>
+        <div className="register-container">
+            <form className="form" onSubmit={signUpHandler}>
                 <div>
-                    <h1>Sign In</h1>
+                    <h1>SignUp</h1>
                 </div>
                 {loading && <LoadingBox></LoadingBox>}
                 {error && <MessageBox variant="danger">{error}</MessageBox>}
+
+                <div className="form-ip-sec">
+                    <label htmlFor="name">Name:</label>
+                    <input type="text" id="name"
+                    placeholder="Enter full name"
+                    required
+                    onChange={(e) => setName(e.target.value)}>
+                    </input>
+                </div>
+
                 <div className="form-ip-sec">
                     <label htmlFor="email">E-mail:</label>
                     <input type="email" id="email"
@@ -57,18 +74,29 @@ const SignIn = (props) => {
                     onChange={(e) => setPassword(e.target.value)}>
                     </input>
                 </div>
+
+                <div className="form-ip-sec">
+                    <label htmlFor="confirmpassword">Password:</label>
+                    <input type="password" id="confirmpassword"
+                    placeholder="Confirm password"
+                    required
+                    onChange={(e) => setConfirmPassword(e.target.value)}>
+                    </input>
+                </div>
+
+
                 <div>
                     <label/>
                     <button className="submit-btn" type="submit">
-                        Sign In
+                        Sign Up
                     </button>
                 </div>
                 <div className="new-user-register">
                     <label/>
                     <div>
-                        New user?
-                        <Link to={`/signup?redirect=${redirect}`}>
-                            Create Account
+                        Already have an account?
+                        <Link to={`/signin?redirect=${redirect}`}>
+                            Sign In
                         </Link>
                     </div>
                 </div>
@@ -77,4 +105,4 @@ const SignIn = (props) => {
     )
 }
 
-export default SignIn
+export default SignUp

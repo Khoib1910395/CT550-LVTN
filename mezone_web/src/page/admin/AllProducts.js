@@ -1,8 +1,8 @@
 import React, {useEffect} from 'react'
 import { useSelector, useDispatch} from 'react-redux';
 import { listProducts } from '../../services/Product';
-import ProductList from '../../components/ProductList'
-import "../AllProducts.css"
+import ProductList from '../../components/ProductList/ProductList'
+import "./AllProducts.css"
 
 const AllProducts = () => {
 

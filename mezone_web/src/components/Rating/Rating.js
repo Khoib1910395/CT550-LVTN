@@ -2,9 +2,8 @@ import React from 'react'
 import StarIcon from '@material-ui/icons/Star';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 import StarHalfIcon from '@material-ui/icons/StarHalf';
-import "../styles/Rating.css"
-// eslint-disable-next-line
-import Product from './Product';
+import "./Rating.css"
+import Product from '../Product/Product';
 
 
 const Rating = (props) => {

@@ -133,15 +133,15 @@ export const Header = (props) => {
                     {/*Category */}
                     <div className="category-container">
                         <ul>
-                            <li>Appliances</li>
-                            <li>Book</li>
-                            <li>Electronics</li>
-                            <li>Essentials</li>
-                            <li>Fashion</li>
-                            <li>Mobile</li>
+                            <li><Link to="/category/appiances">Appliances</Link></li>
+                            <li><Link to="/category/book">Book</Link></li>
+                            <li><Link to="/category/electronics">Electronics</Link></li>
+                            <li><Link to="/category/essentials">Essentials</Link></li>
+                            <li><Link to="/category/fashion">Fashion</Link></li>
+                            <li><Link to="/category/mobile">Mobile</Link></li>
                             <span>||</span>
-                            <li>Used Product</li>
-                            <li>Auction</li>
+                            <li><Link to="/category/usedproduct">Used Product</Link></li>
+                            <li><Link to="/auction">Auction</Link></li>
                         </ul>
                     </div>
                 </div>

@@ -3,13 +3,13 @@ import axios from "../Axios"
 
 
 
-export const register = (name,email,password) => async(dispatch) => {
+export const signup = (name,email,password) => async(dispatch) => {
     dispatch({
         type: USER_REGISTER_REQUEST,
         payload: {email, password}
     });
     try{
-        const {data} = await axios.post('/api/register', {name, email, password});
+        const {data} = await axios.post('/api/signup', {name, email, password});
         dispatch({
             type: USER_REGISTER_SUCCESS,
             payload: data

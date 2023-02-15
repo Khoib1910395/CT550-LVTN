@@ -29,6 +29,17 @@ productRouter.get("/api/products/search/:name", async (req, res) => {
   }
 });
 
+productRouter.get('/api/products/:id', async(req,res) => {
+  const product = await Product.findById(req.params.id);
+
+  if(product){
+      res.send(product);
+  }
+  else{
+      res.status(404).send({message: "Product not found."});
+  }
+})
+
 // create a post request route to rate the product.
 productRouter.post("/api/rate-product", auth, async (req, res) => {
   try {

@@ -7,18 +7,18 @@ import { Link } from 'react-router-dom'
 const Product = ({product}) => {
 
     return (
-        
+        <Link to={`/products/product/${product._id}`}>
         <div className="product-card" >
             <div className="product-image">
                 <img src= {product.images} alt=""/>
             </div>
             <h2>{product.name}</h2>
             <div>
-                Quality: {product.quality === 100 ? <span>New</span> : <span>{product.quality}%</span>}
+                Quality: {product.quality === 100 ? <span><b>New</b></span> : <span>{product.quality}%</span>}
             </div>
-            
+            <div>Price: $<b>{product.price}</b></div>
         </div>
-        
+        </Link>
     )
 }
 
