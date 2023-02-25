@@ -29,6 +29,15 @@ productRouter.get("/api/products/search/:name", async (req, res) => {
   }
 });
 
+productRouter.get("/api/products/usedproducts", async (req, res) => {
+  try {
+    const products = await Product.find({ quality: { $lt: 100 } });
+    res.json(products);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
 productRouter.get('/api/products/:id', async(req,res) => {
   const product = await Product.findById(req.params.id);
 

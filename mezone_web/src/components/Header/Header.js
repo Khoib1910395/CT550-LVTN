@@ -1,8 +1,8 @@
-import { React, useState } from 'react';
+import { React, useState, useEffect, useRef } from 'react';
 import './Header.css';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import {signout} from '../../services/User'
+import { signout } from '../../actions/User'
 
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
@@ -13,32 +13,46 @@ import SearchIcon from '@material-ui/icons/Search';
 
 export const Header = (props) => {
 
+    const dropdownRef = useRef(null);
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setDropDown(false);
+                setSecondDropdown(false);
+            }
+        };
+        document.addEventListener('click', handleClickOutside, true);
 
-       const dispatch = useDispatch();
+        return () => {
+            document.removeEventListener('click', handleClickOutside, true);
+        };
+    }, [dropdownRef]);
+
+    const dispatch = useDispatch();
 
     const [dropdown, setDropDown] = useState(false);
     const [secondDropdown, setSecondDropdown] = useState(false);
 
 
-    const showDropDown = () =>{
-        if(dropdown) setDropDown(false);
+    const showDropDown = () => {
+        if (dropdown) setDropDown(false);
         else setDropDown(true);
     }
 
-    const showSecondDropDown = () =>{
-        if(secondDropdown) setSecondDropdown(false);
+    const showSecondDropDown = () => {
+        if (secondDropdown) setSecondDropdown(false);
         else setSecondDropdown(true);
     }
 
 
     const cart = useSelector((state) => state.cart);
-    const {cartItems} = cart;
+    const { cartItems } = cart;
 
 
     const userSignin = useSelector((state) => state.userSignin);
     const { userInfo } = userSignin;
 
-    const signOutHandler = () =>{
+    const signOutHandler = () => {
         dispatch(signout());
     }
 
@@ -59,76 +73,85 @@ export const Header = (props) => {
                         {/*search bar*/}
                         <div className="search-bar">
                             <input className="search-input"
+                                onChange={(e) => setQuery(e.target.value)}
                                 placeholder="Search products"
-                            >
+                                value={query}>
                             </input>
+
                             <div className="search-btn">
-                                <SearchIcon />
+                                <Link to={`/searchresults/${query}`}>
+                                    <SearchIcon />
+                                </Link>
                             </div>
+
                         </div>
 
                         {/*Link*/}
                         <ul className="nav-links">
-                        <li>
-                            <Link to="/cart"><ShoppingCartIcon/>
+                            <li>
+                                <Link to="/cart"><ShoppingCartIcon />
+                                    {
+                                        cartItems.length > 0 &&
+                                        (<p className="badge">{cartItems.length}</p>)
+                                    }
+                                </Link>
+                            </li>
+                            <li>
                                 {
-                                    cartItems.length > 0 && 
-                                    (<p className="badge">{cartItems.length}</p>)
+                                    userInfo ? (
+                                        <div className="header-dropdown"  ref={dropdownRef}>
+
+                                            <p onClick={showDropDown}>
+                                                {userInfo.name}
+                                                <ArrowDropDownIcon />
+                                            </p>
+
+                                            <ul className={dropdown ? 'dropdown-content show' : 'dropdown-content'} >
+                                                <li>
+                                                    <Link to="/profile">Account</Link>
+                                                </li>
+                                                <li>
+                                                    <Link to="/orderhistory">Order History</Link>
+                                                </li>
+                                                <li>
+                                                    <Link to="/" onClick={signOutHandler}>Sign out</Link>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                    ) :
+                                        (
+                                            <Link to="/signin"><AccountCircleIcon /></Link>
+                                        )
                                 }
-                            </Link>
-                        </li>
-                        <li>
-                            {
-                                userInfo ? (
-                                    <div className="header-dropdown">
-                                        
-                                        <p onClick={showDropDown}>
-                                            {userInfo.name}
-                                            <ArrowDropDownIcon/>
+
+                            </li>
+
+                            {userInfo && ['admin', 'seller'].includes(userInfo.type) && (
+                                <li>
+                                    <div className="header-dropdown"  ref={dropdownRef}>
+                                        <p onClick={showSecondDropDown}>
+                                            Admin
+                                            <ArrowDropDownIcon />
                                         </p>
 
-                                        <ul className={ dropdown? 'dropdown-content show' : 'dropdown-content'}>
+                                        <ul className={secondDropdown ? 'dropdown-content show' : 'dropdown-content'} >
                                             <li>
-                                               <Link to="/profile">Account</Link> 
+                                                <Link to="/admin">Admin Panel</Link>
                                             </li>
                                             <li>
-                                               <Link to="/orderhistory">Order History</Link> 
+                                                <Link to="/productlist">Products</Link>
                                             </li>
                                             <li>
-                                               <Link to="/" onClick={signOutHandler}>Sign out</Link> 
+                                                <Link to="/addproduct">Add Product</Link>
                                             </li>
                                         </ul>
                                     </div>
-                                    
-                                ) :
-                                (
-                                    <Link to="/signin"><AccountCircleIcon/></Link>
-                                )
-                            }
-                            
-                        </li>
+                                </li>
+                            )}
 
-                        {userInfo && userInfo.type === 'admin' && (
-                            <li>
-                                <div className="header-dropdown">
-                                    <p onClick={showSecondDropDown}>
-                                        Admin 
-                                        <ArrowDropDownIcon/>
-                                    </p>
-                            
-                                    <ul className={ secondDropdown? 'dropdown-content show' : 'dropdown-content'}>
-                                        
-                                        <li>
-                                           <Link to="/productlist">Products</Link> 
-                                        </li>
-                                          
-                                    </ul>
-                                </div>
-                            </li>
-                        )}
-                        
-                            
-                    </ul>
+
+                        </ul>
                     </div>
                     {/*Category */}
                     <div className="category-container">
@@ -138,9 +161,9 @@ export const Header = (props) => {
                             <li><Link to="/category/electronics">Electronics</Link></li>
                             <li><Link to="/category/essentials">Essentials</Link></li>
                             <li><Link to="/category/fashion">Fashion</Link></li>
-                            <li><Link to="/category/mobile">Mobile</Link></li>
-                            <span>||</span>
-                            <li><Link to="/category/usedproduct">Used Product</Link></li>
+                            <li><Link to="/category/mobiles">Mobiles</Link></li>
+
+                            <li><Link to="/usedproduct">Used Product</Link></li>
                             <li><Link to="/auction">Auction</Link></li>
                         </ul>
                     </div>

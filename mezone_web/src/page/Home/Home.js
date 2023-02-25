@@ -5,7 +5,7 @@ import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import "./Home.css"
 import Product from '../../components/Product/Product'
-import { listProducts } from '../../services/Product'
+import { listProducts, dealOfDay } from '../../actions/Product'
 import ProductList from '../../components/ProductList/ProductList';
 
 const Home = () => {
@@ -104,7 +104,7 @@ const Home = () => {
                 <h2 className="sec-title">More Products</h2>
 
                 <Slider {...settings2}>
-                    {products && products.map((product)=>{
+                    {products && products.slice(0,10).map((product)=>{
                             return(
                                 <Product key={product._id} product={product} /> 
                             )

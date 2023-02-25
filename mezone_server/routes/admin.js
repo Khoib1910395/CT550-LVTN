@@ -25,6 +25,31 @@ adminRouter.post("/admin/add-product", admin, async (req, res) => {
   }
 });
 
+adminRouter.put('/admin/update-product/:id', admin, async (req, res) => {
+  try {
+    const { name, description, images, quantity, quality, price, category } = req.body;
+    const product = await Product.findById(req.params.id);
+
+    if (!product) {
+      return res.status(404).json({ message: 'Product not found' });
+    }
+
+    product.name = name || product.name;
+    product.description = description || product.description;
+    product.images = images || product.images;
+    product.quantity = quantity || product.quantity;
+    product.quality = quality || product.quality;
+    product.price = price || product.price;
+    product.category = category || product.category;
+
+    const updatedProduct = await product.save();
+    res.json(updatedProduct);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+
 // Get all your products
 adminRouter.get("/admin/get-products", admin, async (req, res) => {
   try {

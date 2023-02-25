@@ -1,6 +1,6 @@
 import { FormControlLabel, Radio, RadioGroup } from '@material-ui/core';
 import React, {useState} from 'react'
-import "../styles/PriceCheckBox.css"
+import "./PriceCheckBox.css"
 
 
 const PriceCheckBox = (props) => {

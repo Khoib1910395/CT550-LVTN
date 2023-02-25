@@ -1,6 +1,6 @@
 import React,{useEffect} from 'react'
 import { useDispatch,useSelector } from 'react-redux';
-import { addToCart,removeFromCart } from '../actions/cartAction';
+import { addToCart,removeFromCart } from '../../actions/Cart';
 import { Link } from 'react-router-dom';
 import MessageBox from "../../components/messageBox/MessageBox";
 import "./Cart.css"
@@ -49,14 +49,14 @@ const Cart = (props) => {
                         <MessageBox>
                             Cart is empty. <Link to="/">Go Shopping</Link>
                         </MessageBox>
-                    ) : (
+                    ) : (   
                         <ul>
                             {
                                 cartItems.map((item)=>(
                                     <li key={item.product}>
                                         <div className="row1">
                                             <div className="small">
-                                                <img src={item.image}
+                                                <img src={item.images}
                                                 alt= ""
                                                 ></img>
                                             </div>

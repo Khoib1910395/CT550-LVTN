@@ -117,6 +117,19 @@ userRouter.get("/api/orders/me", auth, async (req, res) => {
   }
 });
 
+userRouter.get("/api/orders/:id", async (req, res) => {
+  try {
+    const orderId = req.params.id;
+    const order = await Order.findOne({ _id: orderId});
+    if (!order) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+    res.json(order);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
 userRouter.get('/api/users/:id', async(req,res) => {
   const user = await User.findById(req.params.id);
 
@@ -130,7 +143,7 @@ userRouter.get('/api/users/:id', async(req,res) => {
   }
 });
 
-userRouter.put( '/profile', auth, async (req, res) => {
+userRouter.put('/api/profile', auth, async (req, res) => {
     const user = await User.findById(req.user._id);
     if (user) {
       user.name = req.body.name || user.name;

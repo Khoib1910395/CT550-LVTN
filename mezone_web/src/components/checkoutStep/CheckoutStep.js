@@ -1,5 +1,5 @@
 import React from 'react'
-import "./CheckoutSteps.css"
+import "./CheckoutStep.css"
 
 const CheckoutSteps = (props) => {
     return (

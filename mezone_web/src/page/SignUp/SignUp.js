@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom'
-import { signup } from '../../services/User';
+import { signup } from '../../actions/User';
 import LoadingBox from '../../components/loadingBox/LoadingBox';
 import MessageBox from '../../components/messageBox/MessageBox';
 import "./SignUp.css"
@@ -14,11 +14,12 @@ const SignUp = (props) => {
     const [confirmpassword, setConfirmPassword] = useState('');
 
     const redirect = props.location.search
-        ? props.location.search.split('=')[1]
+        ? props.location.search.split('=')[0]
         : '/';
 
     const userSignUp = useSelector((state) => state.userSignUp);
-    const { userInfo, loading, error } = userSignUp;
+
+    const { userInfo, loading, error } = userSignUp || {};
 
     const dispatch = useDispatch();
 

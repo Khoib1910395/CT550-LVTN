@@ -4,7 +4,7 @@ import './ProductList.css'
 import Product from '../Product/Product'
 import LoadingBox from "../loadingBox/LoadingBox"
 import MessageBox from "../messageBox/MessageBox"
-import { listProducts } from '../../services/Product'
+import { listProducts } from '../../actions/Product'
 
 const ProductList = () => {
 
