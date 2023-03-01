@@ -1,5 +1,5 @@
-import React,{useEffect} from 'react'
-import { useSelector , useDispatch} from 'react-redux'
+import React, { useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
@@ -15,14 +15,14 @@ const Home = () => {
         dispatch(listProducts());
     }, [dispatch])
 
-    const productList = useSelector( state => state.productList);
-    const {loading, error, products} = productList;
+    const productList = useSelector(state => state.productList);
+    const { loading, error, products } = productList;
 
-    
+
     const settings = {
         dots: true,
         infinite: true,
-        speed: 500,
+        speed: 3500,
         slidesToShow: 1,
         slidesToScroll: 1,
         autoplay: true,
@@ -31,7 +31,7 @@ const Home = () => {
     const settings2 = {
         dots: true,
         infinite: true,
-        speed: 500,
+        speed: 3500,
         slidesToShow: 5,
         slidesToScroll: 1,
         autoplay: true,
@@ -44,7 +44,7 @@ const Home = () => {
                     infinite: true,
                     slidesToShow: 4,
                     slidesToScroll: 1,
-                }  
+                }
             },
             {
                 breakpoint: 900,
@@ -53,7 +53,7 @@ const Home = () => {
                     infinite: true,
                     slidesToShow: 3,
                     slidesToScroll: 1,
-                }  
+                }
             },
             {
                 breakpoint: 680,
@@ -62,9 +62,9 @@ const Home = () => {
                     infinite: true,
                     slidesToShow: 2,
                     slidesToScroll: 1,
-                }  
+                }
             },
-            
+
         ]
     }
 
@@ -76,24 +76,24 @@ const Home = () => {
                 <Slider {...settings}>
 
                     <div className="banners">
-                      <img src="https://images-eu.ssl-images-amazon.com/images/G/31/img21/Wireless/WLA/TS/D37847648_Accessories_savingdays_Jan22_Cat_PC_1500.jpg" alt=""/>
+                        <img src="https://images-eu.ssl-images-amazon.com/images/G/31/img21/Wireless/WLA/TS/D37847648_Accessories_savingdays_Jan22_Cat_PC_1500.jpg" alt="" />
                     </div>
                     <div className="banners">
-                      <img src="https://images-eu.ssl-images-amazon.com/images/G/31/img2021/Vday/bwl/English.jpg" alt=""/>
+                        <img src="https://images-eu.ssl-images-amazon.com/images/G/31/img2021/Vday/bwl/English.jpg" alt="" />
                     </div>
                     <div className="banners">
-                        <img src="https://images-eu.ssl-images-amazon.com/images/G/31/img22/Wireless/AdvantagePrime/BAU/14thJan/D37196025_IN_WL_AdvantageJustforPrime_Jan_Mob_ingress-banner_1242x450.jpg" alt=""/>
+                        <img src="https://images-eu.ssl-images-amazon.com/images/G/31/img22/Wireless/AdvantagePrime/BAU/14thJan/D37196025_IN_WL_AdvantageJustforPrime_Jan_Mob_ingress-banner_1242x450.jpg" alt="" />
                     </div>
                     <div className="banners">
-                        <img src="https://images-na.ssl-images-amazon.com/images/G/31/Symbol/2020/00NEW/1242_450Banners/PL31_copy._CB432483346_.jpg" alt=""/>
+                        <img src="https://images-na.ssl-images-amazon.com/images/G/31/Symbol/2020/00NEW/1242_450Banners/PL31_copy._CB432483346_.jpg" alt="" />
                     </div>
 
                 </Slider>
-            
+
             </div>
 
-            <ProductList/>
-            
+            <ProductList />
+
             <div>
                 <h2>Deal of day</h2>
                 <span> that is zone show deal of day product</span>
@@ -104,11 +104,11 @@ const Home = () => {
                 <h2 className="sec-title">More Products</h2>
 
                 <Slider {...settings2}>
-                    {products && products.slice(0,10).map((product)=>{
-                            return(
-                                <Product key={product._id} product={product} /> 
-                            )
-                        })
+                    {products && products.slice(0, 10).map((product) => {
+                        return (
+                            <Product key={product._id} product={product} />
+                        )
+                    })
                     }
 
                 </Slider>

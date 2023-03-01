@@ -93,7 +93,7 @@ adminRouter.post("/admin/change-order-status", admin, async (req, res) => {
   }
 });
 
-adminRouter.get("/admin/analytics", admin, async (req, res) => {
+adminRouter.get("/admin/analytics", async (req, res) => {
   try {
     const orders = await Order.find({});
     let totalEarnings = 0;

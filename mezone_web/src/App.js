@@ -23,6 +23,8 @@ import AdminScreen from './page/admin/adminScreen/AdminScreen';
 import AddProduct from './page/admin/AddProduct/AddProduct';
 import OrderDetails from './page/orderDetails/OrderDetails';
 import OrderHistory from './page/orderHistory/OrderHistory';
+import Analytics from './page/admin/Analytics/Analytics';
+import NotFound from './page/notFound/NotFound';
 function App() {
   return (
     <>
@@ -50,13 +52,15 @@ function App() {
           <Route path="/productlist" component={AllProducts}></Route>
           <Route path="/admin" component={AdminScreen}></Route>
           <Route path="/addproduct" component={AddProduct}></Route>
+          <Route path="/analytics" component={Analytics}></Route>
 
           <Route path="/searchresults/:query" component={SearchResults} exact></Route>
-          <Switch>
-            <PrivateRoute exact path="/profile" component={UserProfile} />
-            <PrivateRoute exact path="/profile/update" component={UpdateProfile} />
-          </Switch>
           
+          
+          <PrivateRoute exact path="/profile" component={UserProfile} />
+          <PrivateRoute exact path="/profile/update" component={UpdateProfile} />
+          
+          <Route component={NotFound} />
           
           
         </Switch>

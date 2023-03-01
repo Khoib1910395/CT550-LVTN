@@ -1,4 +1,4 @@
-.row{
+.row {
     display: grid;
     grid-template-columns: 2fr 1fr 1fr;
     grid-gap: 40px;
@@ -10,12 +10,12 @@
     width: fit-content;
 }
 
-.back-res{
+.back-res {
     color: grey;
     margin: 20px;
 }
 
-.col-1{
+.col-1 {
     padding: 16px;
     display: flex;
     justify-content: center;
@@ -24,29 +24,43 @@
     border-radius: 4px;
 }
 
-.col-1 img{
+.col-1 img {
     width: 80%;
 }
 
-.col-2 ul, .col-3 ul{
+.col-1:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.col-2 ul,
+.col-3 ul {
     list-style-type: none;
 }
 
-.pd-name{
+.pd-name {
     font-size: 28px;
     font-weight: 600;
     margin-bottom: 16px;
+    color: #333;
+    font-family: Arial, sans-serif;
 }
 
-.pd-price{
+.pd-price {
     margin-top: 16px;
     font-size: 24px;
-}
-.pd-desc{
-    margin-top: 14px;
+    color: #f0c040;
+    font-family: Arial, sans-serif;
 }
 
-.pd-desc p{
+.pd-desc {
+    margin-top: 14px;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.2) 100%);
+    padding: 10px;
+    border-radius: 6px;
+}
+
+.pd-desc p {
     color: grey;
     margin-top: 10px;
     font-size: 16px;
@@ -57,42 +71,44 @@
     max-width: 500px;
 }
 
-.pd-img img{
+.pd-img img {
     width: 500px;
     height: 500px;
     margin: 5px;
 }
 
 
-.card-body{
+.card-body {
     background-color: rgb(238, 238, 238);
     padding: 16px;
     border: 1px solid grey;
     border-radius: 6px;
 }
 
-.card-body li{
+.card-body li {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-top: 20px;
 }
 
-.success{
+.success {
     color: rgb(0, 168, 76);
     font-weight: 800;
 }
-.m-success{
+
+.m-success {
     color: rgba(0, 60, 255, 0.863);
     font-weight: 800;
 }
-.error{
+
+.error {
     color: rgb(255, 0, 0);
     font-weight: 800;
 }
 
 
-.qty-select select{
+.qty-select select {
     padding: 10px 16px;
     font-size: 18px;
     font-weight: bold;
@@ -101,7 +117,7 @@
 }
 
 
-.card-body .add-to-cart{
+.card-body .add-to-cart {
     background-color: #f0c040;
     border-radius: 4px;
     display: block;
@@ -114,11 +130,30 @@
     outline: 0;
 }
 
+.add-to-cart:hover {
+    background-color: #f8ca5e;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
 
-@media(max-width: 900px){
-    .row{
-        display: flex;
-        flex-direction: column;
+
+@media(max-width: 900px) {
+    .row {
+        display: block;
     }
-    
+
+    .col-1,
+    .col-2,
+    .col-3 {
+        width: 100%;
+        margin: 20px 0;
+    }
+
+    .col-1 img {
+        width: 100%;
+    }
+
+    .pd-img img {
+        width: 100%;
+        height: auto;
+    }
 }

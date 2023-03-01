@@ -3,14 +3,14 @@ const { productSchema } = require("./product");
 
 const userSchema = mongoose.Schema({
     name: {
-        required: true, 
+        required: true,
         type: String,
-        trim: true, 
+        trim: true,
     },
     email: {
         required: true,
         type: String,
-        trim: true, 
+        trim: true,
         validate: {
             validator: (value) => {
                 const re = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
@@ -40,13 +40,13 @@ const userSchema = mongoose.Schema({
     //cart
     cart: [
         {
-          product: productSchema,
-          quantity: {
-            type: Number,
-            required: true,
-          },
+            product: productSchema,
+            quantity: {
+                type: Number,
+                required: true,
+            },
         },
-      ],
+    ],
 });
 
 const User = mongoose.model('User', userSchema);

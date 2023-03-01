@@ -1,11 +1,15 @@
 import React from 'react'
-import LoopIcon from '@material-ui/icons/Loop';
+import spinner from '../../images/spinner.gif';
 import "./LoadingBox.css"
 
 const LoadingBox = () => {
     return (
         <div className="loading-box">
-            <LoopIcon/>
+            <img
+                src={spinner}
+                style={{ width: '200px', margin: 'auto', display: 'block' }}
+                alt='Loading...'
+            />
         </div>
     )
 }
