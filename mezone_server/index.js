@@ -11,6 +11,7 @@ const authRouter = require('./routes/auth');
 const productRouter = require('./routes/product');
 const userRouter = require('./routes/user');
 const adRouter = require('./routes/ad');
+const bidRouter = require('./routes/bid');
 
 const PORT = 3030;
 const app = express();
@@ -31,6 +32,7 @@ app.use(adminRouter);
 app.use(productRouter);
 app.use(userRouter);
 app.use(adRouter);
+app.use(bidRouter)
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.use((req, res, next) => {
@@ -41,9 +43,9 @@ app.use((req, res, next) => {
 });
 
 io.on('connection', (socket) => {
-    console.log('Socket IO client connected');
+    // console.log('Socket IO client connected');
     socket.on('disconnect', (reason) => {
-        console.log('Socket IO client disconnected');
+        // console.log('Socket IO client disconnected');
     });
     socket.on('leaveHome', () => {
         socket.disconnect();

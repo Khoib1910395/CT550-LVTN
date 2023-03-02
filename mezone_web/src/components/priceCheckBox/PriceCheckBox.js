@@ -6,25 +6,18 @@ import "./PriceCheckBox.css"
 const PriceCheckBox = (props) => {
 
     const [value, setValue] = useState('0');
-
-
-// eslint-disable-next-line
     const [Checked, setChecked] = useState([]);
 
     const handleToggle = (value) => {
-
         setValue(value);
         setChecked(value);
         props.handleFilters(value);
-
     }
-
-    
 
     return (
         <div className="price-range-container">
             {props.list.map((price, index)=>(
-                <span className="price-range-checkbox">
+                <span className="price-range-checkbox" key={price.id}>
                     
                     <RadioGroup defaultValue="Any" name="customized-radios" value={value}
                     onChange = {() => handleToggle(price.id)}>

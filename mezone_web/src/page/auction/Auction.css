@@ -1,0 +1,11 @@
+.auction {
+    display: flex;
+    flex-direction: column;
+    height: 93vh;
+  }
+  
+  .auction__display {
+    display: flex;
+    height: 100%;
+  }
+  

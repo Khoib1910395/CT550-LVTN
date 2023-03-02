@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
 const { productSchema } = require("./product");
 
-const userSchema = mongoose.Schema({
+const Schema = mongoose.Schema
+
+const userSchema = new Schema({
     name: {
         required: true,
         type: String,
@@ -33,6 +35,10 @@ const userSchema = mongoose.Schema({
         type: String,
         default: '',
     },
+    phone: {
+        type: String,
+        required: false,
+      },
     type: {
         type: String,
         default: 'user',
@@ -45,6 +51,24 @@ const userSchema = mongoose.Schema({
                 type: Number,
                 required: true,
             },
+        },
+    ],
+    purchasedProducts: [
+        {
+            type: mongoose.Types.ObjectId,
+            ref: 'ad',
+        },
+    ],
+    postedAds: [
+        {
+            type: mongoose.Types.ObjectId,
+            ref: 'ad',
+        },
+    ],
+    bids: [
+        {
+            type: mongoose.Types.ObjectId,
+            ref: 'ad',
         },
     ],
 });

@@ -25,6 +25,7 @@ import OrderDetails from './page/orderDetails/OrderDetails';
 import OrderHistory from './page/orderHistory/OrderHistory';
 import Analytics from './page/admin/Analytics/Analytics';
 import NotFound from './page/notFound/NotFound';
+import Ad from './components/Auction/Ad/Ad';
 function App() {
   return (
     <>
@@ -37,7 +38,11 @@ function App() {
           
           <Route exact path="/signin" component={SignIn}></Route>
           <Route exact path="/signup" component={SignUp}></Route>
+
           <Route exact path="/auction" component={Auction}></Route>
+          <Route path='/auction/ads/:adId' component={Ad} />
+
+
           <Route path="/products/product/:id" component={ProductPage}></Route>
           
           <Route path="/usedproduct" component={usedProductPage} exact></Route>
