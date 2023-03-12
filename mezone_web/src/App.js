@@ -6,7 +6,6 @@ import { BrowserRouter as Router, Switch, Route, Routes } from "react-router-dom
 import Home from './page/Home/Home';
 import SignIn from './page/SignIn/SignIn';
 import SignUp from './page/SignUp/SignUp';
-import AllProducts from './page/admin/AllProducts/AllProducts';
 import PrivateRoute from './components/privateRoute/PrivateRoute';
 import UserProfile from './page/userProfile/UserProfile';
 import UpdateProfile from './page/updateProfile/UpdateProfile';
@@ -20,10 +19,8 @@ import ShippingAddress from './page/shippingAddress/ShippingAddress';
 import PaymentMethod from './page/paymentMethod/PaymentMethod';
 import PlaceOrder from './page/placeOrder/PlaceOrder';
 import AdminScreen from './page/admin/adminScreen/AdminScreen';
-import AddProduct from './page/admin/AddProduct/AddProduct';
 import OrderDetails from './page/orderDetails/OrderDetails';
 import OrderHistory from './page/orderHistory/OrderHistory';
-import Analytics from './page/admin/Analytics/Analytics';
 import NotFound from './page/notFound/NotFound';
 import Ad from './components/Auction/Ad/Ad';
 function App() {
@@ -54,10 +51,7 @@ function App() {
           <Route path="/orderhistory" component={OrderHistory}></Route>
           <Route path="/orderDetails/:id" component={OrderDetails}></Route>
 
-          <Route path="/productlist" component={AllProducts}></Route>
           <Route path="/admin" component={AdminScreen}></Route>
-          <Route path="/addproduct" component={AddProduct}></Route>
-          <Route path="/analytics" component={Analytics}></Route>
 
           <Route path="/searchresults/:query" component={SearchResults} exact></Route>
           

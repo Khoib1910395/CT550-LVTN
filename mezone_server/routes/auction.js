@@ -4,12 +4,12 @@ const auctionController = require('../controllers/auction');
 
 const router = express.Router();
 
-const isAuth = require('../middlewares/isAuth');
+const auth = require('../middlewares/auth');
 
 // @route   GET /auction/start/:adId
 // @desc    Start auction
 // @access  protected
-router.get('/start/:adId', isAuth, auctionController.startAuction);
+router.get('/start/:adId', auth, auctionController.startAuction);
 
 // TODO:
 // @route   POST /auction/end/:adId

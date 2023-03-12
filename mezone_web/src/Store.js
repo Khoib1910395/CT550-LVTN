@@ -8,6 +8,7 @@ import { analyticsReducer } from './reducers/AnalyticsReducer';
 import alertReducer from './reducers/AlertReducer';
 import adReducer from './reducers/AdReducer';
 import authAuctionReduce from './reducers/authAuctionReducer';
+import { allUsersReducer, adminOrderListReducer} from './reducers/adminReducer';
 
 const initialState = {
     cart: {
@@ -37,6 +38,8 @@ const reducer = combineReducers({
     orderMineList: orderMineListReducer,
     userDetails: userDetailsReducer,
     userUpdateProfile: userUpdateProfileReducer,
+    allUsers: allUsersReducer,
+    adminOrderList: adminOrderListReducer,
     analytics: analyticsReducer,
     alert: alertReducer, 
     ad: adReducer,

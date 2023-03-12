@@ -3,6 +3,7 @@ const adminRouter = express.Router();
 const admin = require("../middlewares/admin");
 const { Product } = require("../models/product");
 const Order = require("../models/order");
+const user = require("../models/user");
 const { PromiseProvider } = require("mongoose");
 
 // Add product
@@ -93,7 +94,16 @@ adminRouter.post("/admin/change-order-status", admin, async (req, res) => {
   }
 });
 
-adminRouter.get("/admin/analytics", async (req, res) => {
+adminRouter.get("/admin/get-all-users", admin, async (req, res) => {
+  try {
+    const users = await user.find({});
+    res.json(users);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+adminRouter.get("/admin/analytics", admin, async (req, res) => {
   try {
     const orders = await Order.find({});
     let totalEarnings = 0;

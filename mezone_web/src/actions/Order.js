@@ -45,7 +45,10 @@ export const detailsOrder = (orderId) => async (dispatch, getState) => {
   } = getState();
   try {
     const { data } = await axios.get(`/api/orders/${orderId}`, {
-      headers: { Authorization: `Bearer ${userInfo.token}` },
+      headers: {
+        "Content-Type": "application/json",
+        "x-auth-token": userInfo.token,
+      },
     });
     dispatch({ type: ORDER_DETAILS_SUCCESS, payload: data });
   } catch (error) {
@@ -71,7 +74,10 @@ export const payOrder = (order, paymentResult) => async (dispatch, getState) => 
 
   try {
     const { data } = await axios.put(`/api/orders/${order._id}/pay`, paymentResult, {
-      headers: { Authorization: `Bearer ${userInfo.token}` },
+      headers: {
+        "Content-Type": "application/json",
+        "x-auth-token": userInfo.token,
+      },
     });
     dispatch({ type: ORDER_PAY_SUCCESS, payload: data });
 

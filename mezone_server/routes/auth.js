@@ -40,19 +40,19 @@ authRouter.post('/api/signup', async (req, res) => {
 //Sign in route 
 authRouter.post('/api/signin', async (req, res) => {
     try {
-        const {email, password} = req.body;
-        const user = await User.findOne({ email: email});
-        if(!user) {
+        const { email, password } = req.body;
+        const user = await User.findOne({ email: email });
+        if (!user) {
             return res.status(400).json({ msg: "User with this email not found!" })
         }
 
         const isMatch = await bcryptjs.compare(password, user.password);
-        if(!isMatch) {
+        if (!isMatch) {
             return res.status(400).json({ msg: "Password incorrect!" })
         }
 
-        const token = jwt.sign({id: user._id}, "passwordKey"); 
-        res.json({token, ...user._doc})
+        const token = jwt.sign({ id: user._id }, "passwordKey");
+        res.json({ token, ...user._doc })
 
     } catch (e) {
         res.status(500).json({ error: e.message });
@@ -63,17 +63,17 @@ authRouter.post('/tokenIsValid', async (req, res) => {
     try {
 
         const token = req.header('x-auth-token');
-        if(!token) {   
+        if (!token) {
             return res.json(false);
         } //token check
 
         const verified = jwt.verify(token, 'passwordKey');
-        if(!verified){
+        if (!verified) {
             return res.json(false);
         } //verify
 
         const user = await User.findById(verified.id);
-        if(!user){
+        if (!user) {
             return res.json(false);
         } //user
 
@@ -85,9 +85,16 @@ authRouter.post('/tokenIsValid', async (req, res) => {
 });
 
 //get user data
-authRouter.get('/', auth, async (req, res) => {
-    const user = await User.findById(req.user);
-    res.json({ ...user._doc, token: req.token });
-})
+authRouter.get("/", auth, async (req, res) => {
+    try {
+        const user = await User.findById(req.user);
+        if (!user) {
+            return res.status(404).json({ error: "User not found" });
+        }
+        res.json({ ...user._doc, token: req.token });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
 
 module.exports = authRouter;

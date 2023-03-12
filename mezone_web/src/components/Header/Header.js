@@ -96,10 +96,20 @@ export const Header = (props) => {
                                     }
                                 </Link>
                             </li>
+                            {userInfo && ['admin', 'seller'].includes(userInfo.type) && (
+                                <li>
+                                    <div className="header-dropdown" ref={dropdownRef}>
+                                        <p>
+                                            <Link to="/admin">Admin Panel</Link>
+                                        </p>
+
+                                    </div>
+                                </li>
+                            )}
                             <li>
                                 {
                                     userInfo ? (
-                                        <div className="header-dropdown"  ref={dropdownRef}>
+                                        <div className="header-dropdown" ref={dropdownRef}>
 
                                             <p onClick={showDropDown}>
                                                 {userInfo.name}
@@ -118,39 +128,12 @@ export const Header = (props) => {
                                                 </li>
                                             </ul>
                                         </div>
-
                                     ) :
                                         (
                                             <Link to="/signin"><AccountCircleIcon /></Link>
                                         )
                                 }
-
                             </li>
-
-                            {userInfo && ['admin', 'seller'].includes(userInfo.type) && (
-                                <li>
-                                    <div className="header-dropdown"  ref={dropdownRef}>
-                                        <p onClick={showSecondDropDown}>
-                                            Admin
-                                            <ArrowDropDownIcon />
-                                        </p>
-
-                                        <ul className={secondDropdown ? 'dropdown-content show' : 'dropdown-content'} >
-                                            <li>
-                                                <Link to="/admin">Admin Panel</Link>
-                                            </li>
-                                            <li>
-                                                <Link to="/productlist">Products</Link>
-                                            </li>
-                                            <li>
-                                                <Link to="/addproduct">Add Product</Link>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </li>
-                            )}
-
-
                         </ul>
                     </div>
                     {/*Category */}
