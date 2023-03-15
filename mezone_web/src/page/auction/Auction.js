@@ -1,22 +1,24 @@
 import React, { Fragment, useEffect } from 'react';
 import Alert from '../../components/Auction/Alert/Alert';
 import Board from '../../components/Auction/Board/Board';
+import Nav from '../../components/Auction/Nav/Nav';
 import "./Auction.css"
 
 
 const Dashboard = (props) => {
   return (
     <div className='auction'>
-      <span className='title'>Dashboard Auction</span>
+      <span className='title'>Auction</span>
+      <div className='nav__display'>
+        <Nav />
+      </div>
       <div className='auction-alert'>
-        <span className='title'>Alert</span>
         <Alert />
       </div>
       <div className='auction-board'>
-        <span className='title'>Board</span>
         <Board />
       </div>
-    </div> 
+    </div>
   )
 }
 export default Dashboard;

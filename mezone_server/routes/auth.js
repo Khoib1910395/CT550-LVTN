@@ -6,6 +6,7 @@ const authRouter = express.Router();
 const jwt = require('jsonwebtoken');
 const { request } = require('http');
 const auth = require("../middlewares/auth");
+const authController = require('../controllers/auth');
 
 // authRouter.get('/user', (req, res) => {
 //     res.json({msg: "Zack"})
@@ -96,5 +97,7 @@ authRouter.get("/", auth, async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 });
+
+authRouter.get("/auth", auth, authController.getUser)
 
 module.exports = authRouter;

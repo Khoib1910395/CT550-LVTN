@@ -20,43 +20,49 @@ import { setAlert } from './Alert';
 import setAuthToken from '../utils/setAuthToken';
 
 // Load ads
-export const loadAds =
-    (userId = null) =>
-        async (dispatch) => {
-            let config = null;
-            if (userId) {
-                config = { params: { user: userId } };
+export const loadAds = () => async (dispatch, getState) => {
+    const { userSignin: { userInfo } } = getState();
+    try {
+        const res = await axios.get(
+            `/ad`,
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                    "x-auth-token": userInfo.token,
+                },
             }
-            try {
-                const res = await axios.get(
-                    `/ad`,
-                    config
-                );
+        );
 
-                dispatch({
-                    type: LOAD_ADS,
-                    payload: res.data,
-                });
-            } catch (error) {
-                // Get errors array sent by api
-                if (!error.response) {
-                    return dispatch(setAlert('Server error', 'error'));
-                }
-                console.log(error.response);
-                const errors = error.response.data.errors;
-                if (errors) {
-                    errors.forEach((error) => dispatch(setAlert(error.msg, 'error')));
-                }
-            }
-        };
+        dispatch({
+            type: LOAD_ADS,
+            payload: res.data,
+        });
+    } catch (error) {
+        // Get errors array sent by api
+        if (!error.response) {
+            return dispatch(setAlert('Server error', 'error'));
+        }
+        console.log(error.response);
+        const errors = error.response.data.errors;
+        if (errors) {
+            errors.forEach((error) => dispatch(setAlert(error.msg, 'error')));
+        }
+    }
+};
 
 // Load ad details
-export const loadAdDetails = (adId) => async (dispatch) => {
+export const loadAdDetails = (adId) => async (dispatch, getState) => {
+    const { userSignin: { userInfo } } = getState();
     try {
         if (localStorage.getItem('token')) {
             setAuthToken(localStorage.getItem('token'));
         }
-        const res = await axios.get(`/ad/${adId}`);
+        const res = await axios.get(`/ad/${adId}`, {
+            headers: {
+                "Content-Type": "application/json",
+                "x-auth-token": userInfo.token,
+            },
+        });
 
         dispatch({
             type: LOAD_AD_DETAILS,
@@ -131,10 +137,16 @@ export const setAdDetails = (ad) => (dispatch) => {
 };
 
 // Current highest bid on ad
-export const loadHighestBid = (adId) => async (dispatch) => {
+export const loadHighestBid = (adId) => async (dispatch, getState) => {
     const url = `/bid/${adId}`;
+    const { userSignin: { userInfo } } = getState();
     try {
-        const res = await axios.get(url, { params: { option: 'highest' } });
+        const res = await axios.get(url, {
+            headers: {
+                "Content-Type": "application/json",
+                "x-auth-token": userInfo.token,
+            },
+        }, { params: { option: 'highest' } });
 
         dispatch({
             type: LOAD_HIGHEST_BID,
@@ -155,11 +167,22 @@ export const loadHighestBid = (adId) => async (dispatch) => {
 };
 
 // Place bid
-export const placeBid = (adId, bidAmount) => async (dispatch) => {
+export const placeBid = (adId, bidAmount) => async (dispatch, getState) => {
     const url = `/bid/${adId}`;
+    const { userSignin: { userInfo } } = getState();
     try {
-        const res = await axios.post(url, null, { params: { amount: bidAmount } });
-        const res2 = await axios.get(url, { params: { option: 'highest' } });
+        const res = await axios.post(url, {
+            headers: {
+                "Content-Type": "application/json",
+                "x-auth-token": userInfo.token,
+            },
+        }, null, { params: { amount: bidAmount } });
+        const res2 = await axios.get(url,{
+            headers: {
+                "Content-Type": "application/json",
+                "x-auth-token": userInfo.token,
+            },
+        }, { params: { option: 'highest' } });
         dispatch({
             type: PLACE_BID,
             payload: { adDetails: res.data, highestBid: res2.data[0] },

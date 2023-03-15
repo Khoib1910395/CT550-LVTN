@@ -5,6 +5,11 @@ mongoose.set('strictQuery', true);
 const cors = require('cors');
 const socketio = require('./socket');
 const { createServer } = require('http');
+const swaggerUi = require('swagger-ui-express');
+const swaggerDoc = require('./documentation/swaggerSetup');
+
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/' });
 
 const adminRouter = require('./routes/admin');
 const authRouter = require('./routes/auth');
@@ -12,6 +17,7 @@ const productRouter = require('./routes/product');
 const userRouter = require('./routes/user');
 const adRouter = require('./routes/ad');
 const bidRouter = require('./routes/bid');
+const roomRouter = require('./routes/room');
 
 const PORT = 3030;
 const app = express();
@@ -32,15 +38,19 @@ app.use(adminRouter);
 app.use(productRouter);
 app.use(userRouter);
 app.use(adRouter);
-app.use(bidRouter)
+app.use(bidRouter);
+app.use(roomRouter);
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
+
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'OPTIONS, GET, POST, PUT, PATCH, DELETE');
     res.setHeader('Access-Control-Allow-Headers', '*');
     next();
 });
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 
 io.on('connection', (socket) => {
     // console.log('Socket IO client connected');

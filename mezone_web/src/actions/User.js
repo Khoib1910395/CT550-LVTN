@@ -1,4 +1,23 @@
-import { USER_DETAILS_FAIL, USER_DETAILS_REQUEST, USER_DETAILS_SUCCESS, USER_REGISTER_FAIL, USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS, USER_SIGNIN_FAIL, USER_SIGNIN_REQUEST, USER_SIGNIN_SUCCESS, USER_SIGNOUT, USER_UPDATE_PROFILE_FAIL, USER_UPDATE_PROFILE_REQUEST, USER_UPDATE_PROFILE_SUCCESS } from "../constants/UserConstant"
+import {
+  USER_DETAILS_FAIL,
+  USER_DETAILS_REQUEST,
+  USER_DETAILS_SUCCESS,
+  USER_REGISTER_FAIL,
+  USER_REGISTER_REQUEST,
+  USER_REGISTER_SUCCESS,
+  USER_SIGNIN_FAIL,
+  USER_SIGNIN_REQUEST,
+  USER_SIGNIN_SUCCESS,
+  USER_SIGNOUT,
+  USER_UPDATE_PROFILE_FAIL,
+  USER_UPDATE_PROFILE_REQUEST,
+  USER_UPDATE_PROFILE_SUCCESS
+} from "../constants/UserConstant"
+import {
+  USER_LOADED,
+  AUTH_ERROR,
+} from "../constants/AuctionConstant"
+import setAuthToken from '../utils/setAuthToken';
 import axios from "../Axios"
 
 export const signup = (name, email, password) => async (dispatch) => {
@@ -53,8 +72,26 @@ export const signin = (email, password) => async (dispatch) => {
   }
 }
 
-
-
+export const loadUser = () => async (dispath, getState) => {
+  if (localStorage.token) setAuthToken(localStorage.token);
+  const { userSignin: { userInfo } } = getState();
+  try {
+    const res = await axios.get(`/auth`,{
+      headers: {
+        "Content-Type": "application/json",
+        "x-auth-token": userInfo.token,
+      },
+    });
+    dispath({
+      type: USER_LOADED,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispath({
+      type: AUTH_ERROR,
+    });
+  }
+};
 
 export const signout = () => (dispatch) => {
   localStorage.removeItem('userInfo');
@@ -73,7 +110,10 @@ export const detailsUser = (userId) => async (dispatch, getState) => {
   } = getState();
   try {
     const { data } = await axios.get(`/api/users/${userId}`, {
-      headers: { Authorization: `Bearer ${userInfo?.token}` },
+      headers: {
+        "Content-Type": "application/json",
+        "x-auth-token": userInfo?.token,
+      },
     });
     dispatch({ type: USER_DETAILS_SUCCESS, payload: data });
   } catch (error) {

@@ -1,5 +1,5 @@
 import './App.css';
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Header } from './components/Header/Header'
 import { Footer } from './components/Footer/Footer';
 import { BrowserRouter as Router, Switch, Route, Routes } from "react-router-dom";
@@ -23,49 +23,64 @@ import OrderDetails from './page/orderDetails/OrderDetails';
 import OrderHistory from './page/orderHistory/OrderHistory';
 import NotFound from './page/notFound/NotFound';
 import Ad from './components/Auction/Ad/Ad';
+import DashBoard from './components/Auction/DashBoard/DashBoard'
+import AdForm from './components/Auction/AdForm/AdForm';
+
+// Actions
+import { loadUser } from './actions/User';
+// Redux
+import { Provider } from 'react-redux';
+import store from './Store';
+
 function App() {
+
+  // Load user
+  useEffect(() => {
+    store.dispatch(loadUser());
+  }, []);
+
+
   return (
     <>
-      <Router>
-        <Header />
+      <Provider store={store}>
+        <Router>
+          <Header />
+          <Switch>
+            <Route path="/" component={Home} exact></Route>
+            <Route path="/home" component={Home} exact></Route>
 
-        <Switch>
-          <Route path="/" component={Home} exact></Route>
-          <Route path="/home" component={Home} exact></Route>
-          
-          <Route exact path="/signin" component={SignIn}></Route>
-          <Route exact path="/signup" component={SignUp}></Route>
+            <Route exact path="/signin" component={SignIn}></Route>
+            <Route exact path="/signup" component={SignUp}></Route>
 
-          <Route exact path="/auction" component={Auction}></Route>
-          <Route path='/auction/ads/:adId' component={Ad} />
+            <Route exact path="/auction" component={Auction}></Route>
+            <Route path='/auction/ads/:adId' component={Ad} />
+            <Route path='/auction/dashboard' component={DashBoard} />
+            <Route path='/auction/postad' component={AdForm} />
 
+            <Route path="/products/product/:id" component={ProductPage}></Route>
 
-          <Route path="/products/product/:id" component={ProductPage}></Route>
-          
-          <Route path="/usedproduct" component={usedProductPage} exact></Route>
-          <Route path="/category/:cat" component={CategoryPage} exact></Route>
-          <Route exact path="/cart/:id?" component={Cart}></Route>
-          <Route path="/shipping" component={ShippingAddress}></Route>
-          <Route path="/payment" component={PaymentMethod}></Route>
-          <Route path="/placeorder" component={PlaceOrder}></Route>
-          <Route path="/orderhistory" component={OrderHistory}></Route>
-          <Route path="/orderDetails/:id" component={OrderDetails}></Route>
+            <Route path="/usedproduct" component={usedProductPage} exact></Route>
+            <Route path="/category/:cat" component={CategoryPage} exact></Route>
+            <Route exact path="/cart/:id?" component={Cart}></Route>
+            <Route path="/shipping" component={ShippingAddress}></Route>
+            <Route path="/payment" component={PaymentMethod}></Route>
+            <Route path="/placeorder" component={PlaceOrder}></Route>
+            <Route path="/orderhistory" component={OrderHistory}></Route>
+            <Route path="/orderDetails/:id" component={OrderDetails}></Route>
 
-          <Route path="/admin" component={AdminScreen}></Route>
+            <Route path="/admin" component={AdminScreen}></Route>
 
-          <Route path="/searchresults/:query" component={SearchResults} exact></Route>
-          
-          
-          <PrivateRoute exact path="/profile" component={UserProfile} />
-          <PrivateRoute exact path="/profile/update" component={UpdateProfile} />
-          
-          <Route component={NotFound} />
-          
-          
-        </Switch>
+            <Route path="/searchresults/:query" component={SearchResults} exact></Route>
 
-        <Footer />
-      </Router>
+            <PrivateRoute exact path="/profile" component={UserProfile} />
+            <PrivateRoute exact path="/profile/update" component={UpdateProfile} />
+
+            <Route component={NotFound} />
+
+          </Switch>
+          <Footer />
+        </Router>
+      </Provider>
     </>
   )
 }

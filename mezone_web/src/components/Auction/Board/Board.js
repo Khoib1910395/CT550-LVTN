@@ -16,7 +16,7 @@ import {
 import { loadAds, adPostedByOther, updateAdInList } from '../../../actions/Ad';
 import { setAlert, clearAlerts } from '../../../actions/Alert';
 // Components
-import Card from '../../Card/Card';
+import Card from '../Card/Card';
 import LoadingBox from '../../loadingBox/LoadingBox';
 
 const Board = (props) => {

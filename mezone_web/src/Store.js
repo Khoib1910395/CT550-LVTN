@@ -3,11 +3,10 @@ import thunk from 'redux-thunk'
 import { cartReducer } from './reducers/CartReducer';
 import { orderCreateReducer, orderDetailsReducer, orderMineListReducer, orderPayReducer } from './reducers/OrderReducer';
 import { productDetailsReducer, productListReducer } from './reducers/ProductReducer';
-import { userDetailsReducer, userRegisterReducer, userSigninReducer, userUpdateProfileReducer } from './reducers/UserReducer';
+import { userDetailsReducer, userRegisterReducer, userSigninReducer, userUpdateProfileReducer, authReducer } from './reducers/UserReducer';
 import { analyticsReducer } from './reducers/AnalyticsReducer';
 import alertReducer from './reducers/AlertReducer';
 import adReducer from './reducers/AdReducer';
-import authAuctionReduce from './reducers/authAuctionReducer';
 import { allUsersReducer, adminOrderListReducer} from './reducers/adminReducer';
 
 const initialState = {
@@ -43,7 +42,6 @@ const reducer = combineReducers({
     analytics: analyticsReducer,
     alert: alertReducer, 
     ad: adReducer,
-    auth: authAuctionReduce,
 });
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

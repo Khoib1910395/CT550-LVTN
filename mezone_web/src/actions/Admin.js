@@ -6,6 +6,9 @@ import {
     ADMIN_GET_ORDERS_REQUEST,
     ADMIN_GET_ORDERS_SUCCESS,
     ADMIN_GET_ORDERS_FAIL,
+    ADMIN_ORDER_UPDATE_REQUEST,
+    ADMIN_ORDER_UPDATE_SUCCESS,
+    ADMIN_ORDER_UPDATE_FAIL,
 } from '../constants/adminConstants';
 
 export const fetchUsers = () => {
@@ -32,7 +35,7 @@ export const fetchUsers = () => {
     };
 };
 
-export const getOrders = () => async (dispatch, getState) => {
+export const fetchOrders = () => async (dispatch, getState) => {
     try {
         dispatch({ type: ADMIN_GET_ORDERS_REQUEST });
         const { userSignin: { userInfo } } = getState();
@@ -50,6 +53,32 @@ export const getOrders = () => async (dispatch, getState) => {
     } catch (error) {
         dispatch({
             type: ADMIN_GET_ORDERS_FAIL,
+            payload:
+                error.response && error.response.data.message
+                    ? error.response.data.message
+                    : error.message,
+        });
+    }
+};
+export const changeStatusOrder = (id, status) => async (dispatch, getState) => {
+    try {
+        dispatch({ type: ADMIN_ORDER_UPDATE_REQUEST });
+        const { userSignin: { userInfo } } = getState();
+        const { data } = await axios.post(
+            '/admin/change-order-status',
+            { id, status },
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                    "x-auth-token": userInfo.token,
+                },
+            }
+        );
+
+        dispatch({ type: ADMIN_ORDER_UPDATE_SUCCESS, payload: data });
+    } catch (error) {
+        dispatch({
+            type: ADMIN_ORDER_UPDATE_FAIL,
             payload:
                 error.response && error.response.data.message
                     ? error.response.data.message

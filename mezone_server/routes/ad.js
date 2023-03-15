@@ -10,7 +10,7 @@ const auth = require('../middlewares/auth');
 // @desc    Post a new ad
 // @access  protected
 adRouter.post(
-    '/ad',
+    '/ad', auth,
     [
         body('productName', 'Invalid productName').trim().not().isEmpty(),
         body('basePrice', 'Invalid basePrice').trim().isNumeric(),
