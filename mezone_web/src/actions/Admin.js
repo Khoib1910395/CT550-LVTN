@@ -60,6 +60,7 @@ export const fetchOrders = () => async (dispatch, getState) => {
         });
     }
 };
+
 export const changeStatusOrder = (id, status) => async (dispatch, getState) => {
     try {
         dispatch({ type: ADMIN_ORDER_UPDATE_REQUEST });

@@ -7,12 +7,18 @@
 .admin-panel {
     background: linear-gradient(to bottom, #f0f0f0, #c2c2c2);
     padding: 36px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 .tab-list {
     display: flex;
-    justify-content: space-between;
-    margin-bottom: 36px;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-right: 50px;
+    width: 120px;
 }
 
 .tab {
@@ -24,6 +30,9 @@
     border: 1px solid #ccc;
     border-radius: 4px;
     transition: all 0.3s ease;
+    margin-bottom: 12px;
+    width: 100%;
+    text-align: center;
 }
 
 .tab:hover {
@@ -48,6 +57,7 @@
     border-top: none;
     border-radius: 0 4px 4px 4px;
     box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+    min-width: 1200px;
 }
 
 table tbody td {
@@ -83,6 +93,7 @@ table tbody td span::after {
     border-radius: 4px;
     cursor: pointer;
     transition: all 0.3s ease;
+    width: 100px;
 }
 
 .button:hover {

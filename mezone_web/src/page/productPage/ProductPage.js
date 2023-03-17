@@ -11,30 +11,18 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-
-
 const ProductPage = (props) => {
-
     const dispatch = useDispatch();
     const productID = props.match.params.id;
-
     const productDetails = useSelector((state) => state.productDetails);
     const { loading, error, product } = productDetails;
-
-
     const [qty, setQty] = useState(1);
-
-
     useEffect(() => {
         dispatch(detailsProduct(productID));
     }, [dispatch, productID]);
-
-
-
     const addToCart = () => {
         props.history.push(`/cart/${productID}?qty=${qty}`)
     }
-
     const SlideSetting = {
         dots: true,
         infinite: true,
@@ -44,16 +32,14 @@ const ProductPage = (props) => {
         autoplay: true,
         autoplaySpeed: 3000,
     }
-
     return (
-
         <div>
             {loading ? <LoadingBox />
                 :
                 error ? <MessageBox variant="danger">{error}</MessageBox>
                     :
                     (
-                        <div>
+                        <div className='container'>
                             <Link to="/" className="back-res">Back to result</Link>
                             <div className="row">
                                 <div className='pd-img'>
@@ -65,18 +51,14 @@ const ProductPage = (props) => {
                                         ))}
                                     </Slider>
                                 </div>
-
                                 <div className="col-2">
                                     <ul>
                                         <li className="pd-name">{product.name}</li>
-
                                         <li className="pd-rating">
                                             <Rating rating={product.ratings?.reduce((acc, cur) => acc + cur.rating, 0) / product.ratings?.length}
                                                 numRev={product.ratings.length} />
                                         </li>
-
                                         <li className="pd-price">${product.price}</li>
-
                                         <li className="pd-desc">
                                             Description :
                                             <p>{product.description}</p>
@@ -102,8 +84,6 @@ const ProductPage = (props) => {
                                                     ({product.quantity} products in stock)
                                                 </div>
                                             </li>
-
-
                                             {
                                                 (product.quantity > 0) && (
                                                     <>
@@ -125,10 +105,8 @@ const ProductPage = (props) => {
                                                             </button>
                                                         </li>
                                                     </>
-
                                                 )
                                             }
-
                                         </ul>
                                     </div>
                                 </div>
@@ -136,12 +114,7 @@ const ProductPage = (props) => {
                         </div>
                     )
             }
-
         </div>
-
     )
-
-
 }
-
 export default ProductPage
