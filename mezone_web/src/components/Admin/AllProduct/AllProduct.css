@@ -1,0 +1,66 @@
+.product-list {
+    margin: 1rem;
+}
+
+.product-list__title {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.product-list__loading {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.product-list__error {
+    color: red;
+    margin-top: 2rem;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th,
+td {
+    padding: 0.5rem;
+    text-align: left;
+}
+
+th {
+    background-color: #ddd;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.name {
+    width: 20%;
+}
+
+.description {
+    width: 20%;
+}
+
+.picture {
+    width: 20%;
+}
+
+.picture img {
+    width: 100px;
+    height: 100px;
+}
+
+.category {
+    width: 15%;
+}
+
+.price {
+    width: 15%;
+}
+
+.quality {
+    width: 10%;
+}

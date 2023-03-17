@@ -1,0 +1,87 @@
+.filters {
+    margin-bottom: 20px;
+}
+
+.search-box {
+    margin-right: 10px;
+}
+
+.status-filter {
+    margin-left: 10px;
+}
+
+.all-orders {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.all-orders td,
+.all-orders th {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.all-orders th {
+    font-weight: bold;
+}
+
+.filters {
+    background-color: #eee;
+    padding: 10px;
+}
+
+.filters input[type="text"] {
+    padding: 5px;
+    border: none;
+    border-radius: 5px;
+}
+
+.status-filter select {
+    padding: 5px;
+    border: none;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #333;
+}
+
+.next-step-button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 100px;
+}
+
+.cancel-button {
+    background-color: #f44336;
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 100px;
+}
+
+.step-img {
+    width: auto;
+    height: 30px;
+}
+
+.next-step-button:disabled {
+    background-color: #333;
+    color: #999;
+    cursor: not-allowed;
+}
