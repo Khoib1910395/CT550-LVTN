@@ -13,6 +13,14 @@ function ProductList() {
     const productList = useSelector(state => state.productList);
     const { loading, error, products } = productList;
 
+    const [updatedProducts, setUpdatedProducts] = useState([]);
+
+    useEffect(() => {
+        if (products) {
+            setUpdatedProducts(products);
+        }
+    }, [products]);
+
     useEffect(() => {
         dispatch(listProducts());
     }, [dispatch])
@@ -24,9 +32,12 @@ function ProductList() {
 
     const confirmDelete = () => {
         const productId = localStorage.getItem('productIdToDelete');
+        const filteredProducts = updatedProducts.filter(product => product._id !== productId);
+        setUpdatedProducts(filteredProducts);
         dispatch(deleteProduct(productId));
         setModalIsOpen(false);
     };
+
 
     return (
         <div className="product-list">
@@ -49,7 +60,7 @@ function ProductList() {
                         </tr>
                     </thead>
                     <tbody>
-                        {products && products.map(product => (
+                        {updatedProducts && updatedProducts.map(product => (
                             <tr key={product._id}>
                                 <td className="name">{product.name}</td>
                                 <td className="description">{product.description}</td>
@@ -61,6 +72,7 @@ function ProductList() {
                                 <td className='delete'><button className='buttonAP' onClick={() => handleDelete(product._id)}>Delete</button></td>
                             </tr>
                         ))}
+
                     </tbody>
                 </table>
             )}
@@ -69,7 +81,7 @@ function ProductList() {
                 <p>Bạn có chắc chắn muốn xoá sản phẩm này?</p>
                 <div className="modal__buttons">
                     <button className='cancelBtn  buttonAP__can' onClick={() => setModalIsOpen(false)}>Hủy</button>
-                    <button className='successBtn buttonAP'onClick={() => confirmDelete()}>Xoá</button>
+                    <button className='successBtn buttonAP' onClick={() => confirmDelete()}>Xoá</button>
                 </div>
             </Modal>
         </div>
