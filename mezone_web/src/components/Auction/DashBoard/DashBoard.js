@@ -25,7 +25,6 @@ import { getUserPurchasedAds } from '../../../actions/Ad';
 import DashPurchasedList from '../DashPurchasedList/DashPurchasedList';
 
 const Dashboard = (props) => {
-    console.log(props);
     useEffect(() => {
         if (props.isAuth) {
             props.getUserPurchasedAds();
@@ -37,12 +36,6 @@ const Dashboard = (props) => {
             props.clearAlerts();
         };
     }, []);
-
-    // // Check if user is logged
-    // if (!props.isAuth) {
-    //   Ride('/login');
-    // }
-    console.log(props);
 
     return props.loading ? (
         <LoadingBox />

@@ -5,6 +5,7 @@ const { Product } = require("../models/product");
 const Order = require("../models/order");
 const user = require("../models/user");
 const { PromiseProvider } = require("mongoose");
+const fileUploader = require('./config/cloudinary.config');
 
 // Add product
 adminRouter.post("/admin/add-product", admin, async (req, res) => {
@@ -148,5 +149,16 @@ async function fetchCategoryWiseProduct(category) {
   }
   return earnings;
 }
+
+
+adminRouter.post('/upload/cloudinary-upload', fileUploader.single('file'), (req, res, next) => {
+  if (!req.file) {
+    next(new Error('No file uploaded!'));
+    return;
+  }
+
+  res.json({ secure_url: req.file.path });
+});
+
 
 module.exports = adminRouter;

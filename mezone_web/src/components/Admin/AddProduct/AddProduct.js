@@ -1,71 +1,70 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { addProduct } from "../../../actions/Admin";
-import { CloudinaryContext, Image } from "cloudinary-react";
-
+import { addProduct, cloudinaryUpload } from "../../../actions/Admin";
+import "./AddProduct.css";
 
 const AddProduct = () => {
+  const [imageUrl, setImageUrl] = useState(null);
+  const [category, setCategory] = useState("Mobiles"); 
+
   const [product, setProduct] = useState({
     name: "",
     description: "",
     images: [],
     quantity: 0,
     price: 0,
-    category: "",
-    quality: 0,
+    category: category,
+    quality: 100,
   });
 
   const dispatch = useDispatch();
-  //      cloud_name: "ct466nlcntt",
-  //      api_key: "919823429952228",
-  //      api_secret: "u4kXe_RMD3yR6eK19Ii4M7pAiPM"
-  // const cloudinary = require("cloudinary").v2;
 
-  const handleImageUpload = async (e) => {
-  //   const files = Array.from(e.target.files);
-
-  //   const formData = new FormData();
-  //   formData.append("file", files[0]);
-  //   formData.append("upload_preset", "g9mbnmjd");
-
-  //   const res = await fetch(
-  //     `https://api.cloudinary.com/v1_1/ct466nlcntt/image/upload`,
-  //     {
-  //       method: "POST",
-  //       body: formData,
-  //     }
-  //   );
-
-  //   const data = await res.json();
-
-  //   setProduct((prevState) => ({
-  //     ...prevState,
-  //     images: [...prevState.images, data.public_id],
-  //   }));
+  const handleFileUpload = (e) => {
+    const uploadData = new FormData();
+    uploadData.append("file", e.target.files[0], "file");
+    cloudinaryUpload(uploadData)
+      .then((response) => {
+        setImageUrl(response.secure_url);
+        setProduct((prevState) => ({
+          ...prevState,
+          images: [response.secure_url],
+        }));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setProduct((prevState) => ({
+      ...prevState,
+      images: [{ imageUrl }],
+      category: category, 
+    }));
     dispatch(addProduct(product));
+    setImageUrl(null);
+    setCategory("Mobiles"); 
     setProduct({
       name: "",
       description: "",
       images: [],
       quantity: 0,
       price: 0,
-      category: "",
-      quality: 0,
+      category: category, 
+      quality: 100,
     });
   };
 
   return (
-    <div>
+    <div class="add-product-form">
       <h2>Add Product</h2>
       <form onSubmit={handleSubmit}>
         <div>
-          <label>Name:</label>
+          <label for="name">Name:</label>
           <input
             type="text"
+            id="name"
             value={product.name}
             onChange={(e) =>
               setProduct((prevState) => ({
@@ -76,8 +75,9 @@ const AddProduct = () => {
           />
         </div>
         <div>
-          <label>Description:</label>
+          <label for="description">Description:</label>
           <textarea
+            id="description"
             value={product.description}
             onChange={(e) =>
               setProduct((prevState) => ({
@@ -88,16 +88,22 @@ const AddProduct = () => {
           ></textarea>
         </div>
         <div>
-          <label>Images:</label>
-          <input type="file" multiple onChange={handleImageUpload} />
-          {product.images.map((image, index) => (
-            <Image key={index} cloudName="ct466nlcntt" publicId={image} />
-          ))}
+          <label for="images">Images:</label>
+          <input
+            type="file"
+            id="images"
+            onChange={(e) => handleFileUpload(e)}
+          />
+          {imageUrl && (
+            <img className="preview-image" src={imageUrl} alt="preview" />
+          )}
+
         </div>
         <div>
-          <label>Quantity:</label>
+          <label for="quantity">Quantity:</label>
           <input
             type="number"
+            id="quantity"
             value={product.quantity}
             onChange={(e) =>
               setProduct((prevState) => ({
@@ -108,9 +114,10 @@ const AddProduct = () => {
           />
         </div>
         <div>
-          <label>Price:</label>
+          <label for="price">Price:</label>
           <input
             type="number"
+            id="price"
             value={product.price}
             onChange={(e) =>
               setProduct((prevState) => ({
@@ -121,22 +128,25 @@ const AddProduct = () => {
           />
         </div>
         <div>
-          <label>Category:</label>
-          <input
-            type="text"
-            value={product.category}
-            onChange={(e) =>
-              setProduct((prevState) => ({
-                ...prevState,
-                category: e.target.value,
-              }))
-            }
-          />
+          <label for="category">Category:</label>
+          <select
+            id="category"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+          >
+            <option value="Mobiles">Mobiles</option>
+            <option value="Laptops">Essentials</option>
+            <option value="Electronics">Electronics</option>
+            <option value="Appliances">Appliances</option>
+            <option value="Book">Book</option>
+            <option value="Fashion">Fashion</option>
+          </select>
         </div>
         <div>
-          <label>Quality:</label>
+          <label for="quality">Quality:</label>
           <input
             type="number"
+            id="quality"
             value={product.quality}
             onChange={(e) =>
               setProduct((prevState) => ({
@@ -151,5 +161,4 @@ const AddProduct = () => {
     </div>
   );
 };
-
 export default AddProduct;

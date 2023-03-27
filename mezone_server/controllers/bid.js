@@ -5,7 +5,7 @@ const io = require('../socket');
 // @desc    Post a new ad
 exports.addBid = async (req, res, next) => {
   const { adId } = req.params;
-  const { amount } = req.query;
+  const { amount } = req.body;
 
   try {
     const ad = await Ad.findById(adId).populate('owner', { password: 0 });

@@ -76,13 +76,14 @@ const ProductPage = (props) => {
                                                 <p>Stock</p>
                                                 {product.quantity > 10
                                                     ? (<span className="success">In stock</span>)
-                                                    : product.quantity < 10 && product.quantity > 0
+                                                    : (product.quantity <= 10 && product.quantity > 0)
                                                         ? (<span className="m-success">Hurry! Few in stock</span>)
                                                         : (<span className="error">Out of stock</span>)
                                                 }
                                                 <div>
                                                     ({product.quantity} products in stock)
                                                 </div>
+
                                             </li>
                                             {
                                                 (product.quantity > 0) && (

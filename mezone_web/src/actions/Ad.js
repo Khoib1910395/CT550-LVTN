@@ -171,18 +171,19 @@ export const placeBid = (adId, bidAmount) => async (dispatch, getState) => {
     const url = `/bid/${adId}`;
     const { userSignin: { userInfo } } = getState();
     try {
-        const res = await axios.post(url, {
+        const res = await axios.post(url, { amount: bidAmount }, {
             headers: {
-                "Content-Type": "application/json",
-                "x-auth-token": userInfo.token,
+                'Content-Type': 'application/json',
+                'x-auth-token': userInfo.token,
             },
-        }, null, { params: { amount: bidAmount } });
-        const res2 = await axios.get(url,{
+        });
+        const res2 = await axios.get(url, {
             headers: {
-                "Content-Type": "application/json",
-                "x-auth-token": userInfo.token,
+                'Content-Type': 'application/json',
+                'x-auth-token': userInfo.token,
             },
-        }, { params: { option: 'highest' } });
+            params: { option: 'highest' }
+        });
         dispatch({
             type: PLACE_BID,
             payload: { adDetails: res.data, highestBid: res2.data[0] },
@@ -208,8 +209,11 @@ export const postAd = (data) => async (dispatch, getState) => {
     const { userSignin: { userInfo } } = getState();
     try {
         const res = await axios.post(url, JSON.stringify(data), {
-            headers: { 'Content-Type': 'application/json' },
-            "x-auth-token": userInfo.token,
+            headers: {
+                'Content-Type': 'application/json',
+                'x-auth-token': userInfo.token,
+            },
+
         });
 
         dispatch({
@@ -244,7 +248,7 @@ export const startAuction = (adId) => async (dispatch, getState) => {
                     "x-auth-token": userInfo.token,
                 },
             }
-            );
+        );
         dispatch({
             type: START_AUCTION,
             payload: res,
@@ -264,10 +268,20 @@ export const startAuction = (adId) => async (dispatch, getState) => {
 };
 
 // Load ads purchased by user
-export const getUserPurchasedAds = () => async (dispatch) => {
-    const url = `/user/products/purchased`;
+export const getUserPurchasedAds = () => async (dispatch, getState) => {
+    const url = `/products/purchased`;
+    const {
+        userSignin: { userInfo },
+    } = getState();
     try {
-        const res = await axios.get(url);
+        const res = await axios.get(url,
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                    "x-auth-token": userInfo.token,
+                },
+            }
+        );
 
         dispatch({
             type: USER_PURCHASED_LOADED,

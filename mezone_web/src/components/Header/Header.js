@@ -139,7 +139,7 @@ export const Header = (props) => {
                     {/*Category */}
                     <div className="category-container">
                         <ul>
-                            <li><Link to="/category/appiances">Appliances</Link></li>
+                            <li><Link to="/category/appliances">Appliances</Link></li>
                             <li><Link to="/category/book">Book</Link></li>
                             <li><Link to="/category/electronics">Electronics</Link></li>
                             <li><Link to="/category/essentials">Essentials</Link></li>

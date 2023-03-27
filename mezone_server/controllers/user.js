@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const User = require('../models/user');
+const Ad = require('../models/Ad');
 
 exports.registerUser = async (req, res, next) => {
   try {
@@ -72,7 +73,7 @@ exports.getUserById = async (req, res) => {
 exports.purchasedProducts = async (req, res) => {
   const { user } = req;
   try {
-    const fetchedUser = await User.findById(user.id);
+    const fetchedUser = await User.findById(user);
     await fetchedUser.populate('purchasedProducts');
     res.status(200).json(fetchedUser.purchasedProducts);
   } catch (error) {
@@ -81,10 +82,10 @@ exports.purchasedProducts = async (req, res) => {
   }
 };
 
-exports.postedProducts = async (req, res) => {
-  const { user } = req;
+  exports.postedProducts = async (req, res) => {
+  console.log(req.user);
   try {
-    const fetchedUser = await User.findById(user.id);
+    const fetchedUser = await User.findById(req.user);
     await fetchedUser.populate('postedAds');
     res.status(200).json(fetchedUser.postedAds);
   } catch (error) {

@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import axios from 'axios';
+import axios from '../../../Axios';
 // Components
 import LoadingDisplay from '../LoadingDisplay/LoadingDisplay';
 import Card from '../Card/Card';
@@ -7,17 +7,27 @@ import { Button, Box, ButtonGroup } from '@mui/material';
 // Styling
 import { boardStyle, adAreaStyle, paginationStyle, dashCardStyle } from '../DashBoard/dashStyle';
 
+import { useSelector } from 'react-redux';
+
+
+
 const DashboardAdList = () => {
     const [ads, setAds] = useState([]);
     const [loading, setLoading] = useState(true);
     const [pageNumber, setPageNumber] = useState(1);
     const [adPerPage] = useState(4);
-
+    const userInfo = useSelector(state => state.userSignin.userInfo);
     useEffect(() => {
         setLoading(true);
         const fetchData = async () => {
             const res = await axios.get(
-                `/user/products/posted`
+                `/products/posted`,
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "x-auth-token": userInfo.token,
+                    },
+                }
             );
             setAds(res.data);
             setLoading(false);

@@ -118,7 +118,7 @@ exports.updateAd = async (req, res, next) => {
     // Check for authorization
     let ad = await Ad.findById(adId);
     if (!ad) return res.status(404).json({ errors: [{ msg: 'Ad not found' }] });
-    if (ad.owner != req.user)
+    if (ad.owner.id != req.user)
       return res
         .status(401)
         .json({ errors: [{ msg: 'Unauthorized to delete this ad' }] });
@@ -144,7 +144,7 @@ exports.deleteAd = async (req, res, next) => {
   try {
     let ad = await Ad.findById(adId);
     if (!ad) return res.status(404).json({ errors: [{ msg: 'Ad not found' }] });
-    if (ad.owner != req.user)
+    if (ad.owner.id != req.user)
       return res
         .status(401)
         .json({ errors: [{ msg: 'Unauthorized to delete this ad' }] });

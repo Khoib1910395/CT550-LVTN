@@ -138,8 +138,8 @@ export default function adReducer(state = initialState, action) {
             };
 
         case UPDATE_TIMER:
-            console.log(state.adDetails._id);
-            console.log(payload);
+            // console.log(state.adDetails._id);
+            // console.log(payload);
             if (state.adDetails._id === payload._id) {
                 return {
                     ...state,
