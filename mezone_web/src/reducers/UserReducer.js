@@ -12,7 +12,10 @@ import {
     USER_UPDATE_PROFILE_FAIL,
     USER_UPDATE_PROFILE_REQUEST,
     USER_UPDATE_PROFILE_RESET,
-    USER_UPDATE_PROFILE_SUCCESS
+    USER_UPDATE_PROFILE_SUCCESS,
+    SELLER_REQUEST_REQUEST,
+    SELLER_REQUEST_SUCCESS,
+    SELLER_REQUEST_FAIL,
 } from "../constants/UserConstant";
 import {
     REGISTER_SUCCESS,
@@ -127,3 +130,16 @@ export const authReduce = (state = {
             return state;
     }
 }
+
+export const sellerRequestReducer = (state = {}, action) => {
+    switch (action.type) {
+        case SELLER_REQUEST_REQUEST:
+            return { loading: true };
+        case SELLER_REQUEST_SUCCESS:
+            return { loading: false, success: true };
+        case SELLER_REQUEST_FAIL:
+            return { loading: false, error: action.payload };
+        default:
+            return state;
+    }
+};

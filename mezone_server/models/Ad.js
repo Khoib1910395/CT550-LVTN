@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const types = mongoose.Types;
-// const userSchema = require('./User');
 
 const adSchema = new mongoose.Schema(
     {
@@ -62,7 +61,7 @@ const adSchema = new mongoose.Schema(
         },
         bids: [
             {
-                User: {
+                user: {
                     type: types.ObjectId,
                     ref: 'User',
                     required: true,
@@ -85,6 +84,4 @@ const adSchema = new mongoose.Schema(
     { timestamps: true }
 );
 
-const Ad = mongoose.model('ad', adSchema);
-
-module.exports = Ad;
+module.exports = mongoose.model('ad', adSchema);

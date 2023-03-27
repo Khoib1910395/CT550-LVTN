@@ -4,6 +4,7 @@ const auth = require("../middlewares/auth");
 const Order = require("../models/order");
 const { Product } = require("../models/product");
 const User = require("../models/user");
+const userController = require('../controllers/user');
 
 userRouter.post("/api/add-to-cart", auth, async (req, res) => {
   try {
@@ -163,5 +164,36 @@ userRouter.put('/api/profile', auth, async (req, res) => {
     }
   }
 );
+
+// @route   GET /user/purchased
+// @desc    Get products purchased by user
+// @access  protected
+userRouter.get('/products/purchased', auth, userController.purchasedProducts);
+
+// @route   GET /user/posted
+// @desc    Get product ads posted by user
+// @access  protected
+userRouter.get('/products/posted', auth, userController.postedProducts);
+
+
+userRouter.post("/api/seller/request", auth, async (req, res) => {
+  try {
+    const { name, email, phone, address, message } = req.body;
+    const user = await User.findById(req.user);
+    console.log(req.user);
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    user.sellerRequest = { id, name, email, phone, address, message };
+    await user.save();
+
+    res.status(201).json({ message: "Seller request submitted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+
 
 module.exports = userRouter;

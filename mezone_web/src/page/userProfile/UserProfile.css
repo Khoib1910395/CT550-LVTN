@@ -1,10 +1,10 @@
-.user-dets-container{
+.user-dets-container {
     max-width: 600px;
     margin: auto;
     padding: 10px;
 }
 
-.update-btn{
+.update-btn {
     background-color: #f0c040;
     border-radius: 4px;
     display: block;
@@ -17,9 +17,37 @@
     outline: 0;
 }
 
-@media(max-width: 900px){
-    .user-dets-container{
+.profile-table {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.table-cell {
+    padding-bottom: .7rem;
+    padding-top: .7rem;
+}
+
+.boxStyle {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.paperStyle {
+    width: 80%;
+    max-width: 950px;
+    padding: 1.5rem;
+}
+
+.formSubmitButtonContainer {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+@media(max-width: 900px) {
+    .user-dets-container {
         transform: translateY(16%);
     }
 }
-

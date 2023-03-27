@@ -203,11 +203,13 @@ export const placeBid = (adId, bidAmount) => async (dispatch, getState) => {
 };
 
 // Post ad
-export const postAd = (data) => async (dispatch) => {
+export const postAd = (data) => async (dispatch, getState) => {
     const url = `/ad`;
+    const { userSignin: { userInfo } } = getState();
     try {
         const res = await axios.post(url, JSON.stringify(data), {
             headers: { 'Content-Type': 'application/json' },
+            "x-auth-token": userInfo.token,
         });
 
         dispatch({
@@ -229,11 +231,20 @@ export const postAd = (data) => async (dispatch) => {
 };
 
 // Post ad
-export const startAuction = (adId) => async (dispatch) => {
+export const startAuction = (adId) => async (dispatch, getState) => {
     const url = `/auction/start/${adId}`;
+    const {
+        userSignin: { userInfo },
+    } = getState();
     try {
-        const res = await axios.get(url);
-
+        const res = await axios.get(url,
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                    "x-auth-token": userInfo.token,
+                },
+            }
+            );
         dispatch({
             type: START_AUCTION,
             payload: res,

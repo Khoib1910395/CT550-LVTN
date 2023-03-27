@@ -126,7 +126,7 @@ const mapStateToProps = (state) => ({
     ads: state.ad.ads,
     loading: state.ad.loading,
     isAuth: state.auth.isAuthenticated,
-    user: state.auth.user,
+    user: state.userSignin.userInfo,
 });
 
 export default connect(mapStateToProps, {

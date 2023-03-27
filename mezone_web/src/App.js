@@ -9,6 +9,7 @@ import SignUp from './page/SignUp/SignUp';
 import PrivateRoute from './components/privateRoute/PrivateRoute';
 import UserProfile from './page/userProfile/UserProfile';
 import UpdateProfile from './page/updateProfile/UpdateProfile';
+import BecomeASeller from './page/becomeASeller/BecomeASeller';
 import ProductPage from './page/productPage/ProductPage';
 import CategoryPage from './page/CategoryPage/CategoryPage';
 import Auction from './page/auction/Auction';
@@ -74,6 +75,7 @@ function App() {
 
             <PrivateRoute exact path="/profile" component={UserProfile} />
             <PrivateRoute exact path="/profile/update" component={UpdateProfile} />
+            <PrivateRoute exact path="/profile/sellerform" component={BecomeASeller} />
 
             <Route component={NotFound} />
 

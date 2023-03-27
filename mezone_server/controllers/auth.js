@@ -44,7 +44,7 @@ exports.login = async (req, res, next) => {
         username: user.username,
       },
     };
-    jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: 36000 }, (err, token) => {
+    jwt.sign(payload, "passwordKey", { expiresIn: 36000 }, (err, token) => {
       if (err) {
         throw err;
       }

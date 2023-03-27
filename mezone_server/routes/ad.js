@@ -22,7 +22,7 @@ adRouter.post(
 // @route   GET /ad?user=<userId>&option=<active>
 // @desc    Retrieve list of all ads. Optional query param of user.
 // @access  protected
-adRouter.get('/ad', auth, adController.retrieveAds);
+adRouter.get('/ad/?', auth, adController.retrieveAds);
 
 // @route   GET /ad/:id
 // @desc    Find one ad

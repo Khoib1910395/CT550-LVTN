@@ -11,7 +11,10 @@ import {
   USER_SIGNOUT,
   USER_UPDATE_PROFILE_FAIL,
   USER_UPDATE_PROFILE_REQUEST,
-  USER_UPDATE_PROFILE_SUCCESS
+  USER_UPDATE_PROFILE_SUCCESS,
+  SELLER_REQUEST_REQUEST,
+  SELLER_REQUEST_SUCCESS,
+  SELLER_REQUEST_FAIL,
 } from "../constants/UserConstant"
 import {
   USER_LOADED,
@@ -76,7 +79,7 @@ export const loadUser = () => async (dispath, getState) => {
   if (localStorage.token) setAuthToken(localStorage.token);
   const { userSignin: { userInfo } } = getState();
   try {
-    const res = await axios.get(`/auth`,{
+    const res = await axios.get(`/auth`, {
       headers: {
         "Content-Type": "application/json",
         "x-auth-token": userInfo.token,
@@ -147,5 +150,28 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
         ? error.response.data.message
         : error.message;
     dispatch({ type: USER_UPDATE_PROFILE_FAIL, payload: message });
+  }
+};
+
+export const sellerRequest = (sellerInfo) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: SELLER_REQUEST_REQUEST });
+    const {
+      userSignin: { userInfo },
+    } = getState();
+    console.log(userInfo.token);
+    const response = await axios.post("/api/seller/request", {
+      headers: {
+        "x-auth-token": userInfo.token,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(sellerInfo),
+    });
+  
+    const data = await response.json();
+
+    dispatch({ type: SELLER_REQUEST_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({ type: SELLER_REQUEST_FAIL, payload: error.message });
   }
 };

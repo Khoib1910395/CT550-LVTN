@@ -17,7 +17,7 @@ exports.addAd = async (req, res, next) => {
   let { productName, basePrice, duration, image, category, description } = req.body;
   if (duration === null || duration === 0) duration = 300;
   if (duration > 10800) duration = 3600;
-  image = image === '' ? '' : `http://localhost:3030${image}`;
+  image = image === '' ? '' : `http://localhost:3030/${image}`;
   const timer = duration;
 
   try {
@@ -40,7 +40,7 @@ exports.addAd = async (req, res, next) => {
     ad.room = room._id;
     ad = await ad.save();
 
-    const user = await { User }.findById(ad.owner);
+    const user = await User.findById(ad.owner.id);
     user.postedAds.push(ad._id);
     await user.save();
 
@@ -95,15 +95,12 @@ exports.findAd = async (req, res, next) => {
   const adId = req.params.id;
   try {
     const ad = await Ad.findById(adId).populate('owner', { password: 0 });
-    if (!ad) {
-      return res.status(404).json({ errors: [{ msg: 'Ad not found' }] });
-    }
+    if (!ad) return res.status(404).json({ errors: [{ msg: 'Ad not found' }] });
     res.status(200).json(ad);
   } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server Error');
+    console.log(err);
+    res.status(500).json({ errors: [{ msg: 'Server error' }] });
   }
-
 };
 
 // @route   PUT /ad/:id
@@ -121,7 +118,7 @@ exports.updateAd = async (req, res, next) => {
     // Check for authorization
     let ad = await Ad.findById(adId);
     if (!ad) return res.status(404).json({ errors: [{ msg: 'Ad not found' }] });
-    if (ad.owner != req.user.id)
+    if (ad.owner != req.user)
       return res
         .status(401)
         .json({ errors: [{ msg: 'Unauthorized to delete this ad' }] });
@@ -147,7 +144,7 @@ exports.deleteAd = async (req, res, next) => {
   try {
     let ad = await Ad.findById(adId);
     if (!ad) return res.status(404).json({ errors: [{ msg: 'Ad not found' }] });
-    if (ad.owner != req.user.id)
+    if (ad.owner != req.user)
       return res
         .status(401)
         .json({ errors: [{ msg: 'Unauthorized to delete this ad' }] });

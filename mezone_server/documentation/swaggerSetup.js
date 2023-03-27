@@ -1,6 +1,6 @@
 const swaggerJsDoc = require('swagger-jsdoc');
 
-const apiBaseUrl = process.env.API_BASE_URL || 'http://localhost:3030';
+const apiBaseUrl = 'http://localhost:3030';
 const options = {
   apis: ['./documentation/doc.yaml'],
   definition: {

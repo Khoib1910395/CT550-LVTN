@@ -77,7 +77,7 @@ const Ad = (props) => {
 
     // For ad rooms
     useEffect(() => {
-        const adSocket = openSocket(process.env.REACT_APP_API_BASE_URL, {
+        const adSocket = openSocket('http://localhost:3030', {
             path: '/socket/adpage',
         });
         // User enters add page
@@ -123,8 +123,8 @@ const Ad = (props) => {
 
     // Check if current user is the owner of ad
     useEffect(() => {
-        if (props.adDetails.owner && props.auth.user) {
-            if (props.adDetails.owner._id === props.auth.user._id) setOwnerAd(true);
+        if (props.adDetails.owner && props.user) {
+            if (props.adDetails.owner._id === props.user._id) setOwnerAd(true);
             else setOwnerAd(false);
         }
         // Check start button
@@ -225,7 +225,7 @@ const Ad = (props) => {
                                         Posted on: {getUTCDate(props.adDetails.createdAt)}
                                     </Typography>
                                     <Typography variant='body1'>
-                                        Seller: {props.adDetails.owner.username}
+                                        Seller: {props.adDetails.owner.name}
                                     </Typography>
                                     <Typography variant='body1'>
                                         Base price: {props.adDetails.basePrice.$numberDecimal}
@@ -244,7 +244,7 @@ const Ad = (props) => {
                                         Current price: ${props.adDetails.currentPrice.$numberDecimal}
                                     </Typography>
                                     <Typography variant='body1'>
-                                        Current bidder: {props.highestBid && props.highestBid.user.username}
+                                        Current bidder: {props.highestBid && props.highestBid.user.name}
                                     </Typography>
                                     <Divider variant='middle' sx={{ margin: '.5rem' }} />
 
@@ -307,6 +307,7 @@ const mapStateToProps = (state) => ({
     auth: state.auth,
     adImage: state.ad.adImage,
     imageLoading: state.ad.imageLoading,
+    user: state.userSignin.userInfo,
 });
 
 export default connect(mapStateToProps, {

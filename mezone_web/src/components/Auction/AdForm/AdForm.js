@@ -1,7 +1,7 @@
 // max character for prod name 15 chars
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import axios from 'axios';
+import axios from '../../../Axios';
 import { Redirect } from 'react-router-dom';
 import { Fragment } from 'react';
 // MUI
@@ -115,7 +115,7 @@ const AdForm = (props) => {
         formData.append('image', file);
         try {
             const res = await axios.post(
-                `${process.env.REACT_APP_API_BASE_URL || 'localhost:5000'}/upload/image`,
+                `upload/image`,
                 formData,
                 { headers: { 'Content-Type': 'multipart/form-data' } }
             );

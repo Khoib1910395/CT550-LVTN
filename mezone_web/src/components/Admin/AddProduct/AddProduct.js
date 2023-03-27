@@ -1,170 +1,154 @@
-import React, { useState } from 'react';
-import axios from '../../../Axios';
-import cloudinaryCore from 'cloudinary-core';
-import './AddProduct.css';
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { addProduct } from "../../../actions/Admin";
+import { CloudinaryContext, Image } from "cloudinary-react";
+
 
 const AddProduct = () => {
-  const [productName, setProductName] = useState('');
-  const [description, setDescription] = useState('');
-  const [price, setPrice] = useState('');
-  const [quantity, setQuantity] = useState('');
-  const [quality, setQuality] = useState('');
-  const [category, setCategory] = useState('Mobiles');
-  const [images, setImages] = useState([]);
-  const [imageUrls, setImageUrls] = useState([]);
-
-  const cloudinary = new cloudinaryCore.Cloudinary({
-    cloud_name: 'ct466nlcntt',
-    api_key: '919823429952228',
-    api_secret: 'u4kXe_RMD3yR6eK19Ii4M7pAiPM',
+  const [product, setProduct] = useState({
+    name: "",
+    description: "",
+    images: [],
+    quantity: 0,
+    price: 0,
+    category: "",
+    quality: 0,
   });
 
-  const handleProductUpload = async (event) => {
-    const files = event.target.files;
-    const uploadedImages = [];
+  const dispatch = useDispatch();
+  //      cloud_name: "ct466nlcntt",
+  //      api_key: "919823429952228",
+  //      api_secret: "u4kXe_RMD3yR6eK19Ii4M7pAiPM"
+  // const cloudinary = require("cloudinary").v2;
 
-    // Create an array of Promises for each file upload
-    const uploadPromises = Array.from(files).map((file) => {
-      const formData = new FormData();
-      formData.append('file', file);
-      formData.append('upload_preset', 'g9mbnmjd');
+  const handleImageUpload = async (e) => {
+  //   const files = Array.from(e.target.files);
 
-      return cloudinary.uploader.upload(formData);
-    });
+  //   const formData = new FormData();
+  //   formData.append("file", files[0]);
+  //   formData.append("upload_preset", "g9mbnmjd");
 
-    try {
-      // Wait for all uploads to complete
-      const results = await Promise.all(uploadPromises);
+  //   const res = await fetch(
+  //     `https://api.cloudinary.com/v1_1/ct466nlcntt/image/upload`,
+  //     {
+  //       method: "POST",
+  //       body: formData,
+  //     }
+  //   );
 
-      // Extract URLs from the results and add to uploadedImages array
-      results.forEach((result) => {
-        uploadedImages.push(result.secure_url);
-      });
+  //   const data = await res.json();
 
-      // Update the state with the uploaded image URLs
-      setImageUrls(uploadedImages);
-      console.log(uploadedImages);
-    } catch (error) {
-      console.log(error);
-    }
+  //   setProduct((prevState) => ({
+  //     ...prevState,
+  //     images: [...prevState.images, data.public_id],
+  //   }));
   };
 
-  const handleProductSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    const formData = {
-      name: productName,
-      description: description,
-      price: price,
-      quantity: quantity,
-      quality: quality,
-      category: category,
-      images: images,
-    };
-
-    // Set x-auth-token header with admin authentication token
-    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-    const authToken = userInfo.token;
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        "x-auth-token": authToken,
-      },
-    };
-
-    try {
-      await axios.post("/admin/add-product", formData, config);
-      // show success message or redirect to product list page
-    } catch (error) {
-      // handle error
-    }
-
+    dispatch(addProduct(product));
+    setProduct({
+      name: "",
+      description: "",
+      images: [],
+      quantity: 0,
+      price: 0,
+      category: "",
+      quality: 0,
+    });
   };
 
   return (
-    <div className='addproduct-container'>
-      <form onSubmit={handleProductSubmit}>
-        <div className='form'>
-          {images.length > 0 ? (
-            images.map((image) => (
-              <img key={image} src={image} alt="Product" height="200" />
-            ))
-          ) : (
-            <div className='form-ip-sec'>
-              <label htmlFor="product-images">Select Product Images</label>
-              <input
-                id="product-images"
-                type="file"
-                multiple
-                accept="image/*"
-                onChange={handleProductUpload}
-              />
-            </div>
-          )}
-        </div>
-        <div className='form-ip-sec'>
-          <label htmlFor="product-name">Product Name</label>
+    <div>
+      <h2>Add Product</h2>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label>Name:</label>
           <input
-            id="product-name"
             type="text"
-            value={productName}
-            onChange={(event) => setProductName(event.target.value)}
+            value={product.name}
+            onChange={(e) =>
+              setProduct((prevState) => ({
+                ...prevState,
+                name: e.target.value,
+              }))
+            }
           />
         </div>
-        <div className='form-ip-sec'>
-          <label htmlFor="product-description">Description</label>
+        <div>
+          <label>Description:</label>
           <textarea
-            id="product-description"
-            value={description}
-            onChange={(event) => setDescription(event.target.value)}
-          />
+            value={product.description}
+            onChange={(e) =>
+              setProduct((prevState) => ({
+                ...prevState,
+                description: e.target.value,
+              }))
+            }
+          ></textarea>
         </div>
-        <div className='form-ip-sec'>
-          <label htmlFor="product-price">Price</label>
+        <div>
+          <label>Images:</label>
+          <input type="file" multiple onChange={handleImageUpload} />
+          {product.images.map((image, index) => (
+            <Image key={index} cloudName="ct466nlcntt" publicId={image} />
+          ))}
+        </div>
+        <div>
+          <label>Quantity:</label>
           <input
-            id="product-price"
             type="number"
-            value={price}
-            onChange={(event) => setPrice(event.target.value)}
+            value={product.quantity}
+            onChange={(e) =>
+              setProduct((prevState) => ({
+                ...prevState,
+                quantity: e.target.value,
+              }))
+            }
           />
         </div>
-        <div className='form-ip-sec'>
-          <label htmlFor="product-quantity">Quantity</label>
+        <div>
+          <label>Price:</label>
           <input
-            id="product-quantity"
             type="number"
-            value={quantity}
-            onChange={(event) => setQuantity(event.target.value)}
+            value={product.price}
+            onChange={(e) =>
+              setProduct((prevState) => ({
+                ...prevState,
+                price: e.target.value,
+              }))
+            }
           />
         </div>
-        <div className='form-ip-sec'>
-          <label htmlFor="product-quality">Quality (oldest is 1, New is 100)</label>
+        <div>
+          <label>Category:</label>
           <input
-            id="product-quality"
-            type="number"
-            value={quality}
-            onChange={(event) => setQuality
-              (event.target.value)}
+            type="text"
+            value={product.category}
+            onChange={(e) =>
+              setProduct((prevState) => ({
+                ...prevState,
+                category: e.target.value,
+              }))
+            }
           />
         </div>
-        <div className='form-ip-sec'>
-          <label htmlFor="product-category">Category</label>
-          <select
-            id="product-category"
-            value={category}
-            onChange={(event) => setCategory(event.target.value)}
-          >
-            <option value="Mobiles">Mobiles</option>
-            <option value="Essentials">Essentials</option>
-            <option value="Appliances">Appliances</option>
-            <option value="Books">Book</option>
-            <option value="Fashion">Fashion</option>
-          </select>
+        <div>
+          <label>Quality:</label>
+          <input
+            type="number"
+            value={product.quality}
+            onChange={(e) =>
+              setProduct((prevState) => ({
+                ...prevState,
+                quality: e.target.value,
+              }))
+            }
+          />
         </div>
-        <button className="submit-btn" type="submit">Add Product</button>
+        <button type="submit">Add Product</button>
       </form>
-
     </div>
-
   );
 };
 
