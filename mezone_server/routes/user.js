@@ -75,6 +75,7 @@ userRouter.post("/api/save-user-address", auth, async (req, res) => {
 // order product
 userRouter.post("/api/order", auth, async (req, res) => {
   try {
+    // console.log(req.body);
     const { cart, totalPrice, address } = req.body;
     let products = [];
 

@@ -5,7 +5,7 @@ import "./AddProduct.css";
 
 const AddProduct = () => {
   const [imageUrl, setImageUrl] = useState(null);
-  const [category, setCategory] = useState("Mobiles"); 
+  const [category, setCategory] = useState("Mobiles");
 
   const [product, setProduct] = useState({
     name: "",
@@ -21,7 +21,9 @@ const AddProduct = () => {
 
   const handleFileUpload = (e) => {
     const uploadData = new FormData();
-    uploadData.append("file", e.target.files[0], "file");
+    uploadData.append('folder', `${product.name}`);
+    uploadData.append('file', e.target.files[0], 'file');
+
     cloudinaryUpload(uploadData)
       .then((response) => {
         setImageUrl(response.secure_url);
@@ -35,33 +37,37 @@ const AddProduct = () => {
       });
   };
 
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setProduct((prevState) => ({
       ...prevState,
       images: [{ imageUrl }],
-      category: category, 
+      category: category,
     }));
-    dispatch(addProduct(product));
+    dispatch(addProduct({
+      ...product,
+      category: category,
+    }));
     setImageUrl(null);
-    setCategory("Mobiles"); 
+    setCategory("Mobiles");
     setProduct({
       name: "",
       description: "",
       images: [],
       quantity: 0,
       price: 0,
-      category: category, 
+      category: category,
       quality: 100,
     });
   };
 
   return (
-    <div class="add-product-form">
+    <div className="add-product-form">
       <h2>Add Product</h2>
       <form onSubmit={handleSubmit}>
         <div>
-          <label for="name">Name:</label>
+          <label HTMLfor="name">Name:</label>
           <input
             type="text"
             id="name"
@@ -75,7 +81,7 @@ const AddProduct = () => {
           />
         </div>
         <div>
-          <label for="description">Description:</label>
+          <label HTMLfor="description">Description:</label>
           <textarea
             id="description"
             value={product.description}
@@ -88,7 +94,7 @@ const AddProduct = () => {
           ></textarea>
         </div>
         <div>
-          <label for="images">Images:</label>
+          <label HTMLfor="images">Images:</label>
           <input
             type="file"
             id="images"
@@ -97,14 +103,14 @@ const AddProduct = () => {
           {imageUrl && (
             <img className="preview-image" src={imageUrl} alt="preview" />
           )}
-
         </div>
         <div>
-          <label for="quantity">Quantity:</label>
+          <label HTMLfor="quantity">Quantity:</label>
           <input
             type="number"
             id="quantity"
             value={product.quantity}
+            min="0"
             onChange={(e) =>
               setProduct((prevState) => ({
                 ...prevState,
@@ -114,10 +120,11 @@ const AddProduct = () => {
           />
         </div>
         <div>
-          <label for="price">Price:</label>
+          <label HTMLfor="price">Price:</label>
           <input
             type="number"
             id="price"
+            min="0"
             value={product.price}
             onChange={(e) =>
               setProduct((prevState) => ({
@@ -128,31 +135,34 @@ const AddProduct = () => {
           />
         </div>
         <div>
-          <label for="category">Category:</label>
+          <label HTMLfor="category">Category:</label>
           <select
             id="category"
             value={category}
             onChange={(e) => setCategory(e.target.value)}
           >
             <option value="Mobiles">Mobiles</option>
-            <option value="Laptops">Essentials</option>
+            <option value="Essentials">Essentials</option>
             <option value="Electronics">Electronics</option>
             <option value="Appliances">Appliances</option>
-            <option value="Book">Book</option>
+            <option value="Books">Books</option>
             <option value="Fashion">Fashion</option>
           </select>
         </div>
         <div>
-          <label for="quality">Quality:</label>
+          <label HTMLfor="quality">Quality:</label>
           <input
             type="number"
             id="quality"
             value={product.quality}
+            min="0"
+            max="100"
             onChange={(e) =>
               setProduct((prevState) => ({
                 ...prevState,
                 quality: e.target.value,
               }))
+              
             }
           />
         </div>

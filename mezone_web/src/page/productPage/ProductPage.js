@@ -6,6 +6,7 @@ import "./ProductPage.css"
 import LoadingBox from '../../components/loadingBox/LoadingBox';
 import MessageBox from '../../components/messageBox/MessageBox';
 import { detailsProduct } from '../../actions/Product';
+import { addToCart2 } from '../../actions/Cart_upgrade';
 
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -23,6 +24,9 @@ const ProductPage = (props) => {
     const addToCart = () => {
         props.history.push(`/cart/${productID}?qty=${qty}`)
     }
+    const addToCartHandler = () => {
+        dispatch(addToCart2(productID));
+    };
     const SlideSetting = {
         dots: true,
         infinite: true,
@@ -101,7 +105,7 @@ const ProductPage = (props) => {
                                                             </div>
                                                         </li>
                                                         <li>
-                                                            <button className="add-to-cart" onClick={addToCart}>
+                                                            <button className="add-to-cart" onClick={addToCartHandler}>
                                                                 Add to cart
                                                             </button>
                                                         </li>

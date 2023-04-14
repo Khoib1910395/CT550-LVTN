@@ -13,11 +13,9 @@ const ProductList = () => {
     const productList = useSelector( state => state.productList);
     const {loading,error,products} = productList;
 
-
     useEffect(() => {
         dispatch(listProducts());
     }, [dispatch])
-
 
     return (
 
@@ -41,10 +39,7 @@ const ProductList = () => {
                 </>
             )
             }
-
         </div>
-            
-        
     )
 }
 

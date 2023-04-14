@@ -1,6 +1,7 @@
 import React,{useEffect} from 'react'
 import { useDispatch,useSelector } from 'react-redux';
 import { addToCart,removeFromCart } from '../../actions/Cart';
+import { addToCart2, removeFromCart2} from '../../actions/Cart_upgrade';
 import { Link } from 'react-router-dom';
 import MessageBox from "../../components/messageBox/MessageBox";
 import "./Cart.css"
@@ -14,13 +15,7 @@ const Cart = (props) => {
         Number(props.location.search.split('=')[1])
         : 1;
 
-    
-    const cart = useSelector((state) => state.cart);
-    
-    const { cartItems, error } = cart;
-
-    console.log(productID);
-
+    const cart = useSelector((state) => state.userSignin.userInfo?.cart || []);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -31,7 +26,7 @@ const Cart = (props) => {
 
 
     const removeProduct = (id) =>{
-        dispatch(removeFromCart(id));
+        dispatch(removeFromCart2(id));
     }
 
     const checkOut =() =>{
@@ -45,40 +40,40 @@ const Cart = (props) => {
             <div className="row-container">
                 <div className="col-4">
                     <h1>Shopping Cart</h1>
-                    {cartItems.length === 0 ? (
+                    {cart.length === 0 ? (
                         <MessageBox>
                             Cart is empty. <Link to="/">Go Shopping</Link>
                         </MessageBox>
                     ) : (   
                         <ul>
                             {
-                                cartItems.map((item)=>(
-                                    <li key={item.product}>
+                                cart && cart.map((item)=>(
+                                    <li key={item.product.name}>
                                         <div className="row1">
                                             <div className="small">
-                                                <img src={item.images}
+                                                <img src={item.product.images}
                                                 alt= ""
                                                 ></img>
                                             </div>
 
                                             <div className="min-30">
-                                                <Link to={`/products/product/${item.product}`}>{item.name}</Link>
+                                                <Link to={`/products/product/${item.product._id}`}>{item.product.name}</Link>
                                             </div>
                                             <div className="qty-select">
-                                                <select value={item.qty} 
+                                                <select value={item.quantity} 
                                                 onChange={(e) => 
-                                                dispatch(addToCart(item.product,Number(e.target.value)))
+                                                dispatch(addToCart2(item.product,Number(e.target.value)))
                                                 }>
                                                 {
-                                                    [...Array(item.stock).keys()].map((x)=>(
+                                                    [...Array(item.quantity).keys()].map((x)=>(
                                                         <option value={x+1}>{x+1}</option>
                                                     ))
                                                 }
                                                 </select>
                                             </div>
-                                            <p>${item.price * item.qty}</p>
+                                            <p>${item.product.price * item.quantity}</p>
                                             <div className="remove-btn">
-                                                <button type="button" onClick={() => removeProduct(item.product)}>
+                                                <button type="button" onClick={() => removeProduct(item.product._id)}>
                                                     <CancelIcon/>
                                                 </button>
                                             </div>
@@ -95,18 +90,18 @@ const Cart = (props) => {
                         <ul>
                             <li>
                                 <p>
-                                    Subtotal ({cartItems.reduce((a, c) => {
-                                        return a + c.qty;
+                                    Subtotal ({cart?.reduce((a, c) => {
+                                        return a + c.quantity;
                                     }, 0)} items) : 
                                 </p>
-                                <p className="price">$ {cartItems.reduce((a, c) => a + c.price * c.qty, 0)}</p>
+                                <p className="price">$ {cart?.reduce((a, c) => a + c.product.price * c.quantity, 0)}</p>
                             </li>
                             <li>
                                 <button type="button" onClick={checkOut}
                                 className="checkout-btn"
-                                disabled={cartItems.length === 0}
+                                disabled={cart?.length === 0 || null}
                                 >
-                                    Proceed to Checkout
+                                    Proceed to buy {cart?.length} Item(s)
                                 </button>
                             </li>
                         </ul>

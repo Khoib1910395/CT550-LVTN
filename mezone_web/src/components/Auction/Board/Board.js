@@ -78,48 +78,52 @@ const Board = (props) => {
     };
 
     return (
-    props.loading ? (
-        <LoadingBox />     
-    ) : (
-        <Box sx={boardStyle}>
-            <Box sx={adAreaStyle}>
-                {props.ads.slice(firstAdIndex, lastAdIndex).map((ad) => {
-                    return ad.auctionEnded ? null : (
-                        <div className='product__container' key={ad._id}>
-                            <Card ad={ad} key={ad._id} dashCard={false} cardStyle={boardCardStyle} />
-                        </div>
-                    );
-                })}
+        props.loading ? (
+            <LoadingBox />
+        ) : (
+            <Box sx={boardStyle}>
+                <Box sx={adAreaStyle}>
+                    {props.ads.length === props.ads.filter(ad => ad.auctionEnded).length
+                        ? <span>
+                            <p className='auction__alert'>There are no ads available at the moment</p>
+                        </span> 
+                        : props.ads.slice(firstAdIndex, lastAdIndex).map((ad) => {
+                            return ad.auctionEnded ? null : (
+                                <div className='product__container' key={ad._id}>
+                                    <Card ad={ad} key={ad._id} dashCard={false} cardStyle={boardCardStyle} />
+                                </div>
+                            );
+                        })}
+                </Box>
+                <Box sx={paginationStyle}>
+                    <ButtonGroup variant='outlined' size='small'>
+                        <Button
+                            disabled={pageNumber === 1}
+                            onClick={(e) => clickPageNumberButton(pageNumber - 1)}
+                        >
+                            Prev
+                        </Button>
+                        {pageNumbers.map((num) => {
+                            return (
+                                <Button
+                                    key={num}
+                                    disabled={pageNumber === num}
+                                    onClick={(e) => clickPageNumberButton(num)}
+                                >
+                                    {num}
+                                </Button>
+                            );
+                        })}
+                        <Button
+                            disabled={pageNumber === pageNumbers[pageNumbers.length - 1]}
+                            onClick={(e) => clickPageNumberButton(pageNumber + 1)}
+                        >
+                            Next
+                        </Button>
+                    </ButtonGroup>
+                </Box>
             </Box>
-            <Box sx={paginationStyle}>
-                <ButtonGroup variant='outlined' size='small'>
-                    <Button
-                        disabled={pageNumber === 1}
-                        onClick={(e) => clickPageNumberButton(pageNumber - 1)}
-                    >
-                        Prev
-                    </Button>
-                    {pageNumbers.map((num) => {
-                        return (
-                            <Button
-                                key={num}
-                                disabled={pageNumber === num}
-                                onClick={(e) => clickPageNumberButton(num)}
-                            >
-                                {num}
-                            </Button>
-                        );
-                    })}
-                    <Button
-                        disabled={pageNumber === pageNumbers[pageNumbers.length - 1]}
-                        onClick={(e) => clickPageNumberButton(pageNumber + 1)}
-                    >
-                        Next
-                    </Button>
-                </ButtonGroup>
-            </Box>
-        </Box>
-    ));
+        ));
 };
 
 const mapStateToProps = (state) => ({

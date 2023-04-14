@@ -83,7 +83,6 @@ exports.purchasedProducts = async (req, res) => {
 };
 
   exports.postedProducts = async (req, res) => {
-  console.log(req.user);
   try {
     const fetchedUser = await User.findById(req.user);
     await fetchedUser.populate('postedAds');

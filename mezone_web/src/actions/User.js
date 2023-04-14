@@ -15,6 +15,7 @@ import {
   SELLER_REQUEST_REQUEST,
   SELLER_REQUEST_SUCCESS,
   SELLER_REQUEST_FAIL,
+  ADD_TO_CART,
 } from "../constants/UserConstant"
 import {
   USER_LOADED,
@@ -30,10 +31,6 @@ export const signup = (name, email, password) => async (dispatch) => {
   });
   try {
     const { data } = await axios.post('/api/signup', { name, email, password });
-    dispatch({
-      type: USER_REGISTER_SUCCESS,
-      payload: data
-    });
     dispatch({
       type: USER_SIGNIN_SUCCESS,
       payload: data
@@ -175,3 +172,5 @@ export const sellerRequest = (sellerInfo) => async (dispatch, getState) => {
     dispatch({ type: SELLER_REQUEST_FAIL, payload: error.message });
   }
 };
+
+

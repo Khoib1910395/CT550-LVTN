@@ -39,18 +39,13 @@
 }
 
 .pd-name {
-    font-size: 28px;
-    font-weight: 600;
-    margin-bottom: 16px;
-    color: #333;
-    font-family: Arial, sans-serif;
+    font-size: 36px;
+    margin-bottom: 10px;
 }
 
 .pd-price {
-    margin-top: 16px;
-    font-size: 24px;
-    color: #f0c040;
-    font-family: Arial, sans-serif;
+    margin-top: 10px;
+    font-size: 32px;
 }
 
 .pd-desc {
@@ -61,27 +56,34 @@
 }
 
 .pd-desc p {
-    color: grey;
-    margin-top: 10px;
-    font-size: 16px;
+    margin-top: 5px;
+    font-size: 18px;
 }
+
 
 .pd-img {
     align-items: center;
-    max-width: 500px;
+    max-width: 800px;
+    margin-bottom: 30px;
+    border: 2px solid #f0c040;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: #fff;
 }
 
 .pd-img img {
-    width: 500px;
-    height: 500px;
+    width: 100%;
+    height: auto;
     margin: 5px;
 }
+
 
 .card-body {
     background-color: rgb(238, 238, 238);
     padding: 16px;
     border: 1px solid grey;
     border-radius: 6px;
+    opacity: 0.8; /* giảm độ trong suốt */
 }
 
 .card-body li {
@@ -115,8 +117,7 @@
     width: 80px;
 }
 
-
-.card-body .add-to-cart {
+.add-to-cart {
     background-color: #f0c040;
     border-radius: 4px;
     display: block;
@@ -127,11 +128,13 @@
     margin-top: 30px;
     font-size: 18px;
     outline: 0;
+    opacity: 1; /* làm mờ nhạt */
 }
 
 .add-to-cart:hover {
     background-color: #f8ca5e;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    opacity: 0.7; /* giảm độ mờ nhạt khi hover */
 }
 
 

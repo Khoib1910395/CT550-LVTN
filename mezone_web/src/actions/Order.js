@@ -10,12 +10,13 @@ export const createdOrder = (order) => async (dispatch, getState) => {
 
   try {
     const { userSignin: { userInfo } } = getState();
-    const { data } = await axios.post('/api/orders', order, {
+    const { data } = await axios.post('/api/order', order, {
       headers: {
         "Content-Type": "application/json",
         "x-auth-token": userInfo.token,
       },
     });
+    console.log(data);
 
     dispatch({
       type: ORDER_CREATE_SUCCESS,
@@ -37,6 +38,33 @@ export const createdOrder = (order) => async (dispatch, getState) => {
   }
 }
 
+export const createOrder = (order) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: ORDER_CREATE_REQUEST });
+    const { userSignin: { userInfo } } = getState();
+    const { data } = await axios.post('/api/order', order, 
+    {
+      headers: {
+        "Content-Type": "application/json",
+        "x-auth-token": userInfo.token,
+      },
+    });
+    const updatedUserInfo = {
+      ...userInfo,
+      cart: [],
+  };
+    dispatch({ type: ORDER_CREATE_SUCCESS, payload: data });
+    localStorage.setItem('userInfo', JSON.stringify(updatedUserInfo));
+  } catch (error) {
+    dispatch({
+      type: ORDER_CREATE_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
 
 export const detailsOrder = (orderId) => async (dispatch, getState) => {
   dispatch({ type: ORDER_DETAILS_REQUEST, payload: orderId });
@@ -46,8 +74,8 @@ export const detailsOrder = (orderId) => async (dispatch, getState) => {
   try {
     const { data } = await axios.get(`/api/orders/${orderId}`, {
       headers: {
-        "Content-Type": "application/json",
-        "x-auth-token": userInfo.token,
+        'Content-Type': 'application/json',
+        'x-auth-token': userInfo.token,
       },
     });
     dispatch({ type: ORDER_DETAILS_SUCCESS, payload: data });
@@ -59,38 +87,6 @@ export const detailsOrder = (orderId) => async (dispatch, getState) => {
     dispatch({ type: ORDER_DETAILS_FAIL, payload: message });
   }
 };
-
-
-
-export const payOrder = (order, paymentResult) => async (dispatch, getState) => {
-  dispatch({
-    type: ORDER_PAY_REQUEST,
-    payload: { order, paymentResult }
-  });
-
-  const {
-    userSignin: { userInfo }
-  } = getState();
-
-  try {
-    const { data } = await axios.put(`/api/orders/${order._id}/pay`, paymentResult, {
-      headers: {
-        "Content-Type": "application/json",
-        "x-auth-token": userInfo.token,
-      },
-    });
-    dispatch({ type: ORDER_PAY_SUCCESS, payload: data });
-
-  }
-  catch (error) {
-    const message =
-      error.response && error.response.data.message
-        ? error.response.data.message
-        : error.message;
-    dispatch({ type: ORDER_PAY_FAIL, payload: message });
-  }
-};
-
 
 export const listOrderMine = () => async (dispatch, getState) => {
   dispatch({

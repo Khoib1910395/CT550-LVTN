@@ -6,6 +6,7 @@ import './AllUsers.css';
 const UserList = () => {
     const dispatch = useDispatch();
     const users = useSelector((state) => state.allUsers.users);
+    const { userInfo } = useSelector((state) => state.userSignin);
 
     useEffect(() => {
         dispatch(fetchUsers());
@@ -13,14 +14,43 @@ const UserList = () => {
 
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedType, setSelectedType] = useState('');
+    const [updatedType, setUpdatedType] = useState('');
 
     const handleSearchTermChange = (event) => {
         setSearchTerm(event.target.value);
     };
 
+
     const handleTypeChange = (event) => {
         setSelectedType(event.target.value);
     };
+
+    const handleUpdatedTypeChange = (event) => {
+        setUpdatedType(event.target.value);
+    };
+
+    const handleUpdateUserType = (userId) => {
+        fetch(`/api/users/${userId}/type`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                type: updatedType
+            })
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                // Cập nhật danh sách người dùng
+                dispatch(fetchUsers());
+                // Đặt lại giá trị của updatedType state
+                setUpdatedType('');
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    };
+
 
     const filteredUsers = users.filter((user) => {
         return (
@@ -61,6 +91,7 @@ const UserList = () => {
                         <th className="user-list__table-head-cell">Address</th>
                         <th className="user-list__table-head-cell">Phone</th>
                         <th className="user-list__table-head-cell">Type</th>
+                        <th className="user-list__table-head-cell">Change type</th>
                     </tr>
                 </thead>
                 <tbody className="user-list__table-body">
@@ -72,6 +103,29 @@ const UserList = () => {
                             <td className="user-list__table-cell">{user.address}</td>
                             <td className="user-list__table-cell">{user.phone}</td>
                             <td className="user-list__table-cell">{user.type}</td>
+                            <td className="user-list__table-cell">
+                                {user.type}
+                                <div>
+                                    <select
+                                        className="user-list__table-select"
+                                        value={updatedType}
+                                        onChange={handleUpdatedTypeChange}
+                                        // disabled={user._id === currentUser._id}
+                                    >
+                                        <option value="">Select Type</option>
+                                        <option value="admin">Admin</option>
+                                        <option value="seller">Seller</option>
+                                        <option value="user">User</option>
+                                    </select>
+                                    <button
+                                        className="user-list__table-button"
+                                        disabled={!updatedType}
+                                        onClick={() => handleUpdateUserType(user._id)}
+                                    >
+                                        Update
+                                    </button>
+                                </div>
+                            </td>
                         </tr>
                     ))}
                 </tbody>

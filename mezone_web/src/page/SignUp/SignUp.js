@@ -12,6 +12,7 @@ const SignUp = (props) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmpassword, setConfirmPassword] = useState('');
+    const [isUserInfoSaved, setIsUserInfoSaved] = useState(false); 
 
     const redirect = props.location.search
         ? props.location.search.split('=')[0]
@@ -34,11 +35,19 @@ const SignUp = (props) => {
         
     }
 
+
     useEffect(()=>{
-        if(userInfo){
-            props.history.push(redirect);
+        const savedUserInfo = localStorage.getItem('userInfo'); 
+        if(userInfo || savedUserInfo){ 
+            setIsUserInfoSaved(true); 
         }
-    }, [props.history, redirect ,userInfo])
+    }, [userInfo])
+
+    useEffect(()=>{
+        if(isUserInfoSaved){ 
+            props.history.push('/'); 
+        }
+    }, [props.history, redirect, isUserInfoSaved])
     
     return (
         <div className="register-container">

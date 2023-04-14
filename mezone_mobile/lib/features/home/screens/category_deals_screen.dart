@@ -71,16 +71,10 @@ class _CategoryDealsScreenState extends State<CategoryDealsScreen> {
                 ),
                 SizedBox(
                   height: 580,
-                  child: GridView.builder(
+                  child: ListView.builder(
                     scrollDirection: Axis.vertical,
-                    padding: const EdgeInsets.only(left: 15),
+                    padding: const EdgeInsets.all(15),
                     itemCount: productList!.length,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 1,
-                      childAspectRatio: 1.4,
-                      mainAxisSpacing: 10,
-                    ),
                     itemBuilder: (context, index) {
                       final product = productList![index];
                       return GestureDetector(
@@ -91,7 +85,7 @@ class _CategoryDealsScreenState extends State<CategoryDealsScreen> {
                             arguments: product,
                           );
                         },
-                        child: Column(
+                        child: Stack(
                           children: [
                             SizedBox(
                               height: 130,
@@ -106,21 +100,54 @@ class _CategoryDealsScreenState extends State<CategoryDealsScreen> {
                                   padding: const EdgeInsets.all(10),
                                   child: Image.network(
                                     product.images[0],
+                                    width: 100,
+                                    height: 100,
+                                    fit: BoxFit.cover,
                                   ),
                                 ),
                               ),
                             ),
-                            Container(
-                              alignment: Alignment.topLeft,
-                              padding: const EdgeInsets.only(
-                                left: 50,
-                                top: 5,
-                                right: 15,
-                              ),
-                              child: Text(
-                                product.name,
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
+                            Positioned.fill(
+                              left: 150,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    product.name,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 5),
+                                  Text(
+                                    'Price: ${product.price.toString()}',
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 5),
+                                  Text(
+                                    product.quality == 100
+                                        ? 'Quality: New'
+                                        : 'Quality: ${product.quality.toString()}%',
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 5),
+                                  Text(
+                                    'Quantity: ${product.quantity}',
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ],

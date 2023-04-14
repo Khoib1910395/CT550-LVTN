@@ -72,3 +72,8 @@ button[type="submit"]:hover {
     border-radius: 5px;
     margin-bottom: 10px;
 }
+
+.preview-image{
+    height: 300px;
+    width: fit-content;
+}

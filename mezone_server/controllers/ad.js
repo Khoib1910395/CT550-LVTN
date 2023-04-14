@@ -3,6 +3,8 @@ const Ad = require('../models/Ad');
 const Room = require('../models/Room');
 const User = require('../models/user');
 const io = require('../socket');
+const { ObjectId } = require('mongoose').Types;
+
 
 // @route   POST /ad
 // @desc    Post a new ad
@@ -17,7 +19,7 @@ exports.addAd = async (req, res, next) => {
   let { productName, basePrice, duration, image, category, description } = req.body;
   if (duration === null || duration === 0) duration = 300;
   if (duration > 10800) duration = 3600;
-  image = image === '' ? '' : `http://localhost:3030/${image}`;
+  image = image === '' ? '' : `${image}`;
   const timer = duration;
 
   try {
@@ -30,7 +32,7 @@ exports.addAd = async (req, res, next) => {
       timer,
       image,
       category,
-      owner: req.user.id,
+      owner: req.user,
     });
 
     // Create room for auction
@@ -40,7 +42,7 @@ exports.addAd = async (req, res, next) => {
     ad.room = room._id;
     ad = await ad.save();
 
-    const user = await User.findById(ad.owner.id);
+    const user = await User.findById(ad.owner);
     user.postedAds.push(ad._id);
     await user.save();
 

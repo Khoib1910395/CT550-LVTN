@@ -1,7 +1,7 @@
 // max character for prod name 15 chars
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import axios from '../../../Axios';
+import { useDispatch } from "react-redux";
 import { Redirect } from 'react-router-dom';
 import { Fragment } from 'react';
 // MUI
@@ -27,6 +27,8 @@ import LoadingDisplay from '../LoadingDisplay/LoadingDisplay';
 // Actions
 import { postAd } from '../../../actions/Ad';
 import { setAlert, clearAlerts } from '../../../actions/Alert';
+import { cloudinaryUpload } from '../../../actions/Admin';
+import './AdForm.css';
 
 const AdForm = (props) => {
     const [form, setForm] = useState({
@@ -34,20 +36,21 @@ const AdForm = (props) => {
         description: '',
         basePrice: 0,
         duration: 300,
-        category: '',
+        category: "Mobiles",
         image: '',
     });
-    const [file, setFile] = useState('');
-    const [fileName, setFileName] = useState('Choose your image file...');
-    const [fileValid, setFileValid] = useState(true);
     const [uploading, setUploading] = useState(false);
-    // let navigate = useNavigate();
+    const [category, setCategory] = useState("Mobiles");
+    const [imageUrl, setImageUrl] = useState(null);
+    const [formSubmitted, setFormSubmitted] = useState(false);
 
     useEffect(() => {
         return () => {
             props.clearAlerts();
         };
     }, []);
+
+    const dispatch = useDispatch();
 
     const handleFormChange = (e) => {
         e.preventDefault();
@@ -57,80 +60,59 @@ const AdForm = (props) => {
         });
     };
 
-    const handleSubmit = async (e) => {
+    const handleFileUpload = (e) => {
+        const uploadData = new FormData();
+        uploadData.append('file', e.target.files[0], 'file');
+        cloudinaryUpload(uploadData)
+            .then((response) => {
+                setImageUrl(response.secure_url);
+                setForm((prevState) => ({
+                    ...prevState,
+                    image: response.secure_url,
+                }));
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
+
+    const handleSubmit = (e) => {
         e.preventDefault();
-        // Check for empty fields
-        if (form.productName === '') {
-            return props.setAlert('Product name required!');
-        }
-        if (form.basePrice.toString() === '0') {
-            return props.setAlert('Base price required!');
-        }
-        if (form.duration.toString() === '0') {
-            setForm({ ...form, duration: 300 });
-        }
-        if (!fileValid) {
-            // if selected file is not image/exceeds size limit
-            props.setAlert('Image file not valid!', 'error');
-        } else {
-            if (file === '') {
-                // submit without photo
-                await props.postAd(form);
-                <Redirect to={'/'} />;
-            } else {
-                // with photo
-                const imagePath = await uploadImage();
-                console.log(imagePath);
-                if (imagePath) {
-                    await props.postAd({ ...form, image: imagePath });
-                    <Redirect to={'/'} />;
-                }
-            }
-        }
+        setFormSubmitted(true);
+        setForm((prevState) => ({
+            ...prevState,
+            images: imageUrl,
+            category: category,
+        }));
+        dispatch(postAd({
+            ...form,
+            category: category,
+        }));
+        setImageUrl(null);
+        setCategory("Mobiles");
+        setForm({
+            productName: '',
+            description: '',
+            basePrice: 0,
+            duration: 0,
+            category: category,
+            image: '',
+        });
     };
 
-    const fileSelected = (e) => {
-        let filesize = (e.target.files[0].size / (1024 * 1024)).toFixed(3);
-        let fileType = e.target.files[0].type.toString();
-        let regex = /^image\/(png|jpg|jpeg|gif)$/;
-        // if (fileType !== 'image/jpeg' && fileType !== 'image/png') {
-        if (!regex.test(fileType)) {
-            props.setAlert('Image must be of type JPEG, PNG or GIF');
-            setFile('');
-            setFileValid(false);
-        } else if (filesize > 3) {
-            props.setAlert('Image size must be less than 3 MB', 'error');
-            setFile('');
-            setFileValid(false);
-        } else {
-            setFileValid(true);
-            setFile(e.target.files[0]);
-            setFileName(e.target.files[0].name);
+    useEffect(() => {
+        if (formSubmitted) {
+            setForm({
+                productName: '',
+                description: '',
+                basePrice: 0,
+                duration: 300,
+                category: "Mobiles",
+                image: '',
+            });
+            setFormSubmitted(false);
         }
-    };
-
-    const uploadImage = async () => {
-        setUploading(true);
-        const formData = new FormData();
-        formData.append('image', file);
-        try {
-            const res = await axios.post(
-                `upload/image`,
-                formData,
-                { headers: { 'Content-Type': 'multipart/form-data' } }
-            );
-            return res.data.imagePath;
-        } catch (error) {
-            console.log(error);
-            setUploading(false);
-            props.setAlert('File upload failed', 'error');
-        }
-    };
-
-    // Check if user is logged
-    // if (!props.isAuth) {
-    //     return <Navigate to='/login' />;
-    // }
+    }, [formSubmitted]);
 
     return (
         <Fragment>
@@ -165,7 +147,6 @@ const AdForm = (props) => {
                             sx={formTextField}
                         />
                     </Box>
-
                     <Box sx={formComponent}>
                         <InputLabel>Base Price*</InputLabel>
                         <TextField
@@ -176,8 +157,18 @@ const AdForm = (props) => {
                             size='small'
                             placeholder='Auction will start from this price point.'
                             sx={formTextField}
+                            InputProps={{
+                                inputProps: {
+                                    type: 'number',
+                                    pattern: '[0-9]*',
+                                    inputMode: 'numeric',
+                                    title: 'Please enter valid value',
+                                    min: '0'
+                                }
+                            }}
                         ></TextField>
                     </Box>
+
 
                     <Box sx={formComponent}>
                         <InputLabel>Duration</InputLabel>
@@ -187,52 +178,51 @@ const AdForm = (props) => {
                                 handleFormChange(e);
                             }}
                             size='small'
-                            placeholder='Duration in seconds (Max 1 hour)'
+                            placeholder='Duration in seconds (Max 1 hour as 3600 seconds)'
                             sx={formTextField}
+                            InputProps={{
+                                inputProps: {
+                                    type: 'number',
+                                    pattern: '[0-9]*',
+                                    inputMode: 'numeric',
+                                    title: 'Please enter valid value',
+                                    min: '0',
+                                    max: '3600',
+                                }
+                            }}
                         ></TextField>
                     </Box>
 
                     <Box sx={formComponent}>
                         <InputLabel>Category</InputLabel>
-                        <TextField
-                            name='category'
-                            onChange={(e) => {
-                                handleFormChange(e);
-                            }}
-                            size='small'
-                            placeholder='Food, electronics, sports ...'
-                            sx={formTextField}
-                        ></TextField>
+                        <select
+                            id="category"
+                            value={category}
+                            onChange={(e) => setCategory(e.target.value)}
+                        >
+                            <option value="Mobiles">Mobiles</option>
+                            <option value="Laptops">Essentials</option>
+                            <option value="Electronics">Electronics</option>
+                            <option value="Appliances">Appliances</option>
+                            <option value="Books">Books</option>
+                            <option value="Fashion">Fashion</option>
+                        </select>
                     </Box>
-
-                    {/* <Box sx={formComponent}>
-                        <InputLabel>Image URL</InputLabel>
-                        <TextField
-                        name='image'
-                        onChange={(e) => {
-                            handleFormChange(e);
-                        }}
-                        size='small'
-                        placeholder='Direct image link (jpg/png/jpeg). Can be an imgur direct link.'
-                        sx={formTextField}
-                        ></TextField>
-                    </Box> */}
                     {uploading ? (
                         <LoadingDisplay />
                     ) : (
                         <Box sx={formComponent}>
                             <InputLabel>Upload image</InputLabel>
-                            <Input
-                                name='uploaded_file'
-                                type='file'
-                                id='imageFile'
-                                onChange={fileSelected}
-                                fullWidth
+                            <label HTMLfor="images">Images:</label>
+                            <input
+                                type="file"
+                                id="images"
+                                onChange={(e) => handleFileUpload(e)}
                             />
-                            {file === '' && (
-                                <Typography variant='caption'>jpg, png or gif maximum 3 MB</Typography>
+                            {imageUrl && (
+                                <img className="preview-image" src={imageUrl} alt="preview" />
                             )}
-                            {/* <label htmlFor='imageFile'>{fileName}</label> */}
+
                         </Box>
                     )}
 

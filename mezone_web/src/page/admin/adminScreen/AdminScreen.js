@@ -16,17 +16,42 @@ function AdminScreen() {
   };
 
   return (
-    <>
-      <h1 className="admin-panel__title">Admin Panel</h1>
-      <div className="admin-panel">
-        <TabList className="tab-list">
-          <Tab className="tab button" onClick={() => setActiveTab(0)}>List Products</Tab>
-          <Tab className="tab button" onClick={() => setActiveTab(1)}>Add Product</Tab>
-          <Tab className="tab button" onClick={() => setActiveTab(2)}>All Users</Tab>
-          <Tab className="tab button" onClick={() => setActiveTab(3)}>All Orders</Tab>
-          <Tab className="tab button" onClick={() => setActiveTab(4)}>Analytics</Tab>
-        </TabList>
-
+    <div className="admin-container">
+      <div className="sidebar">
+        <h3>Admin Panel</h3>
+        <Tab
+          className={`tab ${activeTab === 0 ? "tab--selected" : ""}`}
+          onClick={() => setActiveTab(0)}
+        >
+          List Products
+        </Tab>
+        <Tab
+          className={`tab ${activeTab === 1 ? "tab--selected" : ""}`}
+          onClick={() => setActiveTab(1)}
+        >
+          Add Product
+        </Tab>
+        <Tab
+          className={`tab ${activeTab === 2 ? "tab--selected" : ""}`}
+          onClick={() => setActiveTab(2)}
+        >
+          All Users
+        </Tab>
+        <Tab
+          className={`tab ${activeTab === 3 ? "tab--selected" : ""}`}
+          onClick={() => setActiveTab(3)}
+        >
+          All Orders
+        </Tab>
+        <Tab
+          className={`tab ${activeTab === 4 ? "tab--selected" : ""}`}
+          onClick={() => setActiveTab(4)}
+        >
+          Analytics
+        </Tab>
+      </div>
+      <div className="main-content">
+        <h1 className="admin-panel__title">Admin Panel</h1>
         <Tabs selectedIndex={activeTab} onSelect={handleTabSelect}>
           <TabPanel id={0} className="tab-panel" hidden={activeTab !== 0}>
             <ProductList />
@@ -49,7 +74,7 @@ function AdminScreen() {
           </TabPanel>
         </Tabs>
       </div>
-    </>
+    </div>
   );
 }
 

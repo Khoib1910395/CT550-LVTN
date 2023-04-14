@@ -95,10 +95,10 @@ const AllOrders = () => {
                     {filteredOrders.map((order) => (
                         <tr key={order._id}>
                             <td>{order._id}</td>
-                            <td>
+                            <td className="order-info">
                                 {order.products.map((product) => (
                                     <p key={product._id}>
-                                        {product.name} x {product.quantity}
+                                        {product.product.name} x {product.quantity}
                                     </p>
                                 ))}
                             </td>

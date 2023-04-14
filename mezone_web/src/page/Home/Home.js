@@ -93,11 +93,11 @@ const Home = () => {
             </div>
 
             <ProductList />
-
+{/* 
             <div>
                 <h2>Deal of day</h2>
                 <span> that is zone show deal of day product</span>
-            </div>
+            </div> */}
 
             <div className="home-product-slider">
 

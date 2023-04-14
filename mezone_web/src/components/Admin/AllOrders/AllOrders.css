@@ -85,3 +85,8 @@
     color: #999;
     cursor: not-allowed;
 }
+
+.order-info {
+    width:fit-content;
+    min-width: 100px;
+}

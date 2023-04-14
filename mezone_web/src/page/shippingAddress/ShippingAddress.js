@@ -1,104 +1,109 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { saveShippingAddress } from '../../actions/Cart';
-import CheckoutSteps from '../../components/checkoutStep/CheckoutStep'
-import "./ShippingAddress.css"
+import CheckoutSteps from '../../components/checkoutStep/CheckoutStep';
+import "./ShippingAddress.css";
 
-const ShippingAddress = (props) => {
-
-    const userSignin = useSelector( (state) => state.userSignin);
-    const {userInfo} = userSignin;
-    const cart = useSelector( (state) => state.cart);
-    const {shippingAddress} = cart;
-
-    if(!userInfo) {
-        props.history.push('/signin');
-    }
-
-    const [fullName, setFullName] = useState(shippingAddress.fullName);
-    const [address, setAddress] = useState(shippingAddress.address);
-    const [city, setCity] = useState(shippingAddress.city);
-    const [postalcode, setPostalCode] = useState(shippingAddress.postalcode);
-    const [country, setCountry] = useState(shippingAddress.country);
-
-
+const ShippingAddress = ({ history }) => {
     const dispatch = useDispatch();
 
-    const submitHandler = (e) =>{
+    const { userInfo } = useSelector(state => state.userSignin);
+    const [address, setAddress] = useState(userInfo.address || ', , , -');
+
+    const [pinCode, setPinCode] = useState('');
+    const [house, setHouse] = useState('');
+    const [street, setStreet] = useState('');
+    const [city, setCity] = useState('');
+
+    useEffect(() => {
+        if (!userInfo) {
+            history.push('/signin');
+        } else {
+            const [a_house, a_street, city_code] = address.split(", ");
+            const [a_city, a_pincode] = city_code.split(" - ");
+            setHouse(a_house);
+            setStreet(a_street);
+            setCity(a_city);
+            setPinCode(parseInt(a_pincode, 10));
+        }
+    }, [userInfo, address, history]);
+
+    const submitHandler = async (e) => {
         e.preventDefault();
+        const newAddress = `${house}, ${street}, ${city} - ${pinCode}`;
+        dispatch(saveShippingAddress({ name: userInfo.name, address: newAddress }));
+        setAddress(newAddress);
+        localStorage.setItem('shippingAddress', JSON.stringify(newAddress));
+        history.push('/placeorder');
+    };
 
-        dispatch(saveShippingAddress({
-            fullName,
-            address,
-            city,
-            postalcode,
-            country
-        }));
-
-        props.history.push('/payment');
-    }
 
     return (
-        <div>
+        <>
             <CheckoutSteps step1 step2></CheckoutSteps>
-
-            <div className="shipping-form-container">
-                <form className="form" onSubmit={submitHandler}>
-                    <div>
-                        <h1>Shipping Address</h1>
-                    </div>
-
-                    <div className="form-ip-sec">
-                        <label htmlFor="fullName">Full name:</label>
-                        <input type="text" id="fullName" placeholder="Enter full name"
-                        value={fullName} onChange={(e) => setFullName(e.target.value)}
-                        required>
-                        </input>
-                    </div>
-
-                    <div className="form-ip-sec">
-                        <label htmlFor="address">Address:</label>
-                        <input type="text" id="address" placeholder="Enter address"
-                        value={address} onChange={(e) => setAddress(e.target.value)}
-                        required>
-                        </input>
-                    </div>
-
-                    <div className="form-ip-sec">
-                        <label htmlFor="city">City:</label>
-                        <input type="text" id="city" placeholder="Enter city"
-                        value={city} onChange={(e) => setCity(e.target.value)}
-                        required>
-                        </input>
-                    </div>
-
-                    <div className="form-ip-sec">
-                        <label htmlFor="postalcode">Postal Code:</label>
-                        <input type="text" id="postalcode" placeholder="Enter postalcode"
-                        value={postalcode} onChange={(e) => setPostalCode(e.target.value)}
-                        required>
-                        </input>
-                    </div>
-
-                    <div className="form-ip-sec">
-                        <label htmlFor="country">Country:</label>
-                        <input type="text" id="country" placeholder="Enter country"
-                        value={country} onChange={(e) => setCountry(e.target.value)}
-                        required>
-                        </input>
-                    </div>
-
-                    <div>
-                        <label/>
-                        <button type="submit" className="continue-btn">
-                            Continue
-                        </button>
-                    </div>
-                </form>
-            </div>
-
+            <div className="shipping-address-form">
+            <form onSubmit={submitHandler}>
+                <div>
+                    <h1>Shipping Address</h1>
+                </div>
+                <div>
+                    <label htmlFor="house">House / Apartment</label>
+                    <input
+                        type="text"
+                        id="house"
+                        placeholder="Enter house / apartment"
+                        value={house}
+                        onChange={(e) => setHouse(e.target.value)}
+                        required
+                        className="shipping-address-input"
+                    />
+                </div>
+                <div>
+                    <label htmlFor="street">Street</label>
+                    <input
+                        type="text"
+                        id="street"
+                        placeholder="Enter street"
+                        value={street}
+                        onChange={(e) => setStreet(e.target.value)}
+                        required
+                        className="shipping-address-input"
+                    />
+                </div>
+                <div>
+                    <label htmlFor="city">City</label>
+                    <input
+                        type="text"
+                        id="city"
+                        placeholder="Enter city"
+                        value={city}
+                        onChange={(e) => setCity(e.target.value)}
+                        required
+                        className="shipping-address-input"
+                    />
+                </div>
+                <div>
+                    <label htmlFor="pinCode">Pin Code</label>
+                    <input
+                        type="number"
+                        id="pinCode"
+                        placeholder="Enter pin code"
+                        value={pinCode}
+                        onChange={(e) => setPinCode(parseInt(e.target.value, 10))}
+                        required
+                        className="shipping-address-input"
+                    />
+                </div>
+                <div>
+                    <label />
+                    <button className="primary" type="submit">
+                        Continue
+                    </button>
+                </div>
+            </form>
         </div>
-    )
-}
+        </>
+    );
+};
 
-export default ShippingAddress
+export default ShippingAddress;

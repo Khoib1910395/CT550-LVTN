@@ -1,7 +1,7 @@
 import { applyMiddleware, combineReducers, compose, createStore } from 'redux'
 import thunk from 'redux-thunk'
 import { cartReducer } from './reducers/CartReducer';
-import { orderCreateReducer, orderDetailsReducer, orderMineListReducer, orderPayReducer } from './reducers/OrderReducer';
+import { orderCreateReducer, orderDetailsReducer, orderMineListReducer} from './reducers/OrderReducer';
 import { productDetailsReducer, productListReducer } from './reducers/ProductReducer';
 import { userDetailsReducer, userRegisterReducer, userSigninReducer, userUpdateProfileReducer, authReduce } from './reducers/UserReducer';
 import { analyticsReducer } from './reducers/AnalyticsReducer';
@@ -10,20 +10,20 @@ import adReducer from './reducers/AdReducer';
 import { allUsersReducer, adminOrderListReducer} from './reducers/adminReducer';
 
 const initialState = {
+    userSignin: {
+        userInfo: localStorage.getItem('userInfo')
+            ? JSON.parse(localStorage.getItem('userInfo'))
+            : null,
+    },
     cart: {
-        cartItems: localStorage.getItem('cartItems')
-            ? JSON.parse(localStorage.getItem('cartItems'))
+        cartItems: localStorage.getItem('userInfo')?.cart
+            ? localStorage.getItem('userInfo').cart
             : [],
         shippingAddress: localStorage.getItem('shippingAddress')
             ? JSON.parse(localStorage.getItem('shippingAddress'))
             : {},
         paymentMethod: 'PayPal',
     },
-    userSignin: {
-        userInfo: localStorage.getItem('userInfo')
-            ? JSON.parse(localStorage.getItem('userInfo'))
-            : null,
-    }
 };
 const reducer = combineReducers({
     productList: productListReducer,
@@ -33,7 +33,6 @@ const reducer = combineReducers({
     userSignin: userSigninReducer,
     orderCreate: orderCreateReducer,
     orderDetails: orderDetailsReducer,
-    orderPay: orderPayReducer,
     orderMineList: orderMineListReducer,
     userDetails: userDetailsReducer,
     userUpdateProfile: userUpdateProfileReducer,

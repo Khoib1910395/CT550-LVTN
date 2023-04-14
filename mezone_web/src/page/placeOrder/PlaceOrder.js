@@ -1,157 +1,81 @@
-// eslint-disable-next-line
-import React, { useState,useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import "./PlaceOrder.css"
-import CheckoutSteps from '../../components/checkoutStep/CheckoutStep'
-import { Link } from 'react-router-dom'
-import { createdOrder } from '../../actions/Order'
-import { ORDER_CREATE_RESET } from '../../constants/OrderConstant'
-import LoadingBox from "../../components/loadingBox/LoadingBox"
-import MessageBox from "../../components/messageBox/MessageBox"
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import './PlaceOrder.css';
+import CheckoutSteps from '../../components/checkoutStep/CheckoutStep';
+import { Link } from 'react-router-dom';
+import { createOrder } from '../../actions/Order';
+import { ORDER_CREATE_RESET } from '../../constants/OrderConstant';
+import LoadingBox from '../../components/loadingBox/LoadingBox';
+import MessageBox from '../../components/messageBox/MessageBox';
 
 const PlaceOrder = (props) => {
-
-    const cart = useSelector((state) => state.cart);
-
-    if(!cart.paymentMethod) {
-        props.history.push('/payment');
-    }
-
-    const orderCreate = useSelector((state) => state.orderCreate);
-    const {loading, success, error, order} = orderCreate;
-
-    const toPrice = (num) => Number(
-        num.toFixed(2) // 5.123 => "5.12" => 5.12
-    );
-
-    cart.itemsPrice = toPrice(cart.cartItems.reduce(
-        (a,c) => a+c.qty * c.price, 0
-    ));
-
-    cart.shippingPrice = cart.itemsPrice > 100 ? toPrice(0) : toPrice(10);
-
-    cart.taxPrice = toPrice(0.15 * cart.itemsPrice);
-    cart.totalPrice = cart.itemsPrice + cart.shippingPrice + cart.taxPrice;
-
+    const { userInfo } = useSelector((state) => state.userSignin);
+    const shippingAddress = JSON.parse(localStorage.getItem('shippingAddress'));
+    const cart = userInfo.cart;
+    const address = shippingAddress;
     const dispatch = useDispatch();
+    const orderCreate = useSelector(state => state.orderCreate);
+    const { loading, success, error, order } = orderCreate;
 
-    const placeOrder = () =>{
-        dispatch(createdOrder({...cart, orderItems: cart.cartItems}));
-    }
-
+    const itemsPrice = cart.reduce((a, c) => a + c.product.price * c.quantity, 0);
+    const totalPrice = itemsPrice;
 
     useEffect(() => {
-        if(success){
-            props.history.push(`/order/${order._id}`);
-            dispatch({
-                type: ORDER_CREATE_RESET
-            });
+        if (success) {
+            props.history.push(`/orderDetails/${order._id}`);
+            dispatch({ type: ORDER_CREATE_RESET });
+            window.location.reload();
         }
-        
-    }, [dispatch, order, props.history, success])
+    }, [success, order, dispatch, props.history]);
 
+    const placeOrderHandler = () => {
+        const order = {
+            cart,
+            address,
+            totalPrice
+        };
+        dispatch(createOrder(order));
+    }
     return (
-        <div>
-            <CheckoutSteps step1 step2 step3 step4></CheckoutSteps>
-
-            <div className="row-container">
-                <div className="col-6">
-                    <ul>
-                        <li>
-                            <div className="card-body">
-                                <h2>Shipping</h2>
-                                <p>
-                                    <strong>Name:</strong> {cart.shippingAddress.fullName}
-                                </p>
-                                <p>
-                                    <strong>Address: </strong> {cart.shippingAddress.address},
-                                    {cart.shippingAddress.city},{cart.shippingAddress.postalcode},
-                                    {cart.shippingAddress.country}
-                                </p>
+        <div className="place-order">
+            <CheckoutSteps step1 step2 step3></CheckoutSteps>
+            <h2>Place Order</h2>
+            <div>
+                <span>Name: {userInfo.name}</span>
+            </div>
+            <div>
+                <span>Address: {shippingAddress}</span>
+            </div>
+            <div>
+                <span>Order details:</span>
+                <ul className='order-details'>
+                    {cart.map((item) => (
+                        <li key={item.product}>
+                            <div>{item.name}</div>
+                            <div>
+                                Quantity: {item.quantity}
                             </div>
-                        </li>
-
-                        <li>
-                            <div className="card-body">
-                                <h2>Payment Method</h2>
-                                <p>
-                                    <strong>Method: </strong> {cart.paymentMethod} <br/>
-                                </p>
+                            <div>
+                                Price: ${item.product.price}
                             </div>
-                        </li>
-
-                        <li>
-                            <div className="card-body">
-                                <h2>Order Items</h2>
-                                <ul>
-                                {
-                                    cart.cartItems.map((item)=>(
-                                        <li key={item.product}>
-                                            <div className="row1 order-row1">
-                                                <div className="small">
-                                                    <img src={item.image}
-                                                    alt= ""
-                                                    ></img>
-                                                </div>
-                                    
-                                                <div className="min-30">
-                                                    <Link to={`/products/product/${item.product}`}>{item.name}</Link>
-                                                </div>
-                                                
-                                                <p>{item.qty} x ${item.price} = ${item.price*item.qty}</p>
-                                                
-                                            </div>
-                                        </li>
-                                    ))
-                                }
-                                </ul>
+                            <div>
+                                Total item price: {item.quantity} x ${item.product.price} = ${item.quantity * item.product.price}
                             </div>
+                            <br />
                         </li>
-                    </ul>
-                </div>
-
-                <div className="col-7">
-                    <div className="card-body">
-                        <ul>
-                            <li>
-                                <h2>Order Summary</h2>
-                            </li>
-                            <li>
-                                <p>Items</p>
-                                <p>${cart.itemsPrice.toFixed(2)}</p>
-                            </li>
-                            <li>
-                                <p>Shipping</p>
-                                <p>${cart.shippingPrice.toFixed(2)}</p>
-                            </li>
-                            <li>
-                                <p>Tax</p>
-                                <p>${cart.taxPrice.toFixed(2)}</p>
-                            </li>
-                            <li>
-                                <p><strong>Total</strong></p>
-                                <p><strong>${cart.totalPrice.toFixed(2)}</strong></p>
-                            </li>
-
-                            <li>
-                                <button type="button" onClick={placeOrder}
-                                disabled = {cart.cartItems.length === 0}
-                                className="placeorder-btn">
-                                    Place order
-                                </button>
-                            </li>
-                            <li>
-                                {loading && <LoadingBox></LoadingBox>}
-                                {error && <MessageBox variant="danger"></MessageBox>}
-                            </li>
-
-                            
-                        </ul>
-                    </div>
-                </div>
+                    ))}
+                </ul>
+                <div className='total-price'>Total Price: ${totalPrice}</div>
+                <div className='notify'>Please pay when the order is shipped to you because we are being set up with a prepayment function. Sorry for the inconvenience</div>
+                <div className='notify'>The order will be sent to the carrier, we will e-mail you to notify within 24 hours</div>
+            </div>
+            <div>
+                <button type="submit" onClick={placeOrderHandler}>ORDER!</button>
+                {loading && <LoadingBox></LoadingBox>}
+                {error && <MessageBox variant="danger">{error}</MessageBox>}
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default PlaceOrder
+export default PlaceOrder;

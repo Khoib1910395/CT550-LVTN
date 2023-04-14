@@ -45,9 +45,7 @@ export const Header = (props) => {
     }
 
 
-    const cart = useSelector((state) => state.cart);
-    const { cartItems } = cart;
-
+    const cartItems = useSelector((state) => state.userSignin.userInfo?.cart || []);
 
     const userSignin = useSelector((state) => state.userSignin);
     const { userInfo } = userSignin;
@@ -91,8 +89,8 @@ export const Header = (props) => {
                             <li>
                                 <Link to="/cart"><ShoppingCartIcon />
                                     {
-                                        cartItems.length > 0 &&
-                                        (<p className="badge">{cartItems.length}</p>)
+                                        cartItems?.length > 0 &&
+                                        (<p className="badge">{cartItems?.length}</p>)
                                     }
                                 </Link>
                             </li>
@@ -140,7 +138,7 @@ export const Header = (props) => {
                     <div className="category-container">
                         <ul>
                             <li><Link to="/category/appliances">Appliances</Link></li>
-                            <li><Link to="/category/book">Book</Link></li>
+                            <li><Link to="/category/books">Books</Link></li>
                             <li><Link to="/category/electronics">Electronics</Link></li>
                             <li><Link to="/category/essentials">Essentials</Link></li>
                             <li><Link to="/category/fashion">Fashion</Link></li>
