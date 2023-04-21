@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useDispatch } from "react-redux";
 import { Redirect } from 'react-router-dom';
+import InputAdornment from '@material-ui/core/InputAdornment';
 import { Fragment } from 'react';
 // MUI
 import {
@@ -29,6 +30,7 @@ import { postAd } from '../../../actions/Ad';
 import { setAlert, clearAlerts } from '../../../actions/Alert';
 import { cloudinaryUpload } from '../../../actions/Admin';
 import './AdForm.css';
+import { $CombinedState } from 'redux';
 
 const AdForm = (props) => {
     const [form, setForm] = useState({
@@ -164,7 +166,8 @@ const AdForm = (props) => {
                                     inputMode: 'numeric',
                                     title: 'Please enter valid value',
                                     min: '0'
-                                }
+                                },
+                                startAdornment: <InputAdornment position="start">$</InputAdornment>,
                             }}
                         ></TextField>
                     </Box>
@@ -188,8 +191,10 @@ const AdForm = (props) => {
                                     title: 'Please enter valid value',
                                     min: '0',
                                     max: '3600',
-                                }
+                                },
+                                startAdornment: <InputAdornment position="start">S</InputAdornment>,
                             }}
+                            
                         ></TextField>
                     </Box>
 

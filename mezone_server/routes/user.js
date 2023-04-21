@@ -5,6 +5,8 @@ const Order = require("../models/order");
 const { Product } = require("../models/product");
 const User = require("../models/user");
 const userController = require('../controllers/user');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 userRouter.post("/api/add-to-cart", auth, async (req, res) => {
   try {
@@ -146,11 +148,26 @@ userRouter.get('/api/users/:id', async(req,res) => {
 });
 
 userRouter.put('/api/profile', auth, async (req, res) => {
-    const user = await User.findById(req.user._id);
+
+  const generateToken = (user) => {
+    return jwt.sign(
+      {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+      },
+      process.env.JWT_SECRET || 'yourSecretKey',
+      {
+        expiresIn: '30d',
+      }
+    );
+  };
+  
+  try {
+    const user = await User.findById(req.user);
     if (user) {
       user.name = req.body.name || user.name;
       user.email = req.body.email || user.email;
-      
       if (req.body.password) {
         user.password = bcrypt.hashSync(req.body.password, 8);
       }
@@ -159,12 +176,14 @@ userRouter.put('/api/profile', auth, async (req, res) => {
         _id: updatedUser._id,
         name: updatedUser.name,
         email: updatedUser.email,
-        isAdmin: updatedUser.isAdmin,
         token: generateToken(updatedUser),
       });
     }
+  } catch (err) {
+    res.status(500).send({ message: err.message });
   }
-);
+});
+
 
 // @route   GET /user/purchased
 // @desc    Get products purchased by user
@@ -177,23 +196,6 @@ userRouter.get('/products/purchased', auth, userController.purchasedProducts);
 userRouter.get('/products/posted', auth, userController.postedProducts);
 
 
-userRouter.post("/api/seller/request", auth, async (req, res) => {
-  try {
-    const { name, email, phone, address, message } = req.body;
-    const user = await User.findById(req.user);
-    console.log(req.user);
-    if (!user) {
-      throw new Error("User not found");
-    }
-
-    user.sellerRequest = { id, name, email, phone, address, message };
-    await user.save();
-
-    res.status(201).json({ message: "Seller request submitted successfully" });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
 
 
 

@@ -98,6 +98,14 @@ authRouter.get("/", auth, async (req, res) => {
     }
 });
 
-authRouter.get("/auth", auth, authController.getUser)
+authRouter.get("/auth", auth, async (req, res, next) => {
+    try {
+        const user = await User.findById(req.user.id).select('-password');
+        res.status(200).json({ user });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ errors: [{ msg: 'Server error' }] });
+    }
+})
 
 module.exports = authRouter;

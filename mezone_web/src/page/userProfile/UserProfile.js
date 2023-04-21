@@ -76,11 +76,6 @@ const UserProfile = (props) => {
                     <button>Update profile </button>
                 </Link>
             </div>
-            <div>
-                <Link to='/profile/sellerform'>
-                    <button>Become a seller</button>
-                </Link>
-            </div>
         </div>
     )
 }

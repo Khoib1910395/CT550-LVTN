@@ -116,4 +116,51 @@ productRouter.get("/api/deal-of-day", async (req, res) => {
   }
 });
 
+// create a put request to update the product
+productRouter.put("/api/products/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, price, description, category } = req.body;
+
+    let product = await Product.findById(id);
+
+    if (!product) {
+      return res.status(404).json({ error: "Product not found" });
+    }
+
+    product.name = name || product.name;
+    product.price = price || product.price;
+    product.description = description || product.description;
+    product.category = category || product.category;
+
+    product = await product.save();
+
+    res.json(product);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+// create a put request to update the product
+productRouter.put("/api/products/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, price, description, category } = req.body;
+
+    let product = await Product.findByIdAndUpdate(
+      id,
+      { name, price, description, category },
+      { new: true }
+    );
+
+    if (!product) {
+      return res.status(404).json({ error: "Product not found" });
+    }
+
+    res.json(product);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
 module.exports = productRouter;

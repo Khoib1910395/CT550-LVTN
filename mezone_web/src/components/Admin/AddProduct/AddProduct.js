@@ -64,7 +64,6 @@ const AddProduct = () => {
 
   return (
     <div className="add-product-form">
-      <h2>Add Product</h2>
       <form onSubmit={handleSubmit}>
         <div>
           <label HTMLfor="name">Name:</label>

@@ -1,4 +1,3 @@
-import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:mezone/constants/global_variables.dart';
 import 'package:mezone/features/account/screens/account_screen.dart';
@@ -6,6 +5,7 @@ import 'package:mezone/features/cart/screens/cart_screen.dart';
 import 'package:mezone/features/home/screens/home_screen.dart';
 import 'package:mezone/providers/user_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:badges/badges.dart';
 
 class BottomBar extends StatefulWidget {
   static const String routeName = '/actual-home';
@@ -95,12 +95,30 @@ class _BottomBarState extends State<BottomBar> {
                   ),
                 ),
               ),
-              // child: Badge(
-              //   elevation: 0,
-              //   badgeContent: Text(userCartLength.toString()),
-              //   badgeColor: Colors.white,
-              //   child: const Icon(Icons.shopping_cart_outlined),
-              // ),
+              child: Stack(
+                children: [
+                  const Icon(Icons.shopping_cart_outlined),
+                  Positioned(
+                    top: 0,
+                    right: 0,
+                    child: Container(
+                      padding: const EdgeInsets.all(2),
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.red,
+                      ),
+                      child: Text(
+                        userCartLength.toString(),
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
             label: '',
           ),

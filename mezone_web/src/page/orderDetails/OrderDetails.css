@@ -1,52 +1,102 @@
 .order-details {
     margin: 20px;
-    }
-    
-    .order-details__title {
+}
+
+.order-details__title {
     font-size: 24px;
     margin-bottom: 10px;
-    }
-    
-    .order-details__error {
+}
+
+.order-details__error {
     color: red;
-    }
-    
-    .order-details__container {
+}
+
+.order-details__container {
     border: 1px solid #ccc;
     padding: 20px;
-    }
-    
-    .order-details__id,
-    .order-details__ordered-at,
-    .order-details__total-price,
-    .order-details__address,
-    .order-details__status {
+}
+
+.order-details__id,
+.order-details__ordered-at,
+.order-details__total-price,
+.order-details__address,
+.order-details__status {
     margin-bottom: 10px;
-    }
-    
-    .order-details__products-title {
+}
+
+.order-details__products-title {
     font-size: 20px;
     margin-bottom: 10px;
-    }
-    
-    .order-details__table {
+}
+
+.order-details__table {
     border-collapse: collapse;
     width: 100%;
-    }
-    
-    .order-details__table-header {
+}
+
+.order-details__table-header {
     background-color: #f2f2f2;
     border: 1px solid #ccc;
     padding: 8px;
     text-align: left;
-    }
-    
-    .order-details__table-row:nth-child(even) {
+}
+
+.order-details__table-row:nth-child(even) {
     background-color: #f2f2f2;
-    }
-    
-    .order-details__table-data {
+}
+
+.order-details__table-data {
     border: 1px solid #ccc;
     padding: 8px;
     text-align: left;
-    }
+}
+
+.order-details__return {
+    margin-top: 1rem;
+}
+
+.order-details__return-button {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.order-details__return-form {
+    display: none;
+}
+
+.order-details__return-form.show {
+    display: block;
+}
+
+.order-details__return-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.order-details__return-textarea {
+    width: 100%;
+    height: 10rem;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+}
+
+.order-details__return-submit {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 1rem;
+}

@@ -26,6 +26,7 @@ import NotFound from './page/notFound/NotFound';
 import Ad from './components/Auction/Ad/Ad';
 import DashBoard from './components/Auction/DashBoard/DashBoard'
 import AdForm from './components/Auction/AdForm/AdForm';
+import EditProduct from './components/Admin/EditProduct/EditProduct';
 
 // Actions
 import { loadUser } from './actions/User';
@@ -70,6 +71,7 @@ function App() {
             <Route path="/orderDetails/:id" component={OrderDetails}></Route>
 
             <Route path="/admin" component={AdminScreen}></Route>
+            <Route path="/edit/:id" component={EditProduct}></Route>
 
             <Route path="/searchresults/:query" component={SearchResults} exact></Route>
 

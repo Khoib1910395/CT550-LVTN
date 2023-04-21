@@ -10,9 +10,30 @@ import Analytics from "../../../components/Admin/Analytics/Analytics";
 
 function AdminScreen() {
   const [activeTab, setActiveTab] = useState(0);
+  const [title, setTitle] = useState("List Products");
 
   const handleTabSelect = (index) => {
     setActiveTab(index);
+    switch (index) {
+      case 0:
+        setTitle("List Products");
+        break;
+      case 1:
+        setTitle("Add Product");
+        break;
+      case 2:
+        setTitle("All Users");
+        break;
+      case 3:
+        setTitle("All Orders");
+        break;
+      case 4:
+        setTitle("Analytics");
+        break;
+      default:
+        setTitle("Admin Panel");
+        break;
+    }
   };
 
   return (
@@ -21,37 +42,37 @@ function AdminScreen() {
         <h3>Admin Panel</h3>
         <Tab
           className={`tab ${activeTab === 0 ? "tab--selected" : ""}`}
-          onClick={() => setActiveTab(0)}
+          onClick={() => handleTabSelect(0)}
         >
           List Products
         </Tab>
         <Tab
           className={`tab ${activeTab === 1 ? "tab--selected" : ""}`}
-          onClick={() => setActiveTab(1)}
+          onClick={() => handleTabSelect(1)}
         >
           Add Product
         </Tab>
         <Tab
           className={`tab ${activeTab === 2 ? "tab--selected" : ""}`}
-          onClick={() => setActiveTab(2)}
+          onClick={() => handleTabSelect(2)}
         >
           All Users
         </Tab>
         <Tab
           className={`tab ${activeTab === 3 ? "tab--selected" : ""}`}
-          onClick={() => setActiveTab(3)}
+          onClick={() => handleTabSelect(3)}
         >
           All Orders
         </Tab>
         <Tab
           className={`tab ${activeTab === 4 ? "tab--selected" : ""}`}
-          onClick={() => setActiveTab(4)}
+          onClick={() => handleTabSelect(4)}
         >
           Analytics
         </Tab>
       </div>
       <div className="main-content">
-        <h1 className="admin-panel__title">Admin Panel</h1>
+        <h1 className="admin-panel__title">{title}</h1>
         <Tabs selectedIndex={activeTab} onSelect={handleTabSelect}>
           <TabPanel id={0} className="tab-panel" hidden={activeTab !== 0}>
             <ProductList />
@@ -68,7 +89,6 @@ function AdminScreen() {
           <TabPanel id={3} className="tab-panel" hidden={activeTab !== 3}>
             <AllOrders />
           </TabPanel>
-
           <TabPanel id={4} className="tab-panel" hidden={activeTab !== 4}>
             <Analytics />
           </TabPanel>

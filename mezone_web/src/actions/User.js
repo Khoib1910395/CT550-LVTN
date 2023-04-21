@@ -131,6 +131,7 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
   const {
     userSignin: { userInfo },
   } = getState();
+  console.log(user);
   try {
     const { data } = await axios.put(`/api/profile`, user, {
       headers: {
@@ -138,6 +139,7 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
         "x-auth-token": userInfo.token,
       },
     });
+    console.log(data);
     dispatch({ type: USER_UPDATE_PROFILE_SUCCESS, payload: data });
     dispatch({ type: USER_SIGNIN_SUCCESS, payload: data });
     localStorage.setItem('userInfo', JSON.stringify(data));
@@ -149,6 +151,7 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
     dispatch({ type: USER_UPDATE_PROFILE_FAIL, payload: message });
   }
 };
+
 
 export const sellerRequest = (sellerInfo) => async (dispatch, getState) => {
   try {

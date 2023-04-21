@@ -10,7 +10,12 @@ import {
     ADMIN_ORDER_UPDATE_SUCCESS,
     ADMIN_ORDER_UPDATE_FAIL,
     ADD_PRODUCT_SUCCESS,
-    ADD_PRODUCT_FAIL, DELETE_PRODUCT_REQUEST, DELETE_PRODUCT_SUCCESS, DELETE_PRODUCT_FAIL
+    ADD_PRODUCT_FAIL, 
+    DELETE_PRODUCT_REQUEST, 
+    DELETE_PRODUCT_SUCCESS, 
+    DELETE_PRODUCT_FAIL,
+    EDIT_PRODUCT_SUCCESS,
+    EDIT_PRODUCT_FAIL
 } from '../constants/adminConstants';
 
 export const fetchUsers = () => {
@@ -112,6 +117,30 @@ export const addProduct = (product) => async (dispatch, getState) => {
         });
     }
 };
+
+export const editProduct = (product) => async (dispatch, getState) => {
+    const { userSignin: { userInfo } } = getState();
+    try {
+        const res = await axios.put(`/admin/edit-product/${product._id}`,
+            product,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-auth-token': userInfo.token,
+                },
+            });
+        dispatch({
+            type: EDIT_PRODUCT_SUCCESS,
+            payload: res.data,
+        });
+    } catch (err) {
+        dispatch({
+            type: EDIT_PRODUCT_FAIL,
+            payload: err.response.data,
+        });
+    }
+};
+
 
 export const cloudinaryUpload = (fileToUpload) => {
     return axios.post('/upload/cloudinary-upload', fileToUpload)

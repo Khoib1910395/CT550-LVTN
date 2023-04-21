@@ -90,18 +90,8 @@
 }
 
 .product-table tbody td.Action {
-    display: flex;
     justify-content: center;
     align-items: center;
-}
-
-.edit-btn {
-    background-color: green;
-    color: white;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
 }
 
 .delete-btn {
@@ -111,8 +101,9 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    display: inline-block;
+    margin-left: 5px;
 }
-
 .edit-btn:hover,
 .delete-btn:hover {
     color: #333;

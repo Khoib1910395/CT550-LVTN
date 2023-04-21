@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Redirect } from 'react-router-dom' 
 import { detailsUser, updateUserProfile } from '../../actions/User';
 import LoadingBox from '../../components/loadingBox/LoadingBox';
 import MessageBox from '../../components/messageBox/MessageBox';
@@ -42,6 +42,7 @@ const UserProfile = () => {
 
     }, [dispatch, userInfo._id, user]);
 
+    const [redirect, setRedirect] = useState(false); // khởi tạo biến redirect
 
     const updateDetails = (e) => {
         e.preventDefault();
@@ -52,17 +53,18 @@ const UserProfile = () => {
         else {
             dispatch(updateUserProfile(
                 {
-                    userId: user._id,
                     name,
                     email,
                     password
                 }
             ));
+            setRedirect(true); // setRedirect thành true khi update thành công
         }
     }
 
     return (
         <div className="user-dets-container">
+            {redirect && <Redirect to="/profile" />} {/* Nếu redirect = true, redirect đến trang profile */}
             <form className="form" onSubmit={updateDetails}>
                 <h1>Update User Profile</h1>
                 {
@@ -74,9 +76,6 @@ const UserProfile = () => {
                             :
                             (
                                 <>
-                                    {loading && <LoadingBox></LoadingBox>}
-                                    {errorUpdate && <MessageBox variant="danger"></MessageBox>}
-                                    {successUpdate && <MessageBox variant="success">Profile updated successfully.</MessageBox>}
                                     <div className="form-ip-sec">
                                         <label htmlFor="name">Name:</label>
                                         <input type="name" id="name"
@@ -106,20 +105,13 @@ const UserProfile = () => {
                                     <div className="form-ip-sec">
                                         <label htmlFor="confirmpassword">Confirm password:</label>
                                         <input type="password" id="confirmpassword"
-                                            placeholder="Enter password"
+                                            placeholder="Confirm password"
                                             onChange={(e) => setConfirmPassword(e.target.value)}>
                                         </input>
-                                    </div>
-
-                                    <div>
-                                        <label />
-                                        <button className="update-btn" type="submit">
-                                            Update Details
-                                        </button>
-                                        <button className="update-btn">
-                                            <Link to="/profile">
-                                                Back to user profile
-                                            </Link>
+                                    </div>                                
+                                    <div className="form-ip-sec">
+                                        <button type="submit" className="btn btn-primary">
+                                            Update
                                         </button>
                                     </div>
                                 </>
@@ -130,4 +122,5 @@ const UserProfile = () => {
     )
 }
 
-export default UserProfile
+export default UserProfile;
+

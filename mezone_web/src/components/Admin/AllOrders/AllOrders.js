@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchOrders } from "../../../actions/Admin";
 import { changeStatusOrder } from "../../../actions/Admin";
+import { detailsUser } from '../../../actions/User';
 import "./AllOrders.css";
 
 const AllOrders = () => {
@@ -9,16 +10,18 @@ const AllOrders = () => {
     const orders = useSelector((state) => state.adminOrderList.orders);
     const [searchTerm, setSearchTerm] = useState("");
     const [statusFilter, setStatusFilter] = useState("all"); // Thêm giá trị mặc định cho statusFilter
+    const [userList, setUserList] = useState({});
 
     useEffect(() => {
         dispatch(fetchOrders());
     }, [dispatch]);
 
+
     const filteredOrders = orders.filter((order) => {
         let match =
             order._id.includes(searchTerm) || order.userId.includes(searchTerm);
 
-        if (statusFilter === "all") { 
+        if (statusFilter === "all") {
             match = match;
         } else if (statusFilter !== "") {
             match = match && order.status === parseInt(statusFilter);
@@ -52,6 +55,7 @@ const AllOrders = () => {
         }
     };
 
+
     return (
         <>
             <div className="filters">
@@ -66,7 +70,7 @@ const AllOrders = () => {
                 <div className="status-filter">
                     Filter by status
                     <select
-                        value={statusFilter || "all"} 
+                        value={statusFilter || "all"}
                         onChange={handleStatusFilterChange}
                     >
                         <option value="all">All</option>

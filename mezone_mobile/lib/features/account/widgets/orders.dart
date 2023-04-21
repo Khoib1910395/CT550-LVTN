@@ -13,6 +13,20 @@ class Orders extends StatefulWidget {
   State<Orders> createState() => _OrdersState();
 }
 
+String getStatusText(int status) {
+  if (status == 0) {
+    return 'Pending';
+  } else if (status == 1) {
+    return 'Complete';
+  } else if (status == 2) {
+    return 'Received';
+  } else if (status == 3) {
+    return 'Delivered';
+  } else {
+    return 'Return';
+  }
+}
+
 class _OrdersState extends State<Orders> {
   List<Order>? orders;
   final AccountServices accountServices = AccountServices();
@@ -64,14 +78,14 @@ class _OrdersState extends State<Orders> {
               ),
               // display orders
               Container(
-                height: 170,
+                height: 400,
                 padding: const EdgeInsets.only(
                   left: 10,
                   top: 20,
-                  right: 0,
+                  right: 20,
                 ),
                 child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
+                  scrollDirection: Axis.vertical,
                   itemCount: orders!.length,
                   itemBuilder: (context, index) {
                     return GestureDetector(
@@ -82,8 +96,40 @@ class _OrdersState extends State<Orders> {
                           arguments: orders![index],
                         );
                       },
-                      child: SingleProduct(
-                        image: orders![index].products[0].images[0],
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SingleProduct(
+                            image: orders![index].products[0].images[0],
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text(
+                                'Total Price: \$${orders![index].totalPrice.toStringAsFixed(2)}',
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                '${orders![index].products.length} item(s)',
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                'Status: ${getStatusText(orders![index].status)}',
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                     );
                   },

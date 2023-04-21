@@ -104,7 +104,6 @@ const UserList = () => {
                             <td className="user-list__table-cell">{user.phone}</td>
                             <td className="user-list__table-cell">{user.type}</td>
                             <td className="user-list__table-cell">
-                                {user.type}
                                 <div>
                                     <select
                                         className="user-list__table-select"
@@ -117,13 +116,7 @@ const UserList = () => {
                                         <option value="seller">Seller</option>
                                         <option value="user">User</option>
                                     </select>
-                                    <button
-                                        className="user-list__table-button"
-                                        disabled={!updatedType}
-                                        onClick={() => handleUpdateUserType(user._id)}
-                                    >
-                                        Update
-                                    </button>
+                                
                                 </div>
                             </td>
                         </tr>

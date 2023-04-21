@@ -97,12 +97,6 @@ function ProductList() {
                                     <td className="quality">{product.quality}</td>
                                     <td className="quantity">{product.quantity}</td>
                                     <td className="Action">
-                                        <button
-                                            className="edit-btn"
-                                            onClick={() => window.location.href = `/admin/product/${product._id}/edit`}
-                                        >
-                                            <i className="fas fa-edit">Edit</i>
-                                        </button>
                                         <button className="delete-btn" onClick={() => handleDelete(product._id)}>
                                             <i className="fas fa-trash-alt">Delete</i>
                                         </button>

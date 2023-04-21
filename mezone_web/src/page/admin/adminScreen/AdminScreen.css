@@ -1,6 +1,8 @@
 .admin-container {
     display: flex;
-    height: 100vh;
+    height: 120%;
+    position: relative;
+    top: -20px;
 }
 
 .sidebar {
@@ -9,7 +11,6 @@
     color: #fff;
     padding: 20px;
     box-sizing: border-box;
-    margin-top: -20px;
 }
 
 .sidebar h3 {
@@ -36,8 +37,9 @@
 
 .main-content {
     flex: 1;
-    padding: 20px;
-    box-sizing: border-box;
+    height: 100%;
+    background-color: #fff;
+    overflow: auto;
 }
 
 .admin-panel__title {
@@ -48,3 +50,4 @@
 .tab-panel {
     margin-top: 20px;
 }
+    
