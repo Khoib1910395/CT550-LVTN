@@ -3,6 +3,7 @@
     height: 120%;
     position: relative;
     top: -20px;
+    min-height: 73vh;
 }
 
 .sidebar {

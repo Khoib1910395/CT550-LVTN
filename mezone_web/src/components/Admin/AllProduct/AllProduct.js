@@ -90,7 +90,9 @@ function ProductList() {
                                     <td className="name">{product.name}</td>
                                     <td className="description">{product.description}</td>
                                     <td className="picture">
-                                        <img src={product.images} alt={product.name} />
+                                        <a href={`products/product/${product._id}`}>
+                                            <img src={product.images} alt={product.name} />
+                                        </a>  
                                     </td>
                                     <td className="category">{product.category}</td>
                                     <td className="price">${product.price}</td>

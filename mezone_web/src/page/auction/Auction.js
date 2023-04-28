@@ -8,7 +8,6 @@ import "./Auction.css"
 const Dashboard = (props) => {
   return (
     <div className='auction'>
-      <span className='title'>Auction</span>
       <div className='nav__display'>
         <Nav />
       </div>

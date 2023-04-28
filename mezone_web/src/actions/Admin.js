@@ -10,12 +10,18 @@ import {
     ADMIN_ORDER_UPDATE_SUCCESS,
     ADMIN_ORDER_UPDATE_FAIL,
     ADD_PRODUCT_SUCCESS,
-    ADD_PRODUCT_FAIL, 
-    DELETE_PRODUCT_REQUEST, 
-    DELETE_PRODUCT_SUCCESS, 
+    ADD_PRODUCT_FAIL,
+    DELETE_PRODUCT_REQUEST,
+    DELETE_PRODUCT_SUCCESS,
     DELETE_PRODUCT_FAIL,
     EDIT_PRODUCT_SUCCESS,
-    EDIT_PRODUCT_FAIL
+    EDIT_PRODUCT_FAIL,
+    UPDATE_USER_TYPE_REQUEST,
+    UPDATE_USER_TYPE_SUCCESS,
+    UPDATE_USER_TYPE_FAIL,
+    ADMIN_GET_REQUESTS_REQUEST,
+    ADMIN_GET_REQUESTS_SUCCESS,
+    ADMIN_GET_REQUESTS_FAIL,
 } from '../constants/adminConstants';
 
 export const fetchUsers = () => {
@@ -40,6 +46,32 @@ export const fetchUsers = () => {
             });
         }
     };
+};
+
+export const updateUserType = (id, userType) => async (dispatch, getState) => {
+    try {
+        dispatch({ type: UPDATE_USER_TYPE_REQUEST });
+        const { userSignin: { userInfo } } = getState();
+        const { data } = await axios.put(
+            '/admin/update-user-type',
+            { id, userType },
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-auth-token': userInfo.token,
+                },
+            }
+        );
+        dispatch({ type: UPDATE_USER_TYPE_SUCCESS, payload: data });
+    } catch (error) {
+        dispatch({
+            type: UPDATE_USER_TYPE_FAIL,
+            payload:
+                error.response && error.response.data.message
+                    ? error.response.data.message
+                    : error.message,
+        });
+    }
 };
 
 export const fetchOrders = () => async (dispatch, getState) => {
@@ -165,6 +197,28 @@ export const deleteProduct = (id) => async (dispatch, getState) => {
         dispatch({
             type: DELETE_PRODUCT_FAIL,
             payload: error.response && error.response.data.message ? error.response.data.message : error.message
+        });
+    }
+};
+
+export const fetchAllRequests = () => async (dispatch, getState) => {
+    try {
+        dispatch({ type: ADMIN_GET_REQUESTS_REQUEST }); // dispatch action request
+        const { userSignin: { userInfo } } = getState(); // lấy thông tin user đăng nhập từ state
+        const { data } = await axios.get('/api/requests', { // gửi request lấy danh sách requests
+            headers: {
+                'Content-Type': 'application/json',
+                'x-auth-token': userInfo.token,
+            },
+        });
+        dispatch({ type: ADMIN_GET_REQUESTS_SUCCESS, payload: data }); // dispatch action success và truyền danh sách requests vào payload
+    } catch (error) {
+        dispatch({ // dispatch action fail và truyền error message vào payload
+            type: ADMIN_GET_REQUESTS_FAIL,
+            payload:
+                error.response && error.response.data.message
+                    ? error.response.data.message
+                    : error.message,
         });
     }
 };

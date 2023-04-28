@@ -10,8 +10,6 @@ const AllOrders = () => {
     const orders = useSelector((state) => state.adminOrderList.orders);
     const [searchTerm, setSearchTerm] = useState("");
     const [statusFilter, setStatusFilter] = useState("all"); // Thêm giá trị mặc định cho statusFilter
-    const [userList, setUserList] = useState({});
-
     useEffect(() => {
         dispatch(fetchOrders());
     }, [dispatch]);
@@ -55,6 +53,13 @@ const AllOrders = () => {
         }
     };
 
+    const handleReturnClick = async (order) => {
+        if (order.status < 3) {
+            const newStatus = 5;
+            await dispatch(changeStatusOrder(order._id, newStatus));
+            dispatch(fetchOrders());
+        }
+    }
 
     return (
         <>
@@ -84,97 +89,67 @@ const AllOrders = () => {
             </div>
             <table className="all-orders">
                 <thead>
-                    <tr>
-                        <th>Order ID</th>
-                        <th>Products</th>
-                        <th>Total Price</th>
-                        <th>Address</th>
-                        <th>User ID</th>
-                        <th>Ordered At</th>
-                        <th>Status</th>
-                        <th>Action</th>
+                    <tr className="all-order-header">
+                        <th className="all-order-header-title">Order ID</th>
+                        <th className="all-order-header-title">Products</th>
+                        <th className="all-order-header-title">Total Price</th>
+                        <th className="all-order-header-title">Address</th>
+                        <th className="all-order-header-title">User ID</th>
+                        <th className="all-order-header-title">Ordered At</th>
+                        <th className="all-order-header-title">Status</th>
+                        <th className="all-order-header-title">Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     {filteredOrders.map((order) => (
                         <tr key={order._id}>
-                            <td>{order._id}</td>
-                            <td className="order-info">
+                            <td className="all-order-id">{order._id}</td>
+                            <td className="all-order-info">
                                 {order.products.map((product) => (
                                     <p key={product._id}>
-                                        {product.product.name} x {product.quantity}
+                                        {product.name} x {product.quantity}
                                     </p>
                                 ))}
                             </td>
-                            <td>{order.totalPrice}</td>
-                            <td>{order.address}</td>
-                            <td>{order.userId}</td>
-                            <td>{new Date(order.orderedAt).toLocaleString()}</td>
+                            <td className="all-order-price">${order.totalPrice.toFixed(2)}</td>
+                            <td className="all-order-address">{order.address}</td>
                             <td>
-                                {(() => {
-                                    switch (order.status) {
-                                        case 0:
-                                            return (
-                                                <img
-                                                    className="step-img"
-                                                    alt="step 1 img"
-                                                    src="https://res.cloudinary.com/ct466nlcntt/image/upload/v1677812368/stepOrder/step1.png"
-                                                ></img>
-                                            );
-                                        case 1:
-                                            return (
-                                                <img
-                                                    className="step-img"
-                                                    alt="step 2 img"
-                                                    src="https://res.cloudinary.com/ct466nlcntt/image/upload/v1677812368/stepOrder/step2.png"
-                                                ></img>
-                                            );
-                                        case 2:
-                                            return (
-                                                <img
-                                                    className="step-img"
-                                                    alt="step 3 img"
-                                                    src="https://res.cloudinary.com/ct466nlcntt/image/upload/v1677812368/stepOrder/step3.png"
-                                                ></img>
-                                            );
-                                        case 4:
-                                            return (
-                                                <img
-                                                    className="step-img"
-                                                    alt="cancel img"
-                                                    src="https://res.cloudinary.com/ct466nlcntt/image/upload/v1677812368/stepOrder/cancel.png"
-                                                ></img>
-                                            );
-                                        case 3:
-                                            return (
-                                                <img
-                                                    className="step-img"
-                                                    alt="step 4 img"
-                                                    src="https://res.cloudinary.com/ct466nlcntt/image/upload/v1677812368/stepOrder/step4.png"
-                                                ></img>
-                                            );
-                                        default:
-                                            return "";
-                                    }
-                                })()}
+                                    {order.userId}
                             </td>
-                            <td>
-                                <button
-                                    className="next-step-button"
-                                    onClick={() => handleNextStepClick(order)}
-                                    disabled={order.status >= 3}
-                                >
-                                    {order.status >= 2 ? "Deliver" : "Complete"}
-                                </button>
-                                <button
-                                    className="cancel-button"
-                                    onClick={() => handleCancelClick(order)}
-                                    disabled={
-                                        ![0, 1, 2].includes(order.status)
-                                    }
-                                >
-                                    Cancel
-                                </button>
+                            <td className="all-order-date">{new Date(order.orderedAt).toLocaleString()}</td>
+                            <td className="all-order-status">
+                                {order.status === 0 && <span className="status-pending">Pending</span>}
+                                {order.status === 1 && <span className="status-completed">Completed</span>}
+                                {order.status === 2 && <span className="status-received">Received</span>}
+                                {order.status === 3 && <span className="status-delivered">Delivered</span>}
+                                {order.status === 4  && <span className="status-cancelled">Cancelled</span>}
+                                {order.status === 5  && <span className="status-cancelled">Cancelled</span>}
+                            </td>
+                            <td className="all-order-button">
+                                {order.status < 3 && (
+                                    <>
+                                        <button
+                                            className="next-step-button"
+                                            onClick={() => handleNextStepClick(order)}
+                                        >
+                                            Next Step
+                                        </button>
+                                        <button
+                                            className="cancel-button"
+                                            onClick={() => handleCancelClick(order)}
+                                        >
+                                            Cancel
+                                        </button>
+                                    </>
+                                )}
+                                {order.status === 1 && (
+                                    <button
+                                        className="return-button"
+                                        onClick={() => handleReturnClick(order)}
+                                    >
+                                        Return
+                                    </button>
+                                )}
                             </td>
                         </tr>
                     ))}

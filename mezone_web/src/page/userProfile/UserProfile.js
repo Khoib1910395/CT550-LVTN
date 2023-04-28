@@ -73,7 +73,7 @@ const UserProfile = (props) => {
             </Box>
             <div>
                 <Link to='/profile/update'>
-                    <button>Update profile </button>
+                    <button class="btn button-user-profile">Update profile </button>
                 </Link>
             </div>
         </div>

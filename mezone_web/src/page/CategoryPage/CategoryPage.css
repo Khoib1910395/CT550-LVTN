@@ -43,6 +43,9 @@
     outline: 0;
     margin-bottom: 40px;
 }
+.clear-filter-btn:hover{
+    background-color: #ecb10f; 
+}
 
 @media(max-width: 900px){
     .search-page-container{

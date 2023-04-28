@@ -5,6 +5,7 @@ import { detailsUser, updateUserProfile } from '../../actions/User';
 import LoadingBox from '../../components/loadingBox/LoadingBox';
 import MessageBox from '../../components/messageBox/MessageBox';
 import { USER_UPDATE_PROFILE_RESET } from '../../constants/UserConstant';
+import { signout } from '../../actions/User';
 import "./UpdateProfile.css";
 
 const UserProfile = () => {
@@ -42,7 +43,7 @@ const UserProfile = () => {
 
     }, [dispatch, userInfo._id, user]);
 
-    const [redirect, setRedirect] = useState(false); // khởi tạo biến redirect
+    const [redirect, setRedirect] = useState(false);
 
     const updateDetails = (e) => {
         e.preventDefault();
@@ -58,13 +59,19 @@ const UserProfile = () => {
                     password
                 }
             ));
-            setRedirect(true); // setRedirect thành true khi update thành công
+            alert("User info was updated successfully. Please login again to continue using the website.");
+            setRedirect(true); 
         }
     }
 
+    if (redirect) {
+        dispatch(signout());
+        return <Redirect to="/signin" />;
+    }
+    
     return (
         <div className="user-dets-container">
-            {redirect && <Redirect to="/profile" />} {/* Nếu redirect = true, redirect đến trang profile */}
+            
             <form className="form" onSubmit={updateDetails}>
                 <h1>Update User Profile</h1>
                 {
@@ -123,4 +130,3 @@ const UserProfile = () => {
 }
 
 export default UserProfile;
-

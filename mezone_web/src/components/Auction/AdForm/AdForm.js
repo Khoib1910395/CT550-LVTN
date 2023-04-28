@@ -23,14 +23,13 @@ import {
     formComponent,
     formTextField,
     formSubmitButtonContainer,
-} from '../Ad/adStyles';
+} from '../AuctionPost/adStyles';
 import LoadingDisplay from '../LoadingDisplay/LoadingDisplay';
 // Actions
 import { postAd } from '../../../actions/Ad';
 import { setAlert, clearAlerts } from '../../../actions/Alert';
 import { cloudinaryUpload } from '../../../actions/Admin';
 import './AdForm.css';
-import { $CombinedState } from 'redux';
 
 const AdForm = (props) => {
     const [form, setForm] = useState({
@@ -121,7 +120,7 @@ const AdForm = (props) => {
             <Box sx={boxStyle}>
                 <Paper sx={adFormArea}>
                     {/* Page title */}
-                    <Typography variant='h4'>Post Ad</Typography>
+                    <Typography variant='h4'>Post Auction </Typography>
                     <Alert />
 
                     {/* Form */}

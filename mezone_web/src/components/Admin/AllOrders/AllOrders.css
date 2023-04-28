@@ -75,6 +75,21 @@
     width: 100px;
 }
 
+.return-button {
+    background-color: #e7f436;
+    border: none;
+    color: rgb(0, 0, 0);
+    padding: 8px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 100px;
+}
+
 .step-img {
     width: auto;
     height: 30px;

@@ -29,7 +29,7 @@
     padding: 10px;
   }
   
-  button {
+  .button-user-profile {
     margin-top: 20px;
     padding: 10px 20px;
     background-color: #0066cc;
@@ -39,7 +39,7 @@
     cursor: pointer;
   }
   
-  button:hover {
+  .button-user-profile:hover {
     background-color: #0052a3;
   }
   

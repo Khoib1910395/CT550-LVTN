@@ -7,7 +7,7 @@ import { userDetailsReducer, userRegisterReducer, userSigninReducer, userUpdateP
 import { analyticsReducer } from './reducers/AnalyticsReducer';
 import alertReducer from './reducers/AlertReducer';
 import adReducer from './reducers/AdReducer';
-import { allUsersReducer, adminOrderListReducer} from './reducers/adminReducer';
+import { allUsersReducer, adminOrderListReducer, requestReducer} from './reducers/adminReducer';
 
 const initialState = {
     userSignin: {
@@ -42,6 +42,7 @@ const reducer = combineReducers({
     alert: alertReducer, 
     ad: adReducer,
     auth: authReduce,
+    requestList: requestReducer,
 });
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

@@ -14,10 +14,10 @@ const Nav = (props) => {
                 {props.isAuth && (
                     <div className='nav__buttons'>
                         <RouterLink to='/auction/dashboard' style={{ textDecoration: 'none' }}>
-                            <Button>Dashboard</Button>
+                            <Button>Dashboard auction</Button>
                         </RouterLink>
                         <RouterLink to='/auction/postad' style={{ textDecoration: 'none' }}>
-                            <Button>Post Ad</Button>
+                            <Button>Post Auction</Button>
                         </RouterLink>
                     </div>
                 )}

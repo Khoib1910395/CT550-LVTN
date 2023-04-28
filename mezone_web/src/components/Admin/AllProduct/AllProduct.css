@@ -164,3 +164,8 @@
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
 }
+
+.product-table .picture img {
+    max-height: 100px;
+    max-width: 100px;
+}

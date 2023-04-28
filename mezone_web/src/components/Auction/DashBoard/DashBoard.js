@@ -11,7 +11,7 @@ import {
     TableBody,
 } from '@mui/material';
 // Style files
-import { boxStyle, paperStyle } from '../Ad/adStyles';
+import { boxStyle, paperStyle } from '../AuctionPost/adStyles';
 import { profileTableStyle, tableCellStyle } from './dashStyle';
 // Actions
 import { clearAlerts } from '../../../actions/Alert';

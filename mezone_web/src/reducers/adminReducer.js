@@ -8,7 +8,10 @@ import {
     ADMIN_ORDER_UPDATE_REQUEST,
     ADMIN_ORDER_UPDATE_SUCCESS,
     ADMIN_ORDER_UPDATE_FAIL,
-    ADMIN_ORDER_UPDATE_RESET
+    ADMIN_ORDER_UPDATE_RESET,
+    ADMIN_GET_REQUESTS_REQUEST, 
+    ADMIN_GET_REQUESTS_SUCCESS,
+    ADMIN_GET_REQUESTS_FAIL
 } from '../constants/adminConstants';
 
 const initialState = {
@@ -66,6 +69,19 @@ export const adminOrderUpdateReducer = (state = {}, action) => {
             return { loading: false, error: action.payload };
         case ADMIN_ORDER_UPDATE_RESET:
             return {};
+        default:
+            return state;
+    }
+};
+
+export const requestReducer = (state = initialState, action) => {
+    switch (action.type) {
+        case ADMIN_GET_REQUESTS_REQUEST:
+            return { ...state, loading: true };
+        case ADMIN_GET_REQUESTS_SUCCESS:
+            return { ...state, loading: false, requests: action.payload };
+        case ADMIN_GET_REQUESTS_FAIL:
+            return { ...state, loading: false, error: action.payload };
         default:
             return state;
     }

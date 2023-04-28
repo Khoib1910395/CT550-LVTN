@@ -103,6 +103,7 @@ export const listOrderMine = () => async (dispatch, getState) => {
         "x-auth-token": userInfo.token,
       },
     });
+    console.log(data);
     dispatch({ type: ORDER_MINE_SUCCESS, payload: data });
   }
   catch (error) {

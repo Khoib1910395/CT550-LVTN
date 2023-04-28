@@ -7,6 +7,7 @@ import AddProduct from "../../../components/Admin/AddProduct/AddProduct";
 import AllUser from "../../../components/Admin/AllUser/AllUsers";
 import AllOrders from "../../../components/Admin/AllOrders/AllOrders.js";
 import Analytics from "../../../components/Admin/Analytics/Analytics";
+import AllRequests from "../../../components/Admin/AllRequest/AllRequest";
 
 function AdminScreen() {
   const [activeTab, setActiveTab] = useState(0);
@@ -29,6 +30,9 @@ function AdminScreen() {
         break;
       case 4:
         setTitle("Analytics");
+        break;
+      case 5:
+        setTitle("All Requests");
         break;
       default:
         setTitle("Admin Panel");
@@ -70,6 +74,12 @@ function AdminScreen() {
         >
           Analytics
         </Tab>
+        <Tab
+          className={`tab ${activeTab === 5 ? "tab--selected" : ""}`}
+          onClick={() => handleTabSelect(5)}
+        >
+          All Request
+        </Tab>
       </div>
       <div className="main-content">
         <h1 className="admin-panel__title">{title}</h1>
@@ -89,8 +99,13 @@ function AdminScreen() {
           <TabPanel id={3} className="tab-panel" hidden={activeTab !== 3}>
             <AllOrders />
           </TabPanel>
+
           <TabPanel id={4} className="tab-panel" hidden={activeTab !== 4}>
             <Analytics />
+          </TabPanel>
+
+          <TabPanel id={5} className="tab-panel" hidden={activeTab !== 5}>
+            <AllRequests />
           </TabPanel>
         </Tabs>
       </div>

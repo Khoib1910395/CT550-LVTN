@@ -7,6 +7,7 @@ const UserList = () => {
     const dispatch = useDispatch();
     const users = useSelector((state) => state.allUsers.users);
     const { userInfo } = useSelector((state) => state.userSignin);
+    const [updatedUserType, setUpdatedUserType] = useState({});
 
     useEffect(() => {
         dispatch(fetchUsers());
@@ -19,7 +20,6 @@ const UserList = () => {
     const handleSearchTermChange = (event) => {
         setSearchTerm(event.target.value);
     };
-
 
     const handleTypeChange = (event) => {
         setSelectedType(event.target.value);
@@ -51,73 +51,77 @@ const UserList = () => {
             });
     };
 
-
     const filteredUsers = users.filter((user) => {
         return (
             user._id?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            user.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            user.name?.toLowerCase().includes
+                (searchTerm.toLowerCase()) ||
             user.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            user.phone?.toLowerCase().includes(searchTerm.toLowerCase())
-        ) && (!selectedType || user.type === selectedType);
+            user.type?.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+    }); const sortedUsers = filteredUsers.sort((a, b) => {
+        if (selectedType === 'name') {
+            return a.name.localeCompare(b.name);
+        } else if (selectedType === 'email') {
+            return a.email.localeCompare(b.email);
+        } else if (selectedType === 'type') {
+            return a.type.localeCompare(b.type);
+        } else {
+            return 0;
+        }
     });
 
     return (
         <div className="user-list">
-            <div className="user-list__search">
+            <h1 className="user-list-title">All Users</h1>
+            <div className="user-list-search">
                 <input
                     type="text"
-                    className="user-list__search-input"
-                    placeholder="Search by Id, Name, Email or Phone"
+                    placeholder="Search users by name, email or type"
                     value={searchTerm}
                     onChange={handleSearchTermChange}
                 />
-                <select
-                    className="user-list__search-select"
-                    value={selectedType}
-                    onChange={handleTypeChange}
-                >
-                    <option value="">All Types</option>
-                    <option value="admin">Admin</option>
-                    <option value="seller">Seller</option>
-                    <option value="user">User</option>
+                <select value={selectedType} onChange={handleTypeChange}>
+                    <option value="">Sort by</option>
+                    <option value="name">Name</option>
+                    <option value="email">Email</option>
+                    <option value="type">Type</option>
                 </select>
             </div>
-            <table className="user-list__table">
-                <thead className="user-list__table-head">
+            <table className="user-list-table">
+                <thead>
                     <tr>
-                        <th className="user-list__table-head-cell">id</th>
-                        <th className="user-list__table-head-cell">Name</th>
-                        <th className="user-list__table-head-cell">Email</th>
-                        <th className="user-list__table-head-cell">Address</th>
-                        <th className="user-list__table-head-cell">Phone</th>
-                        <th className="user-list__table-head-cell">Type</th>
-                        <th className="user-list__table-head-cell">Change type</th>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Type</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
-                <tbody className="user-list__table-body">
-                    {filteredUsers.map((user) => (
-                        <tr className="user-list__table-row" key={user._id}>
-                            <td className="user-list__table-cell">{user._id}</td>
-                            <td className="user-list__table-cell">{user.name}</td>
-                            <td className="user-list__table-cell">{user.email}</td>
-                            <td className="user-list__table-cell">{user.address}</td>
-                            <td className="user-list__table-cell">{user.phone}</td>
-                            <td className="user-list__table-cell">{user.type}</td>
-                            <td className="user-list__table-cell">
-                                <div>
-                                    <select
-                                        className="user-list__table-select"
-                                        value={updatedType}
-                                        onChange={handleUpdatedTypeChange}
-                                        // disabled={user._id === currentUser._id}
+                <tbody>
+                    {sortedUsers.map((user) => (
+                        <tr key={user._id}>
+                            <td>{user._id}</td>
+                            <td>{user.name}</td>
+                            <td>{user.email}</td>
+                            <td>
+                            <select
+    value={updatedUserType[user._id] || user.type}
+    onChange={(event) => handleUpdatedTypeChange(event, user._id)}
+>
+                                    <option value="">Select Type</option>
+                                    <option value="user">User</option>
+                                    <option value="admin">Admin</option>
+                                </select>
+                            </td>
+                            <td>
+                                {userInfo.type === 'admin' && (
+                                    <button
+                                        onClick={() => handleUpdateUserType(user._id)}
                                     >
-                                        <option value="">Select Type</option>
-                                        <option value="admin">Admin</option>
-                                        <option value="seller">Seller</option>
-                                        <option value="user">User</option>
-                                    </select>
-                                
-                                </div>
+                                        Update
+                                    </button>
+                                )}
                             </td>
                         </tr>
                     ))}

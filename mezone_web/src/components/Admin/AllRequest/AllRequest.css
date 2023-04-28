@@ -1,0 +1,30 @@
+.req-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.req-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-collapse: collapse;
+    width: 100%;
+    max-width: 800px;
+}
+
+.req-list li {
+    display: table-row;
+    background-color: #f8f8f8;
+    border: 1px solid #ddd;
+    padding: 8px;
+    font-size: 14px;
+}
+
+.req-list-item {
+    display: table-cell;
+    text-align: left;
+    padding: 8px;
+    vertical-align: middle;
+}

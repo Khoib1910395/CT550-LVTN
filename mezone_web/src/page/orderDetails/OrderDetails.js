@@ -3,22 +3,43 @@ import { useSelector, useDispatch } from 'react-redux';
 import { detailsOrder } from '../../actions/Order';
 import LoadingDisplay from '../../components/LoadingDisplay/LoadingDisplay';
 import './OrderDetails.css';
+import axios from '../../Axios';
 
 const OrderDetails = ({ match }) => {
     const orderId = match.params.id;
-    const dispatch = useDispatch();
-
-    useEffect(() => {
+    const dispatch = useDispatch(); useEffect(() => {
         dispatch(detailsOrder(orderId));
     }, [dispatch, orderId]);
 
     const orderDetails = useSelector((state) => state.orderDetails);
     const { loading, error, order } = orderDetails;
 
-    const [returnText, setReturnText] = useState('');
+    const [information, setInformation] = useState('');
+    const [message, setMessage] = useState('');
 
-    const handleReturn = () => {
-        
+    const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+
+    // Then you can access the user ID using
+    const userId = userInfo._id;
+
+    const handleReturn = async (e) => {
+        e.preventDefault();
+        try {
+            const { data } = await axios.post('/api/requests', {
+                user: userId,
+                order: order._id,
+                information,
+            },
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-auth-token': userInfo.token,
+                },
+            });
+            setMessage(data.message);
+        } catch (err) {
+            setMessage(err.response.data.message);
+        }
     };
 
     return (
@@ -66,26 +87,20 @@ const OrderDetails = ({ match }) => {
                             ))}
                         </tbody>
                     </table>
-                    <br/>
+                    <br />
                     <h2>Want to return order?</h2>
-                    {order.status === 1 && (
-                        <div className="order-details__return-container">
-                            <h3 className="order-details__return-title">
-                                Request a return for this order:
-                            </h3>
-                            <textarea
-                                className="order-details__return-text"
-                                value={returnText}
-                                onChange={(e) => setReturnText(e.target.value)}
-                            />
-                            <button
-                                className="order-details__return-button"
-                                onClick={handleReturn}
-                            >
-                                Submit Return Request
-                            </button>
-                        </div>
-                    )}
+                    <form className="order-details__form" onSubmit={handleReturn}>
+                        <textarea
+                            className="order-details__textarea"
+                            placeholder="Please enter your return information here..."
+                            value={information}
+                            onChange={(e) => setInformation(e.target.value)}
+                        />
+                        <button type="submit" className="order-details__button">
+                            Submit
+                        </button>
+                        {message && <p className="order-details__message">{message}</p>}
+                    </form>
                 </div>
             )}
         </div>
