@@ -275,6 +275,14 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                           ? StepState.complete
                           : StepState.indexed,
                     ),
+                    Step(
+                      title: const Text('Cancel'),
+                      content: const Text("Your order has been canceled"),
+                      isActive: currentStep >= 4,
+                      state: currentStep >= 4
+                          ? StepState.complete
+                          : StepState.indexed,
+                    ),
                   ],
                 ),
               ),

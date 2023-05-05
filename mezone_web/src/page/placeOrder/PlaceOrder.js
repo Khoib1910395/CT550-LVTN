@@ -32,7 +32,7 @@ const PlaceOrder = (props) => {
         const order = {
             cart,
             address,
-            totalPrice
+            totalPrice,
         };
         dispatch(createOrder(order));
     }

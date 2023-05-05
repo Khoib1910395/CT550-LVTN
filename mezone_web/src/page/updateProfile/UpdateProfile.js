@@ -66,8 +66,10 @@ const UserProfile = () => {
 
     if (redirect) {
         dispatch(signout());
+        localStorage.removeItem('userInfo');
         return <Redirect to="/signin" />;
     }
+    
     
     return (
         <div className="user-dets-container">

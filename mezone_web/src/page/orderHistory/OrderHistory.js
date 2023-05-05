@@ -36,9 +36,9 @@ const OrderHistory = (props) => {
                             </thead>
                             <tbody>
                                 {orders.map((order, i) => (
-                                    
+
                                     <tr key={order._id}>
-                                        <td>{i+1}</td>
+                                        <td>{i + 1}</td>
                                         <td style={{ width: '8%' }}>{order._id}</td>
                                         <td style={{ width: '8%' }}>{new Date(order.orderedAt).toLocaleDateString()}</td>
                                         <td>${order.totalPrice}</td>
@@ -58,15 +58,17 @@ const OrderHistory = (props) => {
                                             {(() => {
                                                 switch (order.status) {
                                                     case 0:
-                                                        return 'Pedding';
+                                                        return <img className='step-img' src="https://res.cloudinary.com/ct466nlcntt/image/upload/v1677812368/stepOrder/step1.png"></img>;
                                                     case 1:
-                                                        return 'Completed';
+                                                        return <img className='step-img' src="https://res.cloudinary.com/ct466nlcntt/image/upload/v1677812368/stepOrder/step2.png"></img>;
                                                     case 2:
-                                                        return 'Received';
+                                                        return <img className='step-img' src="https://res.cloudinary.com/ct466nlcntt/image/upload/v1677812367/stepOrder/step3.png"></img>;
                                                     case 4:
-                                                        return 'Cancelled';
+                                                        return <img className='step-img' src="https://res.cloudinary.com/ct466nlcntt/image/upload/v1677812368/stepOrder/cancel.png"></img>;
+                                                    case 5:
+                                                        return <img className='step-img' src="https://res.cloudinary.com/ct466nlcntt/image/upload/v1677812368/stepOrder/cancel.png"></img>;
                                                     default:
-                                                        return <span style={{ color: 'green' }}>Delivered&#10004;</span>;
+                                                        return <img className='step-img' src="https://res.cloudinary.com/ct466nlcntt/image/upload/v1677812368/stepOrder/step4.png"></img>;
                                                 }
                                             })()}
                                         </td>

@@ -2,14 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchOrders } from "../../../actions/Admin";
 import { changeStatusOrder } from "../../../actions/Admin";
-import { detailsUser } from '../../../actions/User';
 import "./AllOrders.css";
 
 const AllOrders = () => {
     const dispatch = useDispatch();
     const orders = useSelector((state) => state.adminOrderList.orders);
     const [searchTerm, setSearchTerm] = useState("");
-    const [statusFilter, setStatusFilter] = useState("all"); // Thêm giá trị mặc định cho statusFilter
+    const [statusFilter, setStatusFilter] = useState("all");
     useEffect(() => {
         dispatch(fetchOrders());
     }, [dispatch]);
@@ -90,14 +89,15 @@ const AllOrders = () => {
             <table className="all-orders">
                 <thead>
                     <tr className="all-order-header">
-                        <th className="all-order-header-title">Order ID</th>
-                        <th className="all-order-header-title">Products</th>
-                        <th className="all-order-header-title">Total Price</th>
-                        <th className="all-order-header-title">Address</th>
-                        <th className="all-order-header-title">User ID</th>
-                        <th className="all-order-header-title">Ordered At</th>
-                        <th className="all-order-header-title">Status</th>
-                        <th className="all-order-header-title">Action</th>
+                        <th className="all-order-header-title-id">Order ID</th>
+                        <th className="all-order-header-title-product">Products</th>
+                        <th className="all-order-header-title-price">Total Price</th>
+                        <th className="all-order-header-title-address">Address</th>
+                        <th className="all-order-header-title-userid">User ID</th>
+                        <th className="all-order-header-title-username">User name</th>
+                        <th className="all-order-header-title-time">Ordered At</th>
+                        <th className="all-order-header-title-status">Status</th>
+                        <th className="all-order-header-title-action">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -107,23 +107,26 @@ const AllOrders = () => {
                             <td className="all-order-info">
                                 {order.products.map((product) => (
                                     <p key={product._id}>
-                                        {product.name} x {product.quantity}
+                                        {product.product.name} x {product.quantity}
                                     </p>
                                 ))}
                             </td>
                             <td className="all-order-price">${order.totalPrice.toFixed(2)}</td>
                             <td className="all-order-address">{order.address}</td>
-                            <td>
+                            <td className="all-order-userID">
                                     {order.userId}
+                            </td>
+                            <td className="all-order-userName">
+                                    {order.userName}
                             </td>
                             <td className="all-order-date">{new Date(order.orderedAt).toLocaleString()}</td>
                             <td className="all-order-status">
-                                {order.status === 0 && <span className="status-pending">Pending</span>}
-                                {order.status === 1 && <span className="status-completed">Completed</span>}
-                                {order.status === 2 && <span className="status-received">Received</span>}
-                                {order.status === 3 && <span className="status-delivered">Delivered</span>}
-                                {order.status === 4  && <span className="status-cancelled">Cancelled</span>}
-                                {order.status === 5  && <span className="status-cancelled">Cancelled</span>}
+                                {order.status === 0 && <span className="status-pending"><img className='step-img' src="https://res.cloudinary.com/ct466nlcntt/image/upload/v1677812368/stepOrder/step1.png"></img></span>}
+                                {order.status === 1 && <span className="status-completed"><img className='step-img' src="https://res.cloudinary.com/ct466nlcntt/image/upload/v1677812368/stepOrder/step2.png"></img></span>}
+                                {order.status === 2 && <span className="status-received"><img className='step-img' src="https://res.cloudinary.com/ct466nlcntt/image/upload/v1677812367/stepOrder/step3.png"></img></span>}
+                                {order.status === 3 && <span className="status-delivered"><img className='step-img' src="https://res.cloudinary.com/ct466nlcntt/image/upload/v1677812368/stepOrder/step4.png"></img></span>}
+                                {order.status === 4  && <span className="status-cancelled"><img className='step-img' src="https://res.cloudinary.com/ct466nlcntt/image/upload/v1677812368/stepOrder/cancel.png"></img></span>}
+                                {order.status === 5  && <span className="status-cancelled"><img className='step-img' src="https://res.cloudinary.com/ct466nlcntt/image/upload/v1677898067/stepOrder/returned.png"></img></span>}
                             </td>
                             <td className="all-order-button">
                                 {order.status < 3 && (

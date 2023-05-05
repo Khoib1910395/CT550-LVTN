@@ -95,6 +95,7 @@ userRouter.post("/api/order", auth, async (req, res) => {
     }
 
     let user = await User.findById(req.user);
+    userName = user.name
     user.cart = [];
     user = await user.save();
 
@@ -103,6 +104,7 @@ userRouter.post("/api/order", auth, async (req, res) => {
       totalPrice,
       address,
       userId: req.user,
+      userName, 
       orderedAt: new Date().getTime(),
     });
     order = await order.save();

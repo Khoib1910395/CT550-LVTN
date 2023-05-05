@@ -1,65 +1,61 @@
-.user-list {
-    margin: 2rem auto;
-    max-width: 800px;
+.user-list-search {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
 }
 
-.user-list__title {
-    font-size: 2rem;
-    text-align: center;
-    margin-bottom: 1rem;
+.user-list-search input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-right: 10px;
 }
 
-.user-list__table {
+.user-list-search select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+    color: #666;
+}
+
+.user-list-table {
     width: 100%;
     border-collapse: collapse;
+}
+
+.user-list-table th,
+.user-list-table td {
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+.user-list-table th {
+    background-color: #f0f0f0;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.user-list-table td select {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
     background-color: #fff;
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+    color: #666;
 }
 
-.user-list__table-head-cell,
-.user-list__table-cell {
-    padding: 1rem;
-    text-align: left;
+.user-list-table td button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #4285f4;
+    color: #fff;
+    cursor: pointer;
 }
 
-.user-list__table-head {
-    background-color: #f2f2f2;
-}
-
-.user-list__table-row:nth-child(even) {
-    background-color: #f2f2f2;
-}
-
-.user-list__table-row:hover {
-    background-color: #ddd;
-}
-
-@media screen and (max-width: 768px) {
-    .user-list__table {
-        font-size: 0.9rem;
-    }
-
-    .user-list__table-head,
-    .user-list__table-row {
-        display: block;
-    }
-
-    .user-list__table-head-cell,
-    .user-list__table-cell {
-        display: inline-block;
-        width: 100%;
-        text-align: left;
-    }
-
-    .user-list__table-row {
-        margin-bottom: 0.5rem;
-    }
-
-    .user-list__table-row:nth-child(even) {
-        background-color: transparent;
-    }
-
-    .user-list__table-row:nth-child(odd) {
-        background-color: #f2f2f2;
-    }
+.user-list-table td button:hover {
+    background-color: #3472f3;
 }

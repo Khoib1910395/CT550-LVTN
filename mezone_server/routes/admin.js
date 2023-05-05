@@ -160,25 +160,25 @@ adminRouter.post('/upload/cloudinary-upload', fileUploader.single('file'), (req,
   res.json({ secure_url: req.file.path });
 });
 
-adminRouter.patch('/api/users/:userId', async (req, res, next) => {
+adminRouter.put('/api/users/:id', async (req, res) => {
   try {
-    const userId = req.params.userId;
-    const updatedType = req.body.type;
-    const user = await User.findById(userId);
+    const { id } = req.params;
+    const updatedUser = req.body;
 
-    if (!user) {
-      res.status(404).json({ message: 'User not found.' });
-      return;
+    // check if the user exists
+    const foundUser = await user.findById(id);
+    if (!foundUser) {
+      return res.status(404).json({ message: 'User not found' });
     }
 
-    user.type = updatedType;
-    await user.save();
+    // update the user
+    const result = await user.findByIdAndUpdate(id, updatedUser, { new: true });
 
-    res.json({ message: 'User type updated successfully.' });
+    // send the updated user in the response
+    res.json(result);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Internal server error.' });
+    console.error(error.message);
+    res.status(500).json({ message: 'Server error' });
   }
 });
-
 module.exports = adminRouter;

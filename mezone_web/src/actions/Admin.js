@@ -16,9 +16,9 @@ import {
     DELETE_PRODUCT_FAIL,
     EDIT_PRODUCT_SUCCESS,
     EDIT_PRODUCT_FAIL,
-    UPDATE_USER_TYPE_REQUEST,
-    UPDATE_USER_TYPE_SUCCESS,
-    UPDATE_USER_TYPE_FAIL,
+    UPDATE_USER_REQUEST,
+    UPDATE_USER_SUCCESS,
+    UPDATE_USER_FAIL,
     ADMIN_GET_REQUESTS_REQUEST,
     ADMIN_GET_REQUESTS_SUCCESS,
     ADMIN_GET_REQUESTS_FAIL,
@@ -48,28 +48,24 @@ export const fetchUsers = () => {
     };
 };
 
-export const updateUserType = (id, userType) => async (dispatch, getState) => {
+
+export const updateUser = (id, user) => async (dispatch) => {
     try {
-        dispatch({ type: UPDATE_USER_TYPE_REQUEST });
-        const { userSignin: { userInfo } } = getState();
-        const { data } = await axios.put(
-            '/admin/update-user-type',
-            { id, userType },
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'x-auth-token': userInfo.token,
-                },
-            }
-        );
-        dispatch({ type: UPDATE_USER_TYPE_SUCCESS, payload: data });
+        dispatch({ type: UPDATE_USER_REQUEST });
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        };
+
+        const { data } = await axios.put(`/api/users/${id}`, user, config);
+
+        dispatch({ type: UPDATE_USER_SUCCESS, payload: data });
     } catch (error) {
         dispatch({
-            type: UPDATE_USER_TYPE_FAIL,
-            payload:
-                error.response && error.response.data.message
-                    ? error.response.data.message
-                    : error.message,
+            type: UPDATE_USER_FAIL,
+            payload: error.response && error.response.data.message ? error.response.data.message : error.message,
         });
     }
 };

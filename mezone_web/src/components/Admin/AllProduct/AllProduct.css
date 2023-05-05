@@ -104,6 +104,7 @@
     display: inline-block;
     margin-left: 5px;
 }
+
 .edit-btn:hover,
 .delete-btn:hover {
     color: #333;
@@ -154,7 +155,32 @@
     border-radius: 0.5rem;
     padding: 2rem;
     box-shadow: 0 0 1rem rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
+
+.delete-modal__btns {
+    display: flex;
+    justify-content: space-between;
+}
+
+.delete-modal__btns button {
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.delete-modal__btns button.delete-btn {
+    background-color: #f44336;
+    color: #fff;
+}
+
+.delete-modal__btns button.cancel-btn {
+    background-color: #e7e7e7;
+    color: #333;
+}
+
 
 .Overlay {
     position: fixed;

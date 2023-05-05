@@ -12,6 +12,7 @@
     border-collapse: collapse;
     width: 100%;
     max-width: 800px;
+    background: linear-gradient(to bottom, #ffffff 0%, #f8f8f8 100%);
 }
 
 .req-list li {
@@ -21,6 +22,15 @@
     padding: 8px;
     font-size: 14px;
 }
+.req-list li:hover {
+    background-color: #e8e8e8;
+}
+
+.req-list li:first-child {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
 
 .req-list-item {
     display: table-cell;

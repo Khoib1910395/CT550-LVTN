@@ -23,6 +23,10 @@ const orderSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  userName: {
+    type: String,
+    required: true,
+  },
   orderedAt: {
     type: Number,
     required: true,
