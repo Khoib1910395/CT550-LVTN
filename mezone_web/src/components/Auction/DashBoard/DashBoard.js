@@ -87,7 +87,7 @@ const Dashboard = (props) => {
 
             <Box sx={boxStyle}>
                 <Paper sx={paperStyle}>
-                    <Typography variant='h5'>My ads</Typography>
+                    <Typography variant='h5'>My Posts</Typography>
                     <DashboardAdList />
                 </Paper>
             </Box>

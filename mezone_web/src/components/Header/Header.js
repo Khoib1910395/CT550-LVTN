@@ -18,7 +18,6 @@ export const Header = (props) => {
         const handleClickOutside = (event) => {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
                 setDropDown(false);
-                setSecondDropdown(false);
             }
         };
         document.addEventListener('click', handleClickOutside, true);
@@ -31,19 +30,11 @@ export const Header = (props) => {
     const dispatch = useDispatch();
 
     const [dropdown, setDropDown] = useState(false);
-    const [secondDropdown, setSecondDropdown] = useState(false);
-
-
+    
     const showDropDown = () => {
         if (dropdown) setDropDown(false);
         else setDropDown(true);
     }
-
-    const showSecondDropDown = () => {
-        if (secondDropdown) setSecondDropdown(false);
-        else setSecondDropdown(true);
-    }
-
 
     const cartItems = useSelector((state) => state.userSignin.userInfo?.cart || []);
 
@@ -64,7 +55,7 @@ export const Header = (props) => {
                         {/* brand name */}
                         <Link to='/'>
                             <div className="brand">
-                                <img className='logo' src='https://res.cloudinary.com/ct466nlcntt/image/upload/v1673407594/mezone_logo.png' />
+                                <img className='logo' src='https://res.cloudinary.com/ct466nlcntt/image/upload/v1673407594/mezone_logo.png' alt='logo'/>
                             </div>
                         </Link>
 

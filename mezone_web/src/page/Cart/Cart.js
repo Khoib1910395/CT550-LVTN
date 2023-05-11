@@ -1,7 +1,6 @@
-import React,{useEffect} from 'react'
-import { useDispatch,useSelector } from 'react-redux';
-import { addToCart,removeFromCart } from '../../actions/Cart';
-import { addToCart2, removeFromCart2} from '../../actions/Cart_upgrade';
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { addToCart2, removeFromCart2, deleteFromCart2 } from '../../actions/Cart_upgrade';
 import { Link } from 'react-router-dom';
 import MessageBox from "../../components/messageBox/MessageBox";
 import "./Cart.css"
@@ -11,7 +10,7 @@ import CancelIcon from '@material-ui/icons/Cancel';
 const Cart = (props) => {
 
     const productID = props.match.params.id;
-    const qty = props.location.search ? 
+    const qty = props.location.search ?
         Number(props.location.search.split('=')[1])
         : 1;
 
@@ -19,17 +18,21 @@ const Cart = (props) => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if(productID){
-            dispatch(addToCart(productID,qty));
+        if (productID) {
+            dispatch(addToCart2(productID, qty));
         }
     }, [dispatch, productID, qty])
 
 
-    const removeProduct = (id) =>{
+    const removeProduct = (id) => {
         dispatch(removeFromCart2(id));
     }
 
-    const checkOut =() =>{
+    const deleteProduct = (id) => {
+        dispatch(deleteFromCart2(id));
+    }
+
+    const checkOut = () => {
         props.history.push('/shipping');
     }
 
@@ -44,15 +47,15 @@ const Cart = (props) => {
                         <MessageBox>
                             Cart is empty. <Link to="/">Go Shopping</Link>
                         </MessageBox>
-                    ) : (   
+                    ) : (
                         <ul>
                             {
-                                cart && cart.map((item)=>(
+                                cart && cart.map((item) => (
                                     <li key={item.product.name}>
                                         <div className="row1">
                                             <div className="small">
                                                 <img src={item.product.images}
-                                                alt= ""
+                                                    alt=""
                                                 ></img>
                                             </div>
 
@@ -60,21 +63,49 @@ const Cart = (props) => {
                                                 <Link to={`/products/product/${item.product._id}`}>{item.product.name}</Link>
                                             </div>
                                             <div className="qty-select">
-                                                <select value={item.quantity} 
-                                                onChange={(e) => 
-                                                dispatch(addToCart2(item.product,Number(e.target.value)))
-                                                }>
-                                                {
-                                                    [...Array(item.quantity).keys()].map((x)=>(
-                                                        <option value={x+1}>{x+1}</option>
-                                                    ))
-                                                }
+                                                <button
+                                                    className="quantity-button"
+                                                    onClick={() => {
+                                                        const newQty = item.quantity - 1;
+                                                        if (newQty >= 1) {
+                                                            dispatch(removeProduct(item.product._id)); // Update the quantity of the item in the cart
+                                                        }
+                                                    }}
+                                                >
+                                                    -
+                                                </button>
+                                                <select
+                                                    className="quantity-select"
+                                                    value={item.quantity}
+                                                    onChange={(e) => {
+                                                        const newQty = Number(e.target.value);
+                                                        dispatch(addToCart2(item.product._id, newQty)); // Update the quantity of the item in the cart
+                                                    }}
+                                                >
+                                                    {[...Array(item.quantity).keys()].map((x) => (
+                                                        <option key={x + 1} value={x + 1}>
+                                                            {x + 1}
+                                                        </option>
+                                                    ))}
                                                 </select>
+                                                <button
+                                                    className="quantity-button"
+                                                    onClick={() => {
+                                                        const newQty = item.quantity ;
+                                                        if (newQty <= item.quantity) {
+                                                            dispatch(addToCart2(item.product._id, newQty)); // Update the quantity of the item in the cart
+                                                        }
+                                                    }}
+                                                >
+                                                    +
+                                                </button>
                                             </div>
+
+
                                             <p>${item.product.price * item.quantity}</p>
                                             <div className="remove-btn">
-                                                <button type="button" onClick={() => removeProduct(item.product._id)}>
-                                                    <CancelIcon/>
+                                                <button type="button" onClick={() => deleteProduct(item.product._id)}>
+                                                    <CancelIcon />
                                                 </button>
                                             </div>
                                         </div>
@@ -92,14 +123,14 @@ const Cart = (props) => {
                                 <p>
                                     Subtotal ({cart?.reduce((a, c) => {
                                         return a + c.quantity;
-                                    }, 0)} items) : 
+                                    }, 0)} items) :
                                 </p>
                                 <p className="price">$ {cart?.reduce((a, c) => a + c.product.price * c.quantity, 0)}</p>
                             </li>
                             <li>
                                 <button type="button" onClick={checkOut}
-                                className="checkout-btn"
-                                disabled={cart?.length === 0 || null}
+                                    className="checkout-btn"
+                                    disabled={cart?.length === 0 || null}
                                 >
                                     Proceed to buy {cart?.length} Item(s)
                                 </button>
@@ -111,7 +142,7 @@ const Cart = (props) => {
             </div>
 
         </div>
-        
+
     )
 }
 

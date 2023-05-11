@@ -62,6 +62,22 @@ userRouter.delete("/api/remove-from-cart/:id", auth, async (req, res) => {
   }
 });
 
+userRouter.delete("/api/delete-from-cart/:id", auth, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const product = await Product.findById(id);
+    let user = await User.findById(req.user);
+
+    user.cart = user.cart.filter((item) => !item.product._id.equals(product._id));
+
+    user = await user.save();
+    res.json(user);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+
 // save user address
 userRouter.post("/api/save-user-address", auth, async (req, res) => {
   try {

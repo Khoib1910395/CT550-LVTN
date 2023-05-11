@@ -205,7 +205,7 @@ export const placeBid = (adId, bidAmount) => async (dispatch, getState) => {
 
 // Post ad
 export const postAd = (data) => async (dispatch, getState) => {
-    const url = `/auctionPost`;
+    const url = `/ad`;
     const { userSignin: { userInfo } } = getState();
     try {
         const res = await axios.post(url, JSON.stringify(data), {

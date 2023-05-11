@@ -24,9 +24,9 @@ const AllRequests = () => {
                 <table className='req-list'>
                     <thead>
                         <tr>
-                            <th>User Id</th>
-                            <th>Order Id</th>
-                            <th>Information</th>
+                            <th className='req-list-header'>User Id</th>
+                            <th className='req-list-header'>Order Id</th>
+                            <th className='req-list-header'>Information</th>
                         </tr>
                     </thead>
                     <tbody>

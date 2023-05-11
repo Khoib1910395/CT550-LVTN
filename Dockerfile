@@ -15,10 +15,12 @@ COPY . .
 
 # Cài đặt các dependencies cho web
 WORKDIR /app/mezone_web
-RUN npm install
+RUN npm install -g npm@9.6.6
+RUN npm install --legacy-peer-deps
 
 # Cài đặt các dependencies cho server
 WORKDIR /app/mezone_server
+RUN npm install -g npm@9.6.6
 RUN npm install
 
 # Build ứng dụng ReactJS

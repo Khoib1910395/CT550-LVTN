@@ -97,6 +97,7 @@ const AddProduct = () => {
           <input
             type="file"
             id="images"
+            multiple
             onChange={(e) => handleFileUpload(e)}
           />
           {imageUrl && (

@@ -1,40 +1,23 @@
 .req-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    margin: 2rem auto;
+    width: 80%;
+    max-width: 1200px;
 }
 
 .req-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
     border-collapse: collapse;
     width: 100%;
-    max-width: 800px;
-    background: linear-gradient(to bottom, #ffffff 0%, #f8f8f8 100%);
 }
 
-.req-list li {
-    display: table-row;
-    background-color: #f8f8f8;
+.req-list-header {
+    background-color: #f1f1f1;
     border: 1px solid #ddd;
     padding: 8px;
-    font-size: 14px;
+    text-align: left;
 }
-.req-list li:hover {
-    background-color: #e8e8e8;
-}
-
-.req-list li:first-child {
-    background-color: #f2f2f2;
-    font-weight: bold;
-}
-
 
 .req-list-item {
-    display: table-cell;
-    text-align: left;
+    border: 1px solid #ddd;
     padding: 8px;
-    vertical-align: middle;
+    text-align: left;
 }

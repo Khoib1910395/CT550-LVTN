@@ -94,7 +94,7 @@ const Ad = (props) => {
             if (res.action === 'sold') {
                 props.updateAdDetails(res.ad);
                 props.clearAlerts();
-                props.setAlert(`Auction ended, item sold to ${res.winner.username}!`, 'info');
+                props.setAlert(`Auction ended, item sold to ${res.winner.name}!`, 'info');
             } else {
                 props.updateAdDetails(res.data);
                 props.clearAlerts();

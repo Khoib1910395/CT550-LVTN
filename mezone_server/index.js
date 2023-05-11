@@ -23,6 +23,7 @@ const auctionRouter = require('./routes/auction');
 const PORT = 3030;
 const app = express();
 const db = process.env.MONGODB_URI || `mongodb+srv://khoib1910395:b1910395@mezone.4f2yj.mongodb.net/?retryWrites=true&w=majority`
+// const db = 'mongodb://localhost:27017/mezone'
 
 const server = createServer(app);
 const io = socketio.init(server);
